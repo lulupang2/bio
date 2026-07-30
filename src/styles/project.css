@@ -239,13 +239,13 @@
   background: var(--background-soft);
 }
 
-.architecture-node[data-tone='gateway'],
-.architecture-node[data-tone='realtime'] {
+.architecture-node[data-tone="gateway"],
+.architecture-node[data-tone="realtime"] {
   border-color: color-mix(in srgb, var(--terracotta) 35%, var(--line));
   background: color-mix(in srgb, var(--terracotta) 8%, var(--surface));
 }
 
-.architecture-node[data-tone='data'] {
+.architecture-node[data-tone="data"] {
   border-color: color-mix(in srgb, var(--sage) 42%, var(--line));
   background: color-mix(in srgb, var(--sage-soft) 72%, var(--surface));
 }
@@ -321,8 +321,15 @@
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   background:
-    linear-gradient(color-mix(in srgb, var(--line) 45%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--line) 45%, transparent) 1px, transparent 1px),
+    linear-gradient(
+      color-mix(in srgb, var(--line) 45%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--line) 45%, transparent) 1px,
+      transparent 1px
+    ),
     var(--background-soft);
   background-size: 28px 28px;
 }
@@ -338,11 +345,11 @@
   box-shadow: 0 10px 26px rgba(31, 38, 34, 0.05);
 }
 
-.topology-layer[data-tone='event'] {
+.topology-layer[data-tone="event"] {
   border-color: color-mix(in srgb, var(--terracotta) 35%, var(--line));
 }
 
-.topology-layer[data-tone='data'] {
+.topology-layer[data-tone="data"] {
   border-color: color-mix(in srgb, var(--sage) 42%, var(--line));
 }
 
@@ -443,7 +450,7 @@
   left: 50%;
   width: 1px;
   background: color-mix(in srgb, var(--text) 24%, transparent);
-  content: '';
+  content: "";
 }
 
 .topology-connector span {
@@ -546,8 +553,7 @@
 
 .ai-collaboration {
   margin-top: 70px;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding: 2rem;
   border-radius: var(--radius-lg);
   background: var(--sage);
   color: white;
