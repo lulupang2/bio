@@ -8,7 +8,7 @@
     Network,
     RadioTower,
     ServerCog,
-  } from 'lucide-svelte';
+  } from '@lucide/svelte';
 
   export let topology;
 

@@ -1,5 +1,5 @@
 <script>
-  import { ArrowLeft, ArrowUpRight, CircleDot, ShieldCheck, Sparkles } from 'lucide-svelte';
+  import { ArrowLeft, ArrowUpRight, CircleDot, ShieldCheck, Sparkles } from '@lucide/svelte';
   import ArchitectureDiagram from '../components/ArchitectureDiagram.svelte';
   import TopologyDiagram from '../components/TopologyDiagram.svelte';
 

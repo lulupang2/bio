@@ -1,5 +1,5 @@
 <script>
-  import { Github, Moon, Sun } from 'lucide-svelte';
+  import { GitFork as Github, Moon, Sun } from '@lucide/svelte';
 
   export let site;
   export let github;

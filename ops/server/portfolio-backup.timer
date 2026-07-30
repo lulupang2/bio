@@ -1,0 +1,11 @@
+[Unit]
+Description=Run the portfolio backup every day
+
+[Timer]
+OnCalendar=*-*-* 03:25:00
+RandomizedDelaySec=15m
+Persistent=true
+Unit=portfolio-backup.service
+
+[Install]
+WantedBy=timers.target

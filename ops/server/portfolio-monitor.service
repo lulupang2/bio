@@ -1,0 +1,10 @@
+[Unit]
+Description=Check portfolio availability and backup freshness
+After=docker.service caddy.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=work
+Group=work
+ExecStart=/home/work/bin/check-portfolios.sh

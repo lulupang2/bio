@@ -1,5 +1,5 @@
 <script>
-  import { ArrowUpRight, Check, Clock3, Sparkles } from 'lucide-svelte';
+  import { ArrowUpRight, Check, Clock3, Sparkles } from '@lucide/svelte';
 
   export let project;
   const CARD_HIGHLIGHT_LIMIT = 3;

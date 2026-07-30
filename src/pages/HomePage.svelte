@@ -1,5 +1,11 @@
 <script>
-  import { ArrowRight, ArrowUpRight, Github, GraduationCap, Layers3 } from 'lucide-svelte';
+  import {
+    ArrowRight,
+    ArrowUpRight,
+    GitFork as Github,
+    GraduationCap,
+    Layers3,
+  } from '@lucide/svelte';
   import ProjectCard from '../components/ProjectCard.svelte';
   import SectionHeading from '../components/SectionHeading.svelte';
   import SiteHeader from '../components/SiteHeader.svelte';
