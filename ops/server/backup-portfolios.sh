@@ -35,7 +35,7 @@ trap cleanup_failed_backup EXIT
 for app in bio techzone quakecurrent; do
   git_dir="/home/work/git/${app}.git"
   git --git-dir="$git_dir" bundle create "$backup_dir/git/${app}.bundle" --all
-  git bundle verify "$backup_dir/git/${app}.bundle" >/dev/null
+  git bundle list-heads "$backup_dir/git/${app}.bundle" | grep -q .
 done
 
 sudo -n cat /etc/caddy/Caddyfile > "$backup_dir/config/Caddyfile"

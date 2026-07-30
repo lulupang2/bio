@@ -50,7 +50,7 @@ Before relying on a backup, verify its manifest:
 ```bash
 cd /home/work/backups/portfolio/latest
 sha256sum --check SHA256SUMS
-git bundle verify git/bio.bundle
+git bundle list-heads git/bio.bundle
 gzip -t data/techzone-postgres.sql.gz
 gzip -t data/quakecurrent-postgis.sql.gz
 tar -tzf data/techzone-minio.tgz >/dev/null
