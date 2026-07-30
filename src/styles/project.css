@@ -288,6 +288,216 @@
   line-height: 1.6;
 }
 
+.topology-section > .section-label {
+  margin-bottom: 0.55rem;
+}
+
+.topology-heading {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.85fr) minmax(0, 1.15fr);
+  gap: 2rem;
+  align-items: end;
+}
+
+.topology-heading h2 {
+  margin: 0;
+  font-size: clamp(1.55rem, 3.5vw, 2.15rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+}
+
+.topology-heading > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.8;
+}
+
+.topology-map {
+  display: grid;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(color-mix(in srgb, var(--line) 45%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--line) 45%, transparent) 1px, transparent 1px),
+    var(--background-soft);
+  background-size: 28px 28px;
+}
+
+.topology-layer {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  box-shadow: 0 10px 26px rgba(31, 38, 34, 0.05);
+}
+
+.topology-layer[data-tone='event'] {
+  border-color: color-mix(in srgb, var(--terracotta) 35%, var(--line));
+}
+
+.topology-layer[data-tone='data'] {
+  border-color: color-mix(in srgb, var(--sage) 42%, var(--line));
+}
+
+.topology-layer > header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  padding: 0.2rem;
+}
+
+.topology-layer-icon {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--sage-soft);
+  color: var(--sage);
+}
+
+.topology-layer header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.topology-layer h3 {
+  margin: 0.2rem 0 0;
+  font-size: 0.85rem;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.topology-nodes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+  gap: 0.55rem;
+}
+
+.topology-nodes article {
+  display: grid;
+  min-width: 0;
+  align-content: start;
+  gap: 0.3rem;
+  padding: 0.78rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+.topology-nodes .topology-node-wide {
+  grid-column: span 2;
+}
+
+.topology-nodes strong {
+  overflow-wrap: anywhere;
+  font-size: 0.73rem;
+  line-height: 1.4;
+}
+
+.topology-nodes article > span {
+  color: var(--muted);
+  font-size: 0.63rem;
+  line-height: 1.5;
+}
+
+.topology-node-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-top: 0.15rem;
+}
+
+.topology-node-tags small {
+  padding: 0.2rem 0.35rem;
+  border-radius: 999px;
+  background: var(--background-soft);
+  color: var(--muted);
+  font-size: 0.55rem;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.topology-connector {
+  position: relative;
+  display: grid;
+  min-height: 56px;
+  place-items: center;
+}
+
+.topology-connector::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: color-mix(in srgb, var(--text) 24%, transparent);
+  content: '';
+}
+
+.topology-connector span {
+  position: relative;
+  z-index: 1;
+  padding: 0.3rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.58rem;
+  font-weight: 650;
+}
+
+.topology-connector i {
+  position: absolute;
+  z-index: 1;
+  bottom: -0.1rem;
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--sage);
+  color: white;
+  font-size: 0.65rem;
+  font-style: normal;
+}
+
+.topology-legend {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.9rem;
+}
+
+.topology-legend > div {
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.85rem 0.9rem;
+  border-top: 2px solid var(--sage);
+  background: var(--surface);
+}
+
+.topology-legend strong {
+  font-size: 0.7rem;
+}
+
+.topology-legend span {
+  color: var(--muted);
+  font-size: 0.66rem;
+  line-height: 1.55;
+}
+
 .process-list {
   display: grid;
   margin: 1.6rem 0 0;

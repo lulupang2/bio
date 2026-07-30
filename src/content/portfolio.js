@@ -257,6 +257,148 @@ export const portfolio = {
         'Outbox·Inbox와 DLQ로 메시지 중복과 일시 장애 후 복구를 검증했습니다.',
       ],
     },
+    topology: {
+      title: '스토어부터 운영·데이터 계층까지 전체 토폴로지',
+      description:
+        '클라이언트, Gateway, 도메인 서비스, 메시징, 서비스별 저장소와 운영 계층을 위에서 아래로 배치했습니다. 화살표 라벨은 계층 사이의 주된 통신 방식과 상태 전달 경계를 의미합니다.',
+      ariaLabel: 'TECHZONE 전체 시스템 토폴로지',
+      layers: [
+        {
+          kicker: 'LAYER 01',
+          title: 'Client Applications',
+          icon: 'clients',
+          nodes: [
+            {
+              title: 'Storefront',
+              description: '상품 탐색 · 장바구니 · 주문',
+              tags: ['Next.js', 'TanStack Query'],
+            },
+            {
+              title: 'Admin CMS',
+              description: '상품 · 주문 · 재고 · 배송 운영',
+              tags: ['Next.js', 'TanStack Table'],
+            },
+            {
+              title: 'Mobile Shell',
+              description: '웹 번들을 사용하는 하이브리드 앱',
+              tags: ['Capacitor', 'Android'],
+            },
+          ],
+          connection: 'HTTPS · JSON API',
+        },
+        {
+          kicker: 'LAYER 02',
+          title: 'Edge & Identity',
+          icon: 'edge',
+          nodes: [
+            {
+              title: 'API Gateway',
+              description: '라우팅 · 요청 ID · Rate limit',
+              tags: ['NestJS', 'OpenAPI'],
+            },
+            {
+              title: 'Auth Boundary',
+              description: 'JWT/JWKS · RBAC · CSRF',
+              tags: ['Access Token', 'Role'],
+            },
+            {
+              title: 'Media Access',
+              description: 'Presigned URL과 정적 자산 전달',
+              tags: ['MinIO', 'S3 API'],
+            },
+          ],
+          connection: 'REST commands · authenticated context',
+        },
+        {
+          kicker: 'LAYER 03',
+          title: 'Domain Services',
+          icon: 'services',
+          nodes: [
+            { title: 'Auth', description: '회원 · 세션 · 권한' },
+            { title: 'Catalog', description: '상품 · Variant · SKU' },
+            { title: 'Cart', description: '게스트 · 회원 장바구니' },
+            { title: 'Order', description: '주문 스냅샷 · Saga' },
+            { title: 'Payment', description: '승인 · 취소 · 환불' },
+            { title: 'Inventory', description: '예약 · 원장 · 창고' },
+            { title: 'Fulfillment', description: '출고 · 배송 · 반품' },
+            { title: 'Procurement', description: '공급사 · 발주 · 입고' },
+            { title: 'Notification', description: '주문 상태 알림' },
+            { title: 'Search', description: '검색 인덱스 · 필터' },
+            { title: 'Media', description: '업로드 자산 메타데이터' },
+            { title: 'Admin Query', description: '운영 Projection · KPI' },
+          ],
+          connection: 'domain events · async commands',
+        },
+        {
+          kicker: 'LAYER 04',
+          title: 'Messaging & Processing',
+          icon: 'messaging',
+          tone: 'event',
+          nodes: [
+            {
+              title: 'RabbitMQ',
+              description: '이벤트 라우팅 · 재시도 · DLQ',
+              tags: ['Topic', 'Consumer'],
+            },
+            {
+              title: 'Outbox · Inbox',
+              description: 'DB 트랜잭션과 메시지의 원자성',
+              tags: ['Idempotency', 'Replay'],
+            },
+            {
+              title: 'Redis · BullMQ',
+              description: '캐시 · 지연 작업 · 예약 만료',
+              tags: ['Cache', 'Job Queue'],
+            },
+          ],
+          connection: 'owned persistence · read projections',
+        },
+        {
+          kicker: 'LAYER 05',
+          title: 'Data & Operations',
+          icon: 'data',
+          tone: 'data',
+          nodes: [
+            {
+              title: 'Service Databases',
+              description: '서비스가 소유하는 독립 PostgreSQL 스키마',
+              tags: ['PostgreSQL', 'Drizzle'],
+              wide: true,
+            },
+            {
+              title: 'Object Storage',
+              description: '상품 이미지와 미디어 자산',
+              tags: ['MinIO', 'S3'],
+            },
+            {
+              title: 'Observability',
+              description: '로그 · 메트릭 · 분산 추적',
+              tags: ['Prometheus', 'Tempo', 'Loki', 'Grafana'],
+              wide: true,
+            },
+            {
+              title: 'Delivery Runtime',
+              description: '로컬·운영 배포 계약',
+              tags: ['Docker', 'Kubernetes', 'GitHub Actions'],
+            },
+          ],
+        },
+      ],
+      legend: [
+        {
+          title: '서비스별 데이터 소유권',
+          description: '다른 서비스 DB를 직접 읽지 않고 API·이벤트 계약으로 상태를 전달합니다.',
+        },
+        {
+          title: '동기와 비동기 분리',
+          description: '사용자 응답은 REST로, 후속 처리와 Projection은 메시지 이벤트로 연결합니다.',
+        },
+        {
+          title: '복구 가능한 이벤트 처리',
+          description: 'Outbox·Inbox·멱등 키·DLQ를 통해 중복과 일시 장애를 제어합니다.',
+        },
+      ],
+    },
     ai: {
       label: 'AI-ASSISTED DEVELOPMENT',
       title: 'Codex와 Antigravity를 활용한 AI 협업 개발',
@@ -383,12 +525,13 @@ export const portfolio = {
       problemLabel: '01 · PROBLEM',
       problemTitle: '문제 정의',
       architectureLabel: '02 · ARCHITECTURE',
-      processLabel: '03 · PROCESS',
+      topologyLabel: '03 · SYSTEM TOPOLOGY',
+      processLabel: '04 · PROCESS',
       processTitle: '아이디어에서 운영 가능한 커머스까지',
-      buildLabel: '04 · BUILD',
+      buildLabel: '05 · BUILD',
       buildTitle: '주요 구현',
-      aiLabel: '05 · AI COLLABORATION',
-      validationLabel: '06 · VALIDATION',
+      aiLabel: '06 · AI COLLABORATION',
+      validationLabel: '07 · VALIDATION',
       validationTitle: '검증과 운영',
     },
     },
@@ -465,6 +608,154 @@ export const portfolio = {
           'PostgreSQL을 영속 원본으로, Redis를 잠금·브로커·실시간 전달 계층으로 분리했습니다.',
           'WebSocket은 전체 데이터를 보내지 않고 변경 sequence만 전달해 전송량을 줄였습니다.',
           'FastAPI OpenAPI에서 TypeScript client를 생성해 Python과 웹의 계약 drift를 차단했습니다.',
+        ],
+      },
+      topology: {
+        title: '외부 피드에서 실시간 지도까지 전체 토폴로지',
+        description:
+          'USGS 원본 수집, 비동기 처리, PostGIS 원본 저장, REST·WebSocket 전달과 지도 렌더링을 계층별로 분리했습니다. 각 연결 라벨은 다음 계층에 전달되는 데이터의 형태를 보여줍니다.',
+        ariaLabel: 'QuakeCurrent 전체 시스템 토폴로지',
+        layers: [
+          {
+            kicker: 'LAYER 01',
+            title: 'External Source',
+            icon: 'clients',
+            nodes: [
+              {
+                title: 'USGS Earthquake Feed',
+                description: '최근 지진 GeoJSON 원본',
+                tags: ['GeoJSON', 'ETag', 'Last-Modified'],
+                wide: true,
+              },
+            ],
+            connection: 'conditional GET · 60-second schedule',
+          },
+          {
+            kicker: 'LAYER 02',
+            title: 'Ingestion & Tasks',
+            icon: 'processing',
+            nodes: [
+              {
+                title: 'Celery Beat',
+                description: '주기 수집 스케줄',
+                tags: ['Scheduler'],
+              },
+              {
+                title: 'Celery Worker',
+                description: '정규화 · 중복 판단 · upsert',
+                tags: ['Python', 'Task'],
+              },
+              {
+                title: 'Redis',
+                description: 'Broker · Lock · Pub/Sub',
+                tags: ['Queue', 'Realtime'],
+              },
+            ],
+            connection: 'normalized event · idempotent upsert',
+          },
+          {
+            kicker: 'LAYER 03',
+            title: 'Source of Truth',
+            icon: 'data',
+            tone: 'data',
+            nodes: [
+              {
+                title: 'PostgreSQL · PostGIS',
+                description: '지진 사건 · geometry · sequence',
+                tags: ['Spatial Index', 'Durable Data'],
+                wide: true,
+              },
+              {
+                title: 'Event Sequence',
+                description: '재연결 catch-up 기준점',
+                tags: ['Monotonic ID', 'Recovery'],
+              },
+            ],
+            connection: 'spatial query · snapshot · change sequence',
+          },
+          {
+            kicker: 'LAYER 04',
+            title: 'API & Realtime Delivery',
+            icon: 'edge',
+            tone: 'event',
+            nodes: [
+              {
+                title: 'FastAPI REST',
+                description: '목록 · 통계 · 상세 · catch-up',
+                tags: ['REST', 'OpenAPI'],
+              },
+              {
+                title: 'WebSocket Signal',
+                description: '작은 변경 sequence 알림',
+                tags: ['Compact Event', 'Reconnect'],
+              },
+              {
+                title: 'Generated API Client',
+                description: 'OpenAPI 기반 TypeScript 계약',
+                tags: ['Type Safety', 'Drift Gate'],
+              },
+            ],
+            connection: 'JSON snapshot · compact realtime signal',
+          },
+          {
+            kicker: 'LAYER 05',
+            title: 'Web Experience',
+            icon: 'clients',
+            nodes: [
+              {
+                title: 'Next.js Application',
+                description: 'SSR shell · 탐색 화면 · 상세',
+                tags: ['React', 'TypeScript'],
+              },
+              {
+                title: 'URL Filter State',
+                description: '시간 · 규모 · 깊이 상태 보존',
+                tags: ['Shareable URL', 'History'],
+              },
+              {
+                title: 'MapLibre · deck.gl',
+                description: '3D·2D 지도와 지진 레이어',
+                tags: ['WebGL', 'Map'],
+              },
+            ],
+            connection: 'containerized delivery · contract gates',
+          },
+          {
+            kicker: 'LAYER 06',
+            title: 'Runtime & Quality',
+            icon: 'runtime',
+            nodes: [
+              {
+                title: 'Docker Runtime',
+                description: 'API · Worker · DB · Redis 재현',
+                tags: ['Compose', 'Container'],
+              },
+              {
+                title: 'GitHub Actions',
+                description: 'Python·API·웹·브라우저 검증',
+                tags: ['CI Matrix', 'E2E'],
+              },
+              {
+                title: 'Locked Contracts',
+                description: '동일 의존성과 API 계약 재생성',
+                tags: ['uv.lock', 'OpenAPI'],
+              },
+            ],
+          },
+        ],
+        legend: [
+          {
+            title: '영속 원본과 실시간 계층 분리',
+            description: 'PostgreSQL은 사실의 원본, Redis는 작업·잠금·신호 전달 역할만 담당합니다.',
+          },
+          {
+            title: '스냅샷과 변경 신호 분리',
+            description: '전체 데이터는 REST로 받고 WebSocket은 변경 sequence만 전달합니다.',
+          },
+          {
+            title: '계약 기반 프론트엔드',
+            description: 'FastAPI OpenAPI에서 TypeScript client를 생성해 API 모델 차이를 차단합니다.',
+          },
         ],
       },
       ai: {
@@ -585,12 +876,13 @@ export const portfolio = {
         problemLabel: '01 · PROBLEM',
         problemTitle: '문제 정의',
         architectureLabel: '02 · ARCHITECTURE',
-        processLabel: '03 · PROCESS',
+        topologyLabel: '03 · SYSTEM TOPOLOGY',
+        processLabel: '04 · PROCESS',
         processTitle: '지진 피드에서 복구 가능한 데이터 제품까지',
-        buildLabel: '04 · BUILD',
+        buildLabel: '05 · BUILD',
         buildTitle: '주요 구현',
-        aiLabel: '05 · AI COLLABORATION',
-        validationLabel: '06 · VALIDATION',
+        aiLabel: '06 · AI COLLABORATION',
+        validationLabel: '07 · VALIDATION',
         validationTitle: '검증과 경계',
       },
     },

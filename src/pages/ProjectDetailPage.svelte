@@ -1,6 +1,7 @@
 <script>
   import { ArrowLeft, ArrowUpRight, CircleDot, ShieldCheck, Sparkles } from 'lucide-svelte';
   import ArchitectureDiagram from '../components/ArchitectureDiagram.svelte';
+  import TopologyDiagram from '../components/TopologyDiagram.svelte';
 
   export let project;
 </script>
@@ -56,6 +57,13 @@
     <section class="case-section architecture-section detail-shell">
       <p class="section-label">{project.detail.architectureLabel}</p>
       <ArchitectureDiagram architecture={project.architecture} />
+    </section>
+  {/if}
+
+  {#if project.topology}
+    <section class="case-section topology-section detail-shell">
+      <p class="section-label">{project.detail.topologyLabel}</p>
+      <TopologyDiagram topology={project.topology} />
     </section>
   {/if}
 

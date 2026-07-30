@@ -80,7 +80,9 @@
   .problem-section,
   .ai-use-grid,
   .architecture-heading,
-  .architecture-notes {
+  .architecture-notes,
+  .topology-heading,
+  .topology-legend {
     grid-template-columns: 1fr;
   }
 
@@ -124,6 +126,14 @@
   .architecture-arrow {
     min-height: 16px;
     transform: rotate(90deg);
+  }
+
+  .topology-map {
+    padding: 0.65rem;
+  }
+
+  .topology-layer {
+    grid-template-columns: 1fr;
   }
 
   .ai-collaboration {
@@ -212,6 +222,14 @@
   .process-list > li {
     grid-template-columns: 1fr;
     gap: 0.65rem;
+  }
+
+  .topology-nodes {
+    grid-template-columns: 1fr;
+  }
+
+  .topology-nodes .topology-node-wide {
+    grid-column: auto;
   }
 }
 
