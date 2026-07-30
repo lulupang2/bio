@@ -104,6 +104,13 @@
   background: var(--surface);
 }
 
+.detail-gallery img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
 .detail-gallery figcaption {
   padding: 0.85rem 1rem;
   color: var(--muted);
@@ -135,6 +142,150 @@
   color: var(--muted);
   font-size: 0.92rem;
   line-height: 1.85;
+}
+
+.architecture-section > .section-label {
+  margin-bottom: 0.55rem;
+}
+
+.architecture-heading {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.85fr) minmax(0, 1.15fr);
+  gap: 2rem;
+  align-items: end;
+}
+
+.architecture-heading h2 {
+  margin: 0;
+  font-size: clamp(1.55rem, 3.5vw, 2.15rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+}
+
+.architecture-heading > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.8;
+}
+
+.architecture-diagram {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.architecture-lane {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.architecture-lane > header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.25rem;
+}
+
+.architecture-lane > header > span {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--sage-soft);
+  color: var(--sage);
+  font-size: 0.66rem;
+  font-weight: 800;
+}
+
+.architecture-lane h3 {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.architecture-lane header p {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+
+.architecture-flow {
+  display: flex;
+  min-width: 0;
+  align-items: stretch;
+  gap: 0.45rem;
+}
+
+.architecture-node {
+  display: grid;
+  min-width: 0;
+  flex: 1 1 0;
+  align-content: center;
+  gap: 0.3rem;
+  padding: 0.85rem 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--sage) 20%, var(--line));
+  border-radius: var(--radius-sm);
+  background: var(--background-soft);
+}
+
+.architecture-node[data-tone='gateway'],
+.architecture-node[data-tone='realtime'] {
+  border-color: color-mix(in srgb, var(--terracotta) 35%, var(--line));
+  background: color-mix(in srgb, var(--terracotta) 8%, var(--surface));
+}
+
+.architecture-node[data-tone='data'] {
+  border-color: color-mix(in srgb, var(--sage) 42%, var(--line));
+  background: color-mix(in srgb, var(--sage-soft) 72%, var(--surface));
+}
+
+.architecture-node strong {
+  overflow-wrap: anywhere;
+  font-size: 0.76rem;
+  line-height: 1.4;
+}
+
+.architecture-node span {
+  color: var(--muted);
+  font-size: 0.65rem;
+  line-height: 1.5;
+}
+
+.architecture-arrow {
+  display: grid;
+  flex: 0 0 16px;
+  place-items: center;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.architecture-notes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.architecture-notes li {
+  padding: 0.8rem 0.9rem;
+  border-left: 3px solid var(--terracotta);
+  background: color-mix(in srgb, var(--terracotta) 6%, var(--surface));
+  color: var(--muted);
+  font-size: 0.7rem;
+  line-height: 1.6;
 }
 
 .process-list {

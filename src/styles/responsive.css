@@ -78,7 +78,9 @@
   .meta-grid,
   .detail-content,
   .problem-section,
-  .ai-use-grid {
+  .ai-use-grid,
+  .architecture-heading,
+  .architecture-notes {
     grid-template-columns: 1fr;
   }
 
@@ -109,6 +111,19 @@
 
   .case-section {
     padding-top: 55px;
+  }
+
+  .architecture-lane {
+    grid-template-columns: 1fr;
+  }
+
+  .architecture-flow {
+    flex-direction: column;
+  }
+
+  .architecture-arrow {
+    min-height: 16px;
+    transform: rotate(90deg);
   }
 
   .ai-collaboration {

@@ -1,5 +1,6 @@
 <script>
   import { ArrowLeft, ArrowUpRight, CircleDot, ShieldCheck, Sparkles } from 'lucide-svelte';
+  import ArchitectureDiagram from '../components/ArchitectureDiagram.svelte';
 
   export let project;
 </script>
@@ -41,22 +42,6 @@
     </div>
   </section>
 
-  <section class="detail-gallery detail-shell">
-    {#each project.screenshots as image}
-      <figure>
-        <img
-          src={image.src}
-          alt={image.alt}
-          width={image.width ?? 1440}
-          height={image.height ?? 900}
-          loading="lazy"
-          decoding="async"
-        />
-        <figcaption>{image.caption}</figcaption>
-      </figure>
-    {/each}
-  </section>
-
   <section class="case-section problem-section detail-shell">
     <div class="case-heading">
       <p class="section-label">{project.detail.problemLabel}</p>
@@ -65,6 +50,29 @@
     <div class="case-copy">
       <p>{project.problem}</p>
     </div>
+  </section>
+
+  {#if project.architecture}
+    <section class="case-section architecture-section detail-shell">
+      <p class="section-label">{project.detail.architectureLabel}</p>
+      <ArchitectureDiagram architecture={project.architecture} />
+    </section>
+  {/if}
+
+  <section class="detail-gallery detail-shell" aria-label={`${project.title} 화면 이미지`}>
+    {#each project.screenshots as image}
+      <figure>
+        <img
+          src={image.src}
+          alt={image.alt}
+          width={image.width}
+          height={image.height}
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption>{image.caption}</figcaption>
+      </figure>
+    {/each}
   </section>
 
   <section class="case-section detail-shell">

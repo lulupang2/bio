@@ -181,6 +181,82 @@ export const portfolio = {
       '고객 스토어와 관리자 앱을 만들고, 주문·결제·재고·배송·반품이 이어지는 MSA와 이벤트 처리·장애 복구를 구현하고 검증했습니다.',
     problem:
       '고객 화면만 구현한 쇼핑몰이 아니라 상품 옵션, 주문, 결제, 재고 예약, 출고, 배송, 반품과 관리자 지표가 서로 다른 서비스 사이에서 일관되게 이어지는 운영 시스템을 만들고자 했습니다.',
+    architecture: {
+      title: '고객 경험과 운영 도메인을 이벤트로 연결했습니다.',
+      description:
+        '스토어와 관리자 앱은 Gateway를 통해 서비스에 접근하고, 구매 상태 전이는 도메인 서비스가 소유합니다. 서비스별 PostgreSQL과 RabbitMQ를 분리해 데이터 소유권과 비동기 처리를 명확히 했습니다.',
+      ariaLabel: 'TECHZONE 고객 화면, 주문 Saga, 데이터와 운영 조회로 구성된 아키텍처',
+      lanes: [
+        {
+          id: 'techzone-entry',
+          kicker: '01',
+          title: 'Experience',
+          description: '사용자와 운영자 진입점',
+          nodes: [
+            {
+              title: 'Next.js Apps',
+              description: 'Storefront · Admin CMS',
+              tone: 'frontend',
+            },
+            {
+              title: 'API Gateway',
+              description: 'JWT · RBAC · Rate limit',
+              tone: 'gateway',
+            },
+            {
+              title: 'NestJS Services',
+              description: 'Catalog · Cart · Order',
+              tone: 'service',
+            },
+          ],
+        },
+        {
+          id: 'techzone-saga',
+          kicker: '02',
+          title: 'Order Saga',
+          description: '구매와 물류 상태 전이',
+          nodes: [
+            { title: 'Order', description: '주문 스냅샷 · Saga' },
+            { title: 'Payment', description: '승인 · 취소 · 환불' },
+            { title: 'Inventory', description: 'Variant 예약 · 원장' },
+            { title: 'Fulfillment', description: '출고 · 배송 · 반품' },
+          ],
+        },
+        {
+          id: 'techzone-data',
+          kicker: '03',
+          title: 'Data & Reliability',
+          description: '소유권과 장애 복구',
+          nodes: [
+            {
+              title: 'Service Databases',
+              description: 'PostgreSQL · Drizzle',
+              tone: 'data',
+            },
+            {
+              title: 'RabbitMQ',
+              description: 'Domain events · DLQ',
+              tone: 'realtime',
+            },
+            {
+              title: 'Outbox · Inbox',
+              description: '멱등성 · 재시도',
+              tone: 'data',
+            },
+            {
+              title: 'Admin Query',
+              description: 'Projection · KPI',
+              tone: 'service',
+            },
+          ],
+        },
+      ],
+      notes: [
+        'Product·Variant·SKU 기준을 Catalog와 Inventory 계약으로 통일했습니다.',
+        'Order가 Saga를 조정하고 각 서비스는 자신의 상태와 보상 작업을 소유합니다.',
+        'Outbox·Inbox와 DLQ로 메시지 중복과 일시 장애 후 복구를 검증했습니다.',
+      ],
+    },
     ai: {
       label: 'AI-ASSISTED DEVELOPMENT',
       title: 'Codex와 Antigravity를 활용한 AI 협업 개발',
@@ -281,16 +357,22 @@ export const portfolio = {
         src: '/techzone/storefront-home.png',
         alt: 'TECHZONE 고객 스토어 홈 화면',
         caption: '고객 스토어 · CMS 기반 상품 탐색',
+        width: 1440,
+        height: 1100,
       },
       {
         src: '/techzone/storefront-product-detail.png',
         alt: 'TECHZONE 상품 상세 화면',
         caption: '상품 상세 · Variant와 구매 전환 정보',
+        width: 1440,
+        height: 1100,
       },
       {
         src: '/techzone/admin-dashboard.png',
         alt: 'TECHZONE 관리자 대시보드',
         caption: 'Admin CMS · OMS/WMS 운영 지표',
+        width: 1440,
+        height: 1100,
       },
     ],
     detail: {
@@ -300,12 +382,13 @@ export const portfolio = {
       eyebrow: 'FEATURED CASE STUDY',
       problemLabel: '01 · PROBLEM',
       problemTitle: '문제 정의',
-      processLabel: '02 · PROCESS',
+      architectureLabel: '02 · ARCHITECTURE',
+      processLabel: '03 · PROCESS',
       processTitle: '아이디어에서 운영 가능한 커머스까지',
-      buildLabel: '03 · BUILD',
+      buildLabel: '04 · BUILD',
       buildTitle: '주요 구현',
-      aiLabel: '04 · AI COLLABORATION',
-      validationLabel: '05 · VALIDATION',
+      aiLabel: '05 · AI COLLABORATION',
+      validationLabel: '06 · VALIDATION',
       validationTitle: '검증과 운영',
     },
     },
@@ -326,6 +409,64 @@ export const portfolio = {
         'USGS 지진 피드를 60초마다 수집·정규화하고, REST 스냅샷과 복구 가능한 WebSocket 변경 신호를 3D·2D 지도에 연결한 풀스택 데이터 프로토타입입니다.',
       problem:
         '지진을 지도에 표시하는 것보다 같은 사건의 중복 적재, 연결이 끊긴 사이의 변경 누락, Python API와 TypeScript 화면 사이의 계약 불일치가 사용자 경험을 먼저 무너뜨릴 수 있다고 보았습니다. 수집부터 복구·계약 검증까지 하나의 수직 슬라이스로 연결했습니다.',
+      architecture: {
+        title: '수집 원본과 실시간 신호를 분리해 복구 가능한 흐름을 만들었습니다.',
+        description:
+          'USGS 원본은 Celery가 멱등 수집해 PostGIS에 저장합니다. FastAPI는 REST 스냅샷과 작은 WebSocket 변경 신호를 분리하고, 웹은 마지막 sequence 이후를 REST로 보충해 연결 중단을 복구합니다.',
+        ariaLabel: 'QuakeCurrent 수집, 실시간 전달, 지도 경험으로 구성된 아키텍처',
+        lanes: [
+          {
+            id: 'quake-ingestion',
+            kicker: '01',
+            title: 'Ingestion',
+            description: '조건부 요청과 멱등 저장',
+            nodes: [
+              { title: 'USGS GeoJSON', description: 'ETag · Last-Modified', tone: 'frontend' },
+              { title: 'Celery Worker', description: '60초 수집 · 정규화', tone: 'service' },
+              {
+                title: 'PostgreSQL · PostGIS',
+                description: '지진 원본 · 공간 질의',
+                tone: 'data',
+              },
+            ],
+          },
+          {
+            id: 'quake-delivery',
+            kicker: '02',
+            title: 'API & Realtime',
+            description: '스냅샷과 변경 신호 분리',
+            nodes: [
+              { title: 'Redis', description: 'Lock · Broker · Pub/Sub', tone: 'data' },
+              { title: 'FastAPI', description: 'REST · WebSocket', tone: 'gateway' },
+              {
+                title: 'OpenAPI Client',
+                description: 'Generated TypeScript',
+                tone: 'service',
+              },
+            ],
+          },
+          {
+            id: 'quake-experience',
+            kicker: '03',
+            title: 'Web Experience',
+            description: 'URL 상태와 재연결 복구',
+            nodes: [
+              { title: 'URL Filter State', description: '시간 · 규모 · 깊이' },
+              { title: 'REST Catch-up', description: 'Last sequence 이후 복구', tone: 'realtime' },
+              {
+                title: 'MapLibre · deck.gl',
+                description: '3D · 2D 지도 시각화',
+                tone: 'frontend',
+              },
+            ],
+          },
+        ],
+        notes: [
+          'PostgreSQL을 영속 원본으로, Redis를 잠금·브로커·실시간 전달 계층으로 분리했습니다.',
+          'WebSocket은 전체 데이터를 보내지 않고 변경 sequence만 전달해 전송량을 줄였습니다.',
+          'FastAPI OpenAPI에서 TypeScript client를 생성해 Python과 웹의 계약 drift를 차단했습니다.',
+        ],
+      },
       ai: {
         label: 'AI-ASSISTED DEVELOPMENT',
         title: 'Codex를 활용한 반복형 개발과 검토',
@@ -443,12 +584,13 @@ export const portfolio = {
         eyebrow: 'FULL-STACK DATA CASE STUDY',
         problemLabel: '01 · PROBLEM',
         problemTitle: '문제 정의',
-        processLabel: '02 · PROCESS',
+        architectureLabel: '02 · ARCHITECTURE',
+        processLabel: '03 · PROCESS',
         processTitle: '지진 피드에서 복구 가능한 데이터 제품까지',
-        buildLabel: '03 · BUILD',
+        buildLabel: '04 · BUILD',
         buildTitle: '주요 구현',
-        aiLabel: '04 · AI COLLABORATION',
-        validationLabel: '05 · VALIDATION',
+        aiLabel: '05 · AI COLLABORATION',
+        validationLabel: '06 · VALIDATION',
         validationTitle: '검증과 경계',
       },
     },
