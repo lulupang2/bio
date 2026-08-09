@@ -110,6 +110,10 @@
     padding: 2rem 0;
   }
 
+  .project-thumbnail {
+    margin-bottom: 1.25rem;
+  }
+
   .featured-project h3 {
     font-size: 1.75rem;
   }
@@ -246,6 +250,11 @@
   .project-actions {
     flex-direction: column;
     gap: 0.25rem;
+  }
+
+  .project-thumbnail-label {
+    max-width: calc(100% - 0.8rem);
+    font-size: 0.58rem;
   }
 
   .detail-header .detail-shell {
