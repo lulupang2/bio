@@ -3,8 +3,6 @@
     ArrowRight,
     ArrowUpRight,
     GitFork as Github,
-    GraduationCap,
-    Layers3,
   } from '@lucide/svelte';
   import ProjectCard from '../components/ProjectCard.svelte';
   import SectionHeading from '../components/SectionHeading.svelte';
@@ -40,44 +38,45 @@
   };
 </script>
 
-<div class="ambient ambient-one" aria-hidden="true"></div>
-<div class="ambient ambient-two" aria-hidden="true"></div>
-
 <div class="page-wrap">
   <SiteHeader site={portfolio.site} github={portfolio.profile.github} {theme} {onToggleTheme} />
 
-  <main id="main-content">
-    <section id="top" class="profile-card reveal is-visible">
-      <p class="profile-kicker">{portfolio.profile.kicker}</p>
-      <h1>{portfolio.profile.position}</h1>
-      <p class="profile-intro">{portfolio.profile.intro}</p>
+  <div class="content-column">
+    <main id="main-content">
+      <section id="top" class="profile-card reveal is-visible">
+        <p class="profile-kicker"><i aria-hidden="true"></i>[{portfolio.profile.kicker}]</p>
+        <h1>
+          <span>{portfolio.profile.positionLines[0]}</span>
+          <mark>{portfolio.profile.positionLines[1]}</mark>
+        </h1>
+        <p class="profile-intro">{portfolio.profile.intro}</p>
 
-      <div class="profile-actions">
-        <a class="button button-primary" href="#projects">
-          {portfolio.profile.actions.project} <ArrowRight size={17} />
-        </a>
-        <a
-          class="button button-secondary"
-          href={portfolio.profile.github}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Github size={17} /> {portfolio.profile.actions.github}
-        </a>
-      </div>
+        <div class="profile-actions">
+          <a class="button button-primary" href="#projects">
+            {portfolio.profile.actions.project} <ArrowRight size={17} />
+          </a>
+          <a
+            class="button button-secondary"
+            href={portfolio.profile.github}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Github size={17} /> {portfolio.profile.actions.github}
+          </a>
+        </div>
 
-      <div class="proof-grid" aria-label={portfolio.site.labels.proof}>
-        {#each portfolio.profile.proof as item}
-          <div>
-            <strong>{item.value}</strong>
-            <span>{item.label}</span>
-          </div>
-        {/each}
-      </div>
-    </section>
+        <div class="proof-grid" aria-label={portfolio.site.labels.proof}>
+          {#each portfolio.profile.proof as item}
+            <div>
+              <strong>{item.value}</strong>
+              <span>{item.label}</span>
+            </div>
+          {/each}
+        </div>
+      </section>
 
-    <section id="about" class="editorial-section reveal" use:reveal>
-      <SectionHeading section={portfolio.sections.about} />
+      <section id="about" class="editorial-section reveal" use:reveal>
+        <SectionHeading section={portfolio.sections.about} />
 
       <div class="about-copy">
         {#each portfolio.profile.about as paragraph}
@@ -94,10 +93,10 @@
           </article>
         {/each}
       </div>
-    </section>
+      </section>
 
-    <section id="skills" class="editorial-section reveal" use:reveal>
-      <SectionHeading section={portfolio.sections.skills} />
+      <section id="skills" class="editorial-section reveal" use:reveal>
+        <SectionHeading section={portfolio.sections.skills} />
 
       <div class="skills-list">
         {#each portfolio.skills as skill}
@@ -114,10 +113,10 @@
           </article>
         {/each}
       </div>
-    </section>
+      </section>
 
-    <section id="experience" class="editorial-section reveal" use:reveal>
-      <SectionHeading section={portfolio.sections.experience} />
+      <section id="experience" class="editorial-section reveal" use:reveal>
+        <SectionHeading section={portfolio.sections.experience} />
 
       <div class="experience-grid">
         {#each portfolio.experience.projects as project, index}
@@ -134,54 +133,59 @@
           </article>
         {/each}
       </div>
-    </section>
+      </section>
 
-    <section id="projects" class="editorial-section project-section reveal" use:reveal>
-      <SectionHeading section={portfolio.sections.project} variant="project">
-        <Layers3 size={30} strokeWidth={1.5} />
-      </SectionHeading>
+      <section id="projects" class="editorial-section project-section reveal" use:reveal>
+        <SectionHeading section={portfolio.sections.project} />
 
       <div class="projects-list">
         {#each portfolio.projects as project}
           <ProjectCard {project} />
         {/each}
       </div>
-    </section>
+      </section>
 
-    <section id="education" class="meta-grid reveal" use:reveal>
-      <article class="meta-card">
-        <div class="meta-icon"><GraduationCap size={24} /></div>
-        <div>
+      <section id="education" class="linear-section education-section reveal" use:reveal>
+        <div class="section-index">
           <p class="section-label">{portfolio.sections.education.label}</p>
+          <span aria-hidden="true"></span>
+        </div>
+        <div class="education-row">
+          <span class="education-status">{portfolio.education.status}</span>
+          <div>
           <h2>{portfolio.education.school}</h2>
-          <p>{portfolio.education.major} · {portfolio.education.status}</p>
+            <p>{portfolio.education.major}</p>
+          </div>
+          <small>{portfolio.education.period}</small>
         </div>
-        <small>{portfolio.education.period}</small>
-      </article>
+      </section>
 
-      <article class="contact-card">
-        <div>
+      <section id="contact" class="linear-section contact-card reveal" use:reveal>
+        <div class="section-index">
           <p class="section-label">{portfolio.sections.contact.label}</p>
-          <h2>{portfolio.sections.contact.title.join(' ')}</h2>
+          <span aria-hidden="true"></span>
         </div>
-        <a
-          class="contact-link"
-          href={portfolio.profile.github}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Github size={19} />
-          {portfolio.sections.contact.linkLabel}
-          <ArrowUpRight size={17} />
-        </a>
-      </article>
-    </section>
-  </main>
+        <div class="contact-content">
+          <h2>{portfolio.sections.contact.title.join(' ')}</h2>
+          <a
+            class="contact-link"
+            href={portfolio.profile.github}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Github size={19} />
+            {portfolio.sections.contact.linkLabel}
+            <ArrowUpRight size={17} />
+          </a>
+        </div>
+      </section>
+    </main>
 
-  <footer class="footer">
-    <p>{portfolio.site.footer}</p>
-    <button type="button" on:click={scrollToTop}>
-      {portfolio.site.labels.backToTop} <ArrowUpRight size={14} />
-    </button>
-  </footer>
+    <footer class="footer">
+      <p>{portfolio.site.footer}</p>
+      <button type="button" on:click={scrollToTop}>
+        {portfolio.site.labels.backToTop} <ArrowUpRight size={14} />
+      </button>
+    </footer>
+  </div>
 </div>

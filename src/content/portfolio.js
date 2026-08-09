@@ -2,6 +2,7 @@
 export const portfolio = {
   site: {
     title: '개발자 포트폴리오',
+    systemLabel: 'PORTFOLIO SYSTEM / 2026',
     status: 'OPEN TO WORK',
     description:
       'React와 Next.js 실무 경험을 바탕으로 서비스 전체의 흐름을 설계하는 개발자 포트폴리오입니다.',
@@ -9,14 +10,16 @@ export const portfolio = {
     socialTech: 'React · Next.js · NestJS · FastAPI',
     socialImage: '/og.png',
     locale: 'ko_KR',
-    themeColor: '#f7f3ec',
-    footer: '© 2026 Developer Portfolio. Crafted with clarity.',
+    themeColor: '#fdfdfd',
+    footer: 'DESIGNED & BUILT AS A FULL-STACK PORTFOLIO / © 2026',
     navigation: [
-      { label: '소개', href: '#about' },
-      { label: '기술', href: '#skills' },
-      { label: '실무 프로젝트', href: '#experience' },
-      { label: '프로젝트', href: '#projects' },
-      { label: '학력', href: '#education' },
+      { label: 'INTRODUCTION', href: '#top' },
+      { label: 'ABOUT', href: '#about' },
+      { label: 'TOOLKIT', href: '#skills' },
+      { label: 'EXPERIENCE', href: '#experience' },
+      { label: 'PROJECTS', href: '#projects' },
+      { label: 'EDUCATION', href: '#education' },
+      { label: 'CONTACT', href: '#contact' },
     ],
     labels: {
       skipLink: '본문으로 바로가기',
@@ -31,6 +34,7 @@ export const portfolio = {
   },
   profile: {
     position: '풀스택으로 확장하는 프론트엔드 개발자',
+    positionLines: ['풀스택으로 확장하는', '프론트엔드 개발자'],
     kicker: 'FRONTEND · FULLSTACK · COMMERCE',
     intro:
       'React·Next.js·React Native로 웹·모바일 화면을 구현해 왔습니다. TECHZONE의 커머스 운영 흐름과 QuakeCurrent의 실시간 데이터 파이프라인을 만들며 백엔드·데이터 영역까지 확장했습니다.',
@@ -175,6 +179,7 @@ export const portfolio = {
     coverAlt: 'TECHZONE 고객 스토어 홈 화면',
     coverPosition: 'top left',
     category: '01 · COMMERCE · OMS/WMS · MSA',
+    cardBadge: 'SCALABLE ARCHITECTURE',
     caseStudyLabel: '제작 과정과 상세 보기',
     pendingMessage: 'Case Study 공개 준비 중입니다.',
     summary:
@@ -546,6 +551,7 @@ export const portfolio = {
       coverAlt: 'QuakeCurrent 지진 데이터 프로젝트 브리프',
       coverPosition: 'center',
       category: '02 · REALTIME DATA · MAP · FULL STACK',
+      cardBadge: 'RECOVERABLE DATA FLOW',
       caseStudyLabel: '제작 과정과 상세 보기',
       pendingMessage: 'Case Study 공개 준비 중입니다.',
       summary:

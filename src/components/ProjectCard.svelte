@@ -1,81 +1,47 @@
 <script>
-  import { ArrowUpRight, Check, Clock3, Sparkles } from '@lucide/svelte';
+  import { ArrowUpRight, GitFork as Github, Sparkles } from '@lucide/svelte';
 
   export let project;
-  const CARD_HIGHLIGHT_LIMIT = 3;
-  const CARD_STACK_LIMIT = 5;
+
+  $: categoryLabel = project.category.split(' · ').slice(1, 2)[0] || project.category;
 </script>
 
 <article class:project-disabled={!project.published} class="featured-project" data-project={project.slug}>
-  {#if project.published}
-    <a
-      class="project-image project-image-link"
-      href={`/projects/${project.slug}`}
-      aria-label={`${project.title} ${project.caseStudyLabel}`}
-    >
-      <img
-        src={project.cover}
-        alt={project.coverAlt}
-        width="1440"
-        height="900"
-        loading="lazy"
-        decoding="async"
-        style={`object-position: ${project.coverPosition ?? 'center'}`}
-      />
-      <span class="project-status"><Clock3 size={15} /> {project.status}</span>
-    </a>
-  {:else}
-    <div class="project-image">
-      <img
-        src={project.cover}
-        alt={project.coverAlt}
-        width="1440"
-        height="900"
-        loading="lazy"
-        decoding="async"
-        style={`object-position: ${project.coverPosition ?? 'center'}`}
-      />
-      <span class="project-status"><Clock3 size={15} /> {project.status}</span>
-    </div>
-  {/if}
+  <div class="project-meta">
+    <span class="project-type">{categoryLabel}</span>
+    <span class="project-badge"><Sparkles size={13} /> {project.cardBadge ?? project.status}</span>
+  </div>
 
-  <div class="project-body">
-    <p class="project-category">{project.category}</p>
-    {#if project.ai}
-      <div class="project-ai-disclosure" aria-label="AI 활용 안내">
-        <Sparkles size={15} />
-        <span>{project.ai.label}</span>
-        <strong>{project.ai.tools.join(' · ')}</strong>
-      </div>
+  <h3>
+    {#if project.published}
+      <a href={`/projects/${project.slug}`}>{project.title}</a>
+    {:else}
+      {project.title}
     {/if}
-    <h3>
-      {#if project.published}
-        <a href={`/projects/${project.slug}`}>{project.title}</a>
-      {:else}
-        {project.title}
-      {/if}
-    </h3>
-    <p>{project.summary}</p>
+  </h3>
 
-    <ul class="project-points">
-      {#each project.highlights.slice(0, CARD_HIGHLIGHT_LIMIT) as item}
-        <li><Check size={15} /> {item}</li>
-      {/each}
-    </ul>
+  <p class="project-summary">{project.summary}</p>
 
-    <div class="tag-list project-tags">
-      {#each project.stack.slice(0, CARD_STACK_LIMIT) as tag}<span>{tag}</span>{/each}
-    </div>
+  <p class="project-stack">{project.stack.slice(0, 5).join(', ')}</p>
 
+  <div class="project-actions">
     {#if project.published}
       <a class="project-link" href={`/projects/${project.slug}`}>
-        {project.caseStudyLabel} <ArrowUpRight size={17} />
+        {project.caseStudyLabel} <ArrowUpRight size={16} />
       </a>
     {:else}
-      <div class="project-pending">
-        <Clock3 size={16} />
-        {project.pendingMessage}
-      </div>
+      <span class="project-pending">{project.pendingMessage}</span>
+    {/if}
+
+    {#if project.repositoryUrl}
+      <a
+        class="project-link project-source-link"
+        href={project.repositoryUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Github size={16} /> Source Repository <ArrowUpRight size={15} />
+      </a>
     {/if}
   </div>
 </article>
