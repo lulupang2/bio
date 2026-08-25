@@ -1,11 +1,13 @@
 <script>
   import { onMount } from 'svelte';
   import { ArrowUpRight, GitFork as Github, Moon, Sun } from '@lucide/svelte';
+  import { localizedPath } from '../content/i18n.js';
 
   export let site;
   export let github;
   export let theme = 'light';
   export let onToggleTheme = () => {};
+  export let locale = 'ko';
 
   let activeHref = '#top';
 
@@ -56,6 +58,10 @@
       </span>
 
       <div class="rail-actions">
+        <a class="rail-action language-switch" href={localizedPath('/', locale === 'en' ? 'ko' : 'en')} aria-label={locale === 'en' ? '한국어 버전으로 전환' : 'Switch to English version'}>
+          <span>{locale === 'en' ? 'KO' : 'EN'}</span>
+          <ArrowUpRight size={14} aria-hidden="true" />
+        </a>
         <a
           class="rail-action"
           href={github}

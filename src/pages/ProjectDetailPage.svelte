@@ -2,14 +2,19 @@
   import { ArrowLeft, ArrowUpRight, CircleDot, ShieldCheck, Sparkles } from '@lucide/svelte';
   import ArchitectureDiagram from '../components/ArchitectureDiagram.svelte';
   import TopologyDiagram from '../components/TopologyDiagram.svelte';
+  import { localizedPath } from '../content/i18n.js';
 
   export let project;
+  export let locale = 'ko';
 </script>
 
 <header class="detail-header">
   <div class="detail-shell">
-    <a href="/"><ArrowLeft size={18} /> {project.detail.backLabel}</a>
+    <a href={localizedPath('/', locale)}><ArrowLeft size={18} /> {project.detail.backLabel}</a>
     <div class="detail-header-actions">
+      <a href={localizedPath(`/projects/${project.slug}`, locale === 'en' ? 'ko' : 'en')}>
+        {locale === 'en' ? 'KO' : 'EN'} <ArrowUpRight size={16} />
+      </a>
       {#if project.liveUrl}
         <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
           {project.detail.liveLabel} <ArrowUpRight size={16} />
@@ -63,11 +68,11 @@
   {#if project.topology}
     <section class="case-section topology-section detail-shell">
       <p class="section-label">{project.detail.topologyLabel}</p>
-      <TopologyDiagram topology={project.topology} />
+      <TopologyDiagram topology={project.topology} locale={locale} />
     </section>
   {/if}
 
-  <section class="detail-gallery detail-shell" aria-label={`${project.title} 화면 이미지`}>
+  <section class="detail-gallery detail-shell" aria-label={`${project.title} screenshots`}>
     {#each project.screenshots as image}
       <figure>
         <img
@@ -130,7 +135,7 @@
       </div>
 
       <div class="responsibility-note">
-        <strong>개발자 역할과 책임</strong>
+        <strong>{locale === 'en' ? 'Developer role and responsibility' : '개발자 역할과 책임'}</strong>
         <p>{project.ai.responsibility}</p>
       </div>
     </section>

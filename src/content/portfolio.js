@@ -1,6 +1,7 @@
 // Single source of truth for all editable portfolio content.
 export const portfolio = {
   site: {
+    url: 'https://bio.jisung.lol',
     title: '개발자 포트폴리오',
     systemLabel: 'PORTFOLIO SYSTEM / 2026',
     status: 'OPEN TO WORK',
@@ -902,6 +903,7 @@ export const portfolio = {
 };
 
 export const siteMetadata = {
+  url: portfolio.site.url,
   title: `${portfolio.profile.position} | ${portfolio.site.title}`,
   description: portfolio.site.description,
   socialTitle: `${portfolio.profile.position} | ${portfolio.site.title}`,
@@ -911,6 +913,35 @@ export const siteMetadata = {
   locale: portfolio.site.locale,
   themeColor: portfolio.site.themeColor,
 };
+
+export const homeJsonLd = (source = portfolio, locale = 'ko') => [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'lulupang2',
+    url: `${source.site.url}${locale === 'en' ? '/en' : ''}`,
+    jobTitle: source.profile.position,
+    sameAs: [source.profile.github],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: `${source.profile.position} | ${source.site.title}`,
+    url: `${source.site.url}${locale === 'en' ? '/en' : ''}`,
+    description: source.site.description,
+    inLanguage: source.site.locale.startsWith('en') ? 'en' : 'ko',
+  },
+];
+
+export const projectJsonLd = (project, source = portfolio, locale = 'ko') => ({
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: project.title,
+  url: `${source.site.url}${locale === 'en' ? '/en' : ''}/projects/${project.slug}`,
+  description: project.summary,
+  image: new URL(project.cover, source.site.url).toString(),
+  inLanguage: source.site.locale.startsWith('en') ? 'en' : 'ko',
+});
 
 export const normalizePathname = (pathname) => {
   const normalized = pathname.replace(/\/+$/, '');
@@ -923,3 +954,8 @@ export const findPublishedProjectByPath = (pathname, projects) => {
     (project) => normalizedPath === `/projects/${project.slug}` && project.published === true,
   );
 };
+
+export const collectSitePaths = ({ projects }) => [
+  '/',
+  ...projects.filter((project) => project.published === true).map((project) => `/projects/${project.slug}`),
+];

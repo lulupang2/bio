@@ -1,7 +1,9 @@
 <script>
   import { ArrowUpRight, ExternalLink, GitFork as Github, Sparkles } from '@lucide/svelte';
+  import { localizedPath } from '../content/i18n.js';
 
   export let project;
+  export let locale = 'ko';
 
   $: categoryLabel = project.category.split(' · ').slice(1, 2)[0] || project.category;
   $: coverWidth = project.screenshots?.[0]?.width ?? 16;
@@ -12,7 +14,7 @@
 <article class:project-disabled={!project.published} class="featured-project" data-project={project.slug}>
   {#if project.cover}
     {#if project.published}
-      <a class="project-thumbnail" href={`/projects/${project.slug}`} style={coverStyle}>
+      <a class="project-thumbnail" href={localizedPath(`/projects/${project.slug}`, locale)} style={coverStyle}>
         <img
           src={project.cover}
           alt={project.coverAlt}
@@ -53,7 +55,7 @@
 
   <div class="project-actions">
     {#if project.published && !project.cover}
-      <a class="project-link" href={`/projects/${project.slug}`}>
+      <a class="project-link" href={localizedPath(`/projects/${project.slug}`, locale)}>
         {project.caseStudyLabel} <ArrowUpRight size={16} />
       </a>
     {:else if !project.published}
@@ -66,7 +68,7 @@
         href={project.liveUrl}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={`${project.title} ${project.detail.liveLabel} 새 창에서 열기`}
+        aria-label={`${project.title} ${project.detail.liveLabel} ${locale === 'en' ? 'open in a new tab' : '새 창에서 열기'}`}
       >
         <ExternalLink size={16} aria-hidden="true" /> {project.detail.liveLabel}
         <ArrowUpRight size={15} aria-hidden="true" />
@@ -79,7 +81,7 @@
         href={project.repositoryUrl}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={`${project.title} ${project.detail.repositoryLabel} 새 창에서 열기`}
+        aria-label={`${project.title} ${project.detail.repositoryLabel} ${locale === 'en' ? 'open in a new tab' : '새 창에서 열기'}`}
       >
         <Github size={16} aria-hidden="true" /> {project.detail.repositoryLabel}
         <ArrowUpRight size={15} aria-hidden="true" />

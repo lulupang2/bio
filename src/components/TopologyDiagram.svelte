@@ -11,6 +11,7 @@
   } from '@lucide/svelte';
 
   export let topology;
+  export let locale = 'ko';
 
   const icons = {
     clients: Globe2,
@@ -48,7 +49,7 @@
             <strong>{node.title}</strong>
             <span>{node.description}</span>
             {#if node.tags?.length}
-              <div class="topology-node-tags" aria-label={`${node.title} 기술`}>
+              <div class="topology-node-tags" aria-label={`${node.title} ${locale === 'en' ? 'technologies' : '기술'}`}>
                 {#each node.tags as tag}<small>{tag}</small>{/each}
               </div>
             {/if}
@@ -67,7 +68,7 @@
 </div>
 
 {#if topology.legend?.length}
-  <div class="topology-legend" aria-label="토폴로지 핵심 설계 원칙">
+  <div class="topology-legend" aria-label={locale === 'en' ? 'Core topology principles' : '토폴로지 핵심 설계 원칙'}>
     {#each topology.legend as item}
       <div>
         <strong>{item.title}</strong>

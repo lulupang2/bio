@@ -7,9 +7,11 @@
   import ProjectCard from '../components/ProjectCard.svelte';
   import SectionHeading from '../components/SectionHeading.svelte';
   import SiteHeader from '../components/SiteHeader.svelte';
+  import { localizedPath } from '../content/i18n.js';
 
   export let portfolio;
   export let theme = 'light';
+  export let locale = 'ko';
   export let onToggleTheme = () => {};
 
   const scrollToTop = () => {
@@ -39,7 +41,7 @@
 </script>
 
 <div class="page-wrap">
-  <SiteHeader site={portfolio.site} github={portfolio.profile.github} {theme} {onToggleTheme} />
+  <SiteHeader site={portfolio.site} github={portfolio.profile.github} {theme} {locale} {onToggleTheme} />
 
   <div class="content-column">
     <main id="main-content">
@@ -140,7 +142,7 @@
 
       <div class="projects-list">
         {#each portfolio.projects as project}
-          <ProjectCard {project} />
+          <ProjectCard {project} {locale} />
         {/each}
       </div>
       </section>
