@@ -172,6 +172,9 @@
   });
 
   $: locale = localeFromPath(pathname);
+  $: if (typeof document !== 'undefined') {
+    document.documentElement.lang = locale === 'en' ? 'en' : 'ko';
+  }
   $: normalizedPath = normalizePathname(stripLocale(pathname));
   $: selectedProject = findPublishedProjectByPath(normalizedPath, currentPortfolio.projects);
   $: isNotFound = normalizedPath !== '/' && !selectedProject;
@@ -179,7 +182,6 @@
 </script>
 
 <svelte:head>
-  <html lang={locale === 'en' ? 'en' : 'ko'}></html>
   <title>
     {selectedProject
       ? `${selectedProject.title} | ${currentPortfolio.site.title}`
