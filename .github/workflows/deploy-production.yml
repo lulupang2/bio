@@ -33,6 +33,7 @@ jobs:
           node -e 'if (Number(process.versions.node.split(".")[0]) !== 26) process.exit(1)'
 
       - run: npm ci
+      - run: npm test
       - run: npm run build
 
       - name: Configure restricted production SSH key

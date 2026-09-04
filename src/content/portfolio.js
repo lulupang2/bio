@@ -45,13 +45,13 @@ export const portfolio = {
       github: 'GitHub',
     },
     proof: [
-      { value: '11개월', label: '프론트엔드 실무' },
+      { value: '2년', label: '웹·앱 개발' },
       { value: '5개', label: '상용 프로젝트 참여' },
-      { value: '2개', label: 'Full-stack Case Study' },
+      { value: '3개', label: 'Full-stack Case Study' },
     ],
     about: [
       'React, Next.js, React Native를 사용해 쇼핑몰, 전문가 매칭, 예약 플랫폼과 모바일 애플리케이션의 사용자 화면을 구현했습니다. REST API를 기반으로 회원·주문·결제·검색·티켓과 같은 실제 서비스 기능을 연결했습니다.',
-      'TECHZONE에서는 주문이 결제·재고·배송·반품으로 이어지는 커머스 운영 흐름을, QuakeCurrent에서는 지진 피드 수집부터 REST·WebSocket·3D 지도까지 이어지는 데이터 흐름을 구현했습니다. 화면을 만드는 데서 멈추지 않고 서비스 전체의 경계와 실패 복구까지 검증합니다.',
+      'TECHZONE에서는 주문이 결제·재고·배송·반품으로 이어지는 커머스 운영 흐름을, QuakeCurrent에서는 지진 피드 수집부터 REST·WebSocket·3D 지도까지 이어지는 데이터 흐름을, Signal Archive에서는 기술 데이터 수집·중복제거와 근거 기반 RAG 질의 흐름을 구현했습니다. 화면을 만드는 데서 멈추지 않고 서비스 전체의 경계와 신뢰성까지 검증합니다.',
     ],
     principles: [
       {
@@ -886,6 +886,298 @@ export const portfolio = {
         topologyLabel: '03 · SYSTEM TOPOLOGY',
         processLabel: '04 · PROCESS',
         processTitle: '지진 피드에서 복구 가능한 데이터 제품까지',
+        buildLabel: '05 · BUILD',
+        buildTitle: '주요 구현',
+        aiLabel: '06 · AI COLLABORATION',
+        validationLabel: '07 · VALIDATION',
+        validationTitle: '검증과 경계',
+      },
+    },
+    {
+      title: 'Signal Archive',
+      slug: 'signal-archive',
+      published: true,
+      status: 'CASE STUDY · 학습용 아키텍처 PoC',
+      liveUrl: 'https://signal.jisung.lol/',
+      repositoryUrl: 'https://github.com/lulupang2/tech_p',
+      cover: '/signal-archive/overview.webp',
+      coverAlt: 'Signal Archive 기술 인텔리전스 소스 현황 대시보드',
+      coverPosition: 'center',
+      category: '03 · TECH INTELLIGENCE · DATA PIPELINE · RAG',
+      cardBadge: 'PIPELINE & RAG PoC',
+      caseStudyLabel: '제작 과정과 상세 보기',
+      pendingMessage: 'Case Study 공개 준비 중입니다.',
+      summary:
+        '기술 데이터 수집 파이프라인과 RAG 아키텍처를 학습하기 위해 구축한 프로토타입입니다. 수집기·큐·DB·검색 구조를 검증했으나, 현재는 초기 수집 데이터(Corpus)의 모수가 적어 실제 질문 시 답변 제약이 있으며, 동작 한계와 향후 개선 과제를 명확히 정의해 관리하고 있습니다.',
+      problem:
+        '대규모 기술 트렌드 데이터를 안정적으로 다루기 위한 시스템 아키텍처와 RAG 파이프라인 설계를 학습하는 것이 목표였습니다. 외부 데이터를 무비판적으로 수용하거나 AI 모델이 환각으로 임의 답변을 지어내지 않도록, 수집부터 정규화, 중복 제거, FTS·벡터 하이브리드 검색, 인용 검증까지 이어지는 구조를 먼저 검증했습니다. 현재는 초기 프로토타입 단계로 수집된 데이터 모수가 부족해 실제 질의 시 근거 부족(insufficient_evidence)이 발생하지만, 이를 감추지 않고 정직한 제약과 단계별 로드맵으로 관리합니다.',
+      architecture: {
+        title: '수집·처리 파이프라인과 근거 기반 질의 계층을 모노레포로 격리했습니다.',
+        description:
+          'SvelteKit 웹, Node 기반 Elysia API, BullMQ 워커, PostgreSQL + pgvector를 pnpm workspaces와 Turborepo로 구성했습니다. 큐는 작업 전달만 담당하고 데이터 영속 완료 상태는 PostgreSQL에 기록합니다.',
+        ariaLabel: 'Signal Archive 수집, 전달, 저장, RAG 질의 구조',
+        lanes: [
+          {
+            id: 'signal-ingestion',
+            kicker: '01',
+            title: 'Ingestion',
+            description: '공개 소스 수집과 안전한 적재',
+            nodes: [
+              { title: '11 Tech Sources', description: 'GitHub · npm · arXiv · Blogs', tone: 'frontend' },
+              { title: 'Collector Workers', description: 'SSRF guard · Rate limiter', tone: 'service' },
+              { title: 'Raw Ingestion', description: 'Immutable raw item upsert', tone: 'data' },
+            ],
+          },
+          {
+            id: 'signal-processing',
+            kicker: '02',
+            title: 'Processing',
+            description: '정규화와 중복 제거 파이프라인',
+            nodes: [
+              { title: 'Redis · BullMQ', description: '작업 전달 · 멱등 스케줄러', tone: 'realtime' },
+              { title: 'Lexical Dedup', description: 'Exact & Near clustering', tone: 'service' },
+              { title: 'Topic & Chunker', description: 'Taxonomy · Heading-aware', tone: 'service' },
+              { title: 'Embedding Port', description: 'OpenAI-compatible adapter', tone: 'gateway' },
+            ],
+          },
+          {
+            id: 'signal-serving',
+            kicker: '03',
+            title: 'Serving & RAG',
+            description: '하이브리드 검색과 인용 검증',
+            nodes: [
+              { title: 'PostgreSQL · pgvector', description: 'FTS tsvector · Cosine vector', tone: 'data' },
+              { title: 'Elysia API', description: 'Node runtime · TypeBox 계약', tone: 'gateway' },
+              { title: 'SvelteKit Web', description: '질문·인용·출처 현황 UI', tone: 'frontend' },
+            ],
+          },
+        ],
+        notes: [
+          'PostgreSQL을 신뢰 원본으로 두고 Redis + BullMQ는 작업 전달·동시성 제어만 담당합니다.',
+          'TypeBox 단일 계약을 정의해 API, 워커, 웹 전반의 런타임 검증과 TypeScript 타입을 동기화했습니다.',
+          'chat provider 승인과 production corpus gate 전까지 운영 출시는 보류된 상태를 명시했습니다.',
+        ],
+      },
+      topology: {
+        title: '외부 기술 소스에서 근거 기반 질의까지의 토폴로지',
+        description:
+          '공개 기술 데이터 수집, BullMQ 작업 분배, PostgreSQL pgvector 저장, 하이브리드 검색과 인용 조립 UI까지 계층별 역할을 분리했습니다.',
+        ariaLabel: 'Signal Archive 전체 시스템 토폴로지',
+        layers: [
+          {
+            kicker: 'LAYER 01',
+            title: 'External Sources',
+            icon: 'clients',
+            nodes: [
+              { title: 'GitHub Releases & Search', description: 'API v3 · 조건부 ETag 수집' },
+              { title: 'Stack Exchange & npm', description: '질의별 rate limit & backoff 준수' },
+              { title: 'arXiv & Discourse', description: '3초 대기 간격 & 라이선스별 수집' },
+              { title: 'Chrome & React Blogs', description: '공통 RSS/HTTP article 수집기' },
+            ],
+            connection: 'Hardened HTTP · Rate limit · Cursor',
+          },
+          {
+            kicker: 'LAYER 02',
+            title: 'Collection & Dispatch',
+            icon: 'gateway',
+            nodes: [
+              { title: 'Collector Ports', description: 'SSRF 방어 · Host allowlist 검증', tone: 'service' },
+              { title: 'Redis · BullMQ', description: '소스별 동시성 상한 & 분배', tone: 'realtime' },
+              { title: 'Raw Item Upsert', description: 'source + external_id 자연키 적재', tone: 'data' },
+            ],
+            connection: 'Versioned job payload · Redis queue',
+          },
+          {
+            kicker: 'LAYER 03',
+            title: 'Normalization & Pipeline',
+            icon: 'services',
+            nodes: [
+              { title: 'Document Normalizer', description: '결정적 스키마 변환 · Script 제거' },
+              { title: 'Lexical Clustering', description: 'EXP-004 Jaccard 0.80 디둡 클러스터', tone: 'service' },
+              { title: 'Heading Chunker', description: '코드 블록·테이블 보존 & 토큰 산출' },
+            ],
+            connection: 'Immutable document revision & chunk ordinal',
+          },
+          {
+            kicker: 'LAYER 04',
+            title: 'Authoritative Storage',
+            icon: 'data',
+            nodes: [
+              { title: 'PostgreSQL 17', description: '불변 revision · Provenance 보존', tone: 'data' },
+              { title: 'pgvector Extension', description: '1024차원 임베딩 코사인 검색', tone: 'data' },
+              { title: 'Full-Text Search', description: 'tsvector / ts_rank 전문 검색', tone: 'data' },
+            ],
+            connection: 'Drizzle ORM · SQL migration · pgvector',
+          },
+          {
+            kicker: 'LAYER 05',
+            title: 'API & RAG Workflow',
+            icon: 'gateway',
+            nodes: [
+              { title: 'Elysia on Node', description: 'REST API · 알 수 없는 필드 거부', tone: 'gateway' },
+              { title: 'Query & Time Parser', description: '의도 분석 & 기간 경계 강제' },
+              { title: 'Citation Validator', description: '허위 인용 차단 & 라이선스 검증', tone: 'service' },
+            ],
+            connection: 'TypeBox runtime validation · JSON over HTTP',
+          },
+          {
+            kicker: 'LAYER 06',
+            title: 'Web Experience',
+            icon: 'clients',
+            nodes: [
+              { title: 'SvelteKit Dashboard', description: '검증된 소스 현황 & 토픽 탐색', tone: 'frontend' },
+              { title: 'Grounded Q&A', description: '기간 설정 & 클릭 가능한 인용 출처', tone: 'frontend' },
+              { title: 'Coverage & Health', description: '소스 최신성 경고 & 준비 상태', tone: 'frontend' },
+            ],
+            connection: 'Typed API Client · Responsive UI',
+          },
+        ],
+        legend: [
+          {
+            title: '큐와 영속 원본의 분리',
+            description: 'Redis + BullMQ는 큐 전달만 맡고, 처리 완료와 비즈니스 상태는 PostgreSQL이 기록합니다.',
+          },
+          {
+            title: '외부 입력 무신뢰 원칙',
+            description: '외부 수집 데이터와 모델 생성 텍스트를 모두 검증해 임의 생성된 출처를 차단합니다.',
+          },
+          {
+            title: 'TypeBox 단일 출처 계약',
+            description: 'API 요청·응답, 이벤트, 큐 작업 스키마를 단일 정의에서 공유해 drift를 방지합니다.',
+          },
+        ],
+      },
+      ai: {
+        label: 'AI ORCHESTRATION & AGENTS',
+        title: '결정적 워크플로우와 Agent 기반 파이프라인 설계',
+        tools: ['LangGraph.js', 'Vitest', 'Playwright'],
+        summary:
+          '자연어 질문 해석과 근거 검색·답변 생성에 LangGraph.js 기반의 결정적 워크플로우를 적용하고, 구현 및 검증 과정에서 Agent 기반 태스크 분해와 엄격한 검토 게이트를 거쳤습니다.',
+        responsibility:
+          '기술 학습과 아키텍처 검증이 주 목적인 프로토타입이므로, 임의 생성된 그럴듯한 답변(Hallucination)보다 시스템의 안전성과 정직한 근거 제시를 우선했습니다. 현재 근거 데이터가 부족한 상태에서는 기간을 임의로 늘려 왜곡하지 않고 근거 부족(insufficient_evidence)으로 명확히 응답하도록 규칙을 강제했습니다.',
+        uses: [
+          {
+            title: 'Intent & Range Parse',
+            description: '질문의 의도(비교, 트렌드, 최신 요약)와 조회 기간을 구조화된 JSON으로 추출합니다.',
+          },
+          {
+            title: 'Evidence Assembly',
+            description: '검색된 revision/chunk의 출처와 라이선스를 대조하고 근거가 부족하면 조용히 기간을 늘리지 않고 거부합니다.',
+          },
+          {
+            title: 'Citation Validation',
+            description: '모델이 생성한 인용 번호와 실제 검색 청크를 1:1 교차 검증해 미등록 인용을 차단합니다.',
+          },
+        ],
+      },
+      process: [
+        {
+          step: '01',
+          title: '기술 소스 타당성과 권리 정책 수립',
+          description:
+            '11개 공개 소스(GitHub, npm, arXiv 등)의 수집 가능성과 rate limit, 라이선스 귀속 규칙을 검토하고 격리했습니다.',
+          outputs: ['Source Matrix', 'SSRF Guard', 'Rate Limit', 'ADR'],
+        },
+        {
+          step: '02',
+          title: '모노레포 및 계약 기반 파이프라인 구축',
+          description:
+            'pnpm workspaces와 Turborepo 기반으로 apps와 packages를 분리하고 TypeBox 단일 계약을 공유했습니다.',
+          outputs: ['Turborepo', 'TypeBox Contracts', 'BullMQ', 'Neon Postgres'],
+        },
+        {
+          step: '03',
+          title: '결정적 정규화와 중복 클러스터링',
+          description:
+            '외부 원본을 불변 raw item으로 저장하고 어휘 핑거프린트 기반 exact/near dedup 및 heading-aware 청킹을 구현했습니다.',
+          outputs: ['Raw Ingestion', 'Lexical Dedup', 'Heading Chunker', 'Topic Classifier'],
+        },
+        {
+          step: '04',
+          title: '하이브리드 검색과 인용 검증 구조',
+          description:
+            'PostgreSQL tsvector FTS와 exact cosine vector 검색을 결합하고, 불변 revision 기반 인용 출처 추적을 구성했습니다.',
+          outputs: ['Hybrid Retrieval', 'Citation Provenance', 'Fake Harness', 'Elysia API'],
+        },
+        {
+          step: '05',
+          title: '웹 대시보드와 엔드투엔드 검증',
+          description:
+            'SvelteKit으로 소스 현황, 토픽 카탈로그, 근거 기반 질의응답 UI를 만들고 Playwright E2E 및 Docker Compose 스택을 구축했습니다.',
+          outputs: ['SvelteKit UI', 'Playwright E2E', 'Docker Stack', 'Runbook'],
+        },
+      ],
+      stack: [
+        'TypeScript',
+        'SvelteKit',
+        'Node.js',
+        'Elysia',
+        'PostgreSQL · pgvector',
+        'Drizzle ORM',
+        'Redis · BullMQ',
+        'Turborepo',
+        'Docker',
+        'Playwright',
+      ],
+      highlights: [
+        '[구현 완료] GitHub, npm, arXiv, Stack Exchange 등 11개 기술 소스 수집기 및 SSRF 방어 구현',
+        '[구현 완료] PostgreSQL을 신뢰 원본으로 두고 Redis + BullMQ를 작업 전달·예약·동시성 제어 계층으로 분리',
+        '[구현 완료] TypeBox 단일 계약으로 Elysia API, BullMQ Worker, SvelteKit Web 간 타입과 런타임 검증 동기화',
+        '[구현 완료] 정규화, 어휘 핑거프린트 기반 중복 클러스터링, heading-aware 청킹 및 결정적 토픽 분류 구축',
+        '[구현 완료] 기간 필터 우선의 PostgreSQL FTS + exact cosine vector 하이브리드 검색 및 인용 검증 설계',
+        '[보안 적용] CORS, rate limiting, 프롬프트 인젝션 방어, 비공개 네트워크 접근 차단 등 보안 hardening 적용',
+        '[배포 구성] Docker Compose, GHCR 이미지, SSH 기반 롤백 지원 프로덕션 배포 파이프라인 구성',
+      ],
+      validation: [
+        '[검증 통과] API 단위/계약 테스트 51개, 수집기 테스트 152개, 웹 단위 테스트 33개 및 Playwright E2E 통과',
+        '[작동 한계] 초기 수집 데이터(Corpus) 모수 부족으로 실제 질의 시 근거 부족(insufficient_evidence) 빈번 발생',
+        '[작동 한계] 유료 상용 Chat Provider 미승인 상태로 프로덕션 레벨의 유려한 문장 생성 및 골든셋 게이트 보류',
+        '[작동 한계] 라이선스 귀속 템플릿 검증 미완료로 본문 상세 발췌(Excerpt) 노출은 보류하고 메타데이터 위주 인용',
+        '[향후 과제] 지속적 스케줄링을 통한 수집 데이터 축적 및 프로덕션 코퍼스 볼륨 확대',
+        '[향후 과제] 승인된 Chat Provider 도입 및 RAG 골든셋 기반 응답 생성 품질 릴리스 게이트 통과',
+        '[향후 과제] 원문 라이선스 귀속 표기 확정 및 본문 발췌 표시 정식 활성화',
+      ],
+      screenshots: [
+        {
+          src: '/signal-archive/overview.webp',
+          alt: 'Signal Archive 기술 인텔리전스 소스 현황 대시보드',
+          caption: '대시보드 · 검증된 데이터 소스 현황과 최신성 추적',
+          width: 1024,
+          height: 640,
+        },
+        {
+          src: '/signal-archive/qa-panel.webp',
+          alt: 'Signal Archive 근거 기반 AI 질의응답 패널',
+          caption: '질의응답 · 기간 필터와 인용 출처 기반 기술 트렌드 분석',
+          width: 1024,
+          height: 640,
+        },
+        {
+          src: '/signal-archive/topics.webp',
+          alt: 'Signal Archive 기술 토픽 카탈로그 화면',
+          caption: '토픽 카탈로그 · 표준화된 기술 분류와 연결된 근거 탐색',
+          width: 1024,
+          height: 640,
+        },
+        {
+          src: '/signal-archive/status.webp',
+          alt: 'Signal Archive 파이프라인 시스템 상태 화면',
+          caption: '시스템 상태 · API와 데이터 처리 계층의 실시간 헬스체크',
+          width: 1024,
+          height: 640,
+        },
+      ],
+      detail: {
+        backLabel: 'Portfolio',
+        repositoryLabel: 'GitHub',
+        liveLabel: 'Live Demo',
+        eyebrow: 'TECH INTELLIGENCE & DATA PIPELINE',
+        problemLabel: '01 · PROBLEM',
+        problemTitle: '문제 정의',
+        architectureLabel: '02 · ARCHITECTURE',
+        topologyLabel: '03 · SYSTEM TOPOLOGY',
+        processLabel: '04 · PROCESS',
+        processTitle: '기술 데이터 수집에서 근거 기반 질의까지',
         buildLabel: '05 · BUILD',
         buildTitle: '주요 구현',
         aiLabel: '06 · AI COLLABORATION',

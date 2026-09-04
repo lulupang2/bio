@@ -1,0 +1,16 @@
+{
+  "name": "개발자 포트폴리오",
+  "short_name": "Portfolio",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fdfdfd",
+  "theme_color": "#fdfdfd",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

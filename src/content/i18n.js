@@ -140,7 +140,7 @@ const translateDeep = (value) => {
 
 const englishProjects = (projects) => projects.map((project, index) => {
   const translated = translateDeep(project);
-  if (index === 0) {
+  if (project.slug === 'techzone' || index === 0) {
     Object.assign(translated, {
       status: 'CASE STUDY · LIVE',
       coverAlt: 'TECHZONE storefront home screen',
@@ -173,7 +173,7 @@ const englishProjects = (projects) => projects.map((project, index) => {
       ],
       detail: { ...translated.detail, backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'FEATURED CASE STUDY', problemLabel: '01 · PROBLEM', problemTitle: 'Problem definition', architectureLabel: '02 · ARCHITECTURE', topologyLabel: '03 · SYSTEM TOPOLOGY', processLabel: '04 · PROCESS', processTitle: 'From idea to an operable commerce platform', buildLabel: '05 · BUILD', buildTitle: 'Key implementation', aiLabel: '06 · AI COLLABORATION', validationLabel: '07 · VALIDATION', validationTitle: 'Validation and boundaries' },
     });
-  } else {
+  } else if (project.slug === 'quakecurrent' || index === 1) {
     Object.assign(translated, {
       status: 'CASE STUDY · LIVE',
       coverAlt: 'QuakeCurrent earthquake data project brief',
@@ -205,6 +205,44 @@ const englishProjects = (projects) => projects.map((project, index) => {
       ],
       detail: { ...translated.detail, backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'FULL-STACK DATA CASE STUDY', problemLabel: '01 · PROBLEM', problemTitle: 'Problem definition', architectureLabel: '02 · ARCHITECTURE', topologyLabel: '03 · SYSTEM TOPOLOGY', processLabel: '04 · PROCESS', processTitle: 'From an earthquake feed to a recoverable data product', buildLabel: '05 · BUILD', buildTitle: 'Key implementation', aiLabel: '06 · AI COLLABORATION', validationLabel: '07 · VALIDATION', validationTitle: 'Validation and boundaries' },
     });
+  } else if (project.slug === 'signal-archive' || index === 2) {
+    Object.assign(translated, {
+      status: 'CASE STUDY · LEARNING ARCHITECTURE PoC',
+      coverAlt: 'Signal Archive technology intelligence source status dashboard',
+      category: '03 · TECH INTELLIGENCE · DATA PIPELINE · RAG',
+      cardBadge: 'PIPELINE & RAG PoC',
+      caseStudyLabel: 'View case study',
+      pendingMessage: 'Case study coming soon.',
+      summary:
+        'A learning prototype designed to explore technical data pipelines and RAG architecture. While collector, queue, DB, and retrieval structures are verified, the early corpus size is currently sparse—causing evidence constraints during queries—with limitations and roadmap explicitly tracked.',
+      problem:
+        'The objective was to study system architecture and RAG pipeline design for reliably handling large-scale technology trend data. Rather than uncritically ingesting external data or letting AI models hallucinate plausible answers, the entire flow—ingestion, normalization, deduplication, FTS/vector hybrid retrieval, and citation verification—was validated first. In this initial prototype, sparse corpus volume frequently results in insufficient_evidence responses, which are transparently managed through explicit operational constraints and a staged roadmap.',
+      screenshots: [
+        { src: '/signal-archive/overview.webp', alt: 'Signal Archive technology intelligence source status dashboard', caption: 'Dashboard · Verified data source status and freshness tracking', width: 1024, height: 640 },
+        { src: '/signal-archive/qa-panel.webp', alt: 'Signal Archive evidence-grounded AI question-answering panel', caption: 'Q&A · Trend analysis grounded in time filters and citation provenance', width: 1024, height: 640 },
+        { src: '/signal-archive/topics.webp', alt: 'Signal Archive canonical technology topic catalog screen', caption: 'Topic Catalog · Exploring canonical taxonomies and linked evidence', width: 1024, height: 640 },
+        { src: '/signal-archive/status.webp', alt: 'Signal Archive pipeline system health screen', caption: 'System Health · Realtime readiness of API and data-processing layers', width: 1024, height: 640 },
+      ],
+      highlights: [
+        '[Implemented] Collector adapters and SSRF defenses across 11 technical sources including GitHub Releases, npm, arXiv, and Stack Exchange',
+        '[Implemented] PostgreSQL authoritative store separated from Redis + BullMQ for job delivery, scheduling, and concurrency caps',
+        '[Implemented] TypeBox single-source contracts synchronizing Elysia API, BullMQ Worker, and SvelteKit Web runtime validation and TypeScript types',
+        '[Implemented] Data pipeline featuring lexical fingerprint deduplication, heading-aware chunking, and deterministic topic classification',
+        '[Implemented] Time-filtered PostgreSQL FTS + exact cosine vector hybrid retrieval with provenance citation validation',
+        '[Security] Hardened with CORS, rate limits, prompt-injection defense, and private network egress protection',
+        '[DevOps] Docker Compose, GHCR images, and SSH rollback deployment pipeline',
+      ],
+      validation: [
+        '[Passed] 51 API unit/contract, 152 collector, 33 web unit tests, and 4 Playwright Chromium E2E tests',
+        '[Boundary] Sparse initial corpus leads to frequent insufficient_evidence responses on arbitrary queries',
+        '[Boundary] Commercial chat provider unapproved; production-grade generative synthesis and golden set gates deferred',
+        '[Boundary] License attribution templates unfinalized; full excerpts deferred in favor of metadata-only citations',
+        '[Roadmap] Accumulate continuous ingestion data to scale the production corpus volume',
+        '[Roadmap] Integrate approved chat provider and pass RAG golden-set response quality release gates',
+        '[Roadmap] Finalize upstream license attribution templates to officially enable full-text excerpt rendering',
+      ],
+      detail: { ...translated.detail, backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'TECH INTELLIGENCE & DATA PIPELINE', problemLabel: '01 · PROBLEM', problemTitle: 'Problem definition', architectureLabel: '02 · ARCHITECTURE', topologyLabel: '03 · SYSTEM TOPOLOGY', processLabel: '04 · PROCESS', processTitle: 'From technical data ingestion to grounded intelligence', buildLabel: '05 · BUILD', buildTitle: 'Key implementation', aiLabel: '06 · AI COLLABORATION', validationLabel: '07 · VALIDATION', validationTitle: 'Validation and boundaries' },
+    });
   }
   return translated;
 });
@@ -230,10 +268,10 @@ export const getPortfolio = (locale = 'ko') => {
     ...english.profile,
     position: 'A frontend developer expanding into full-stack',
     positionLines: ['A frontend developer', 'expanding into full-stack'],
-    intro: 'I build web and mobile interfaces with React, Next.js, and React Native. Through TECHZONE commerce operations and the QuakeCurrent realtime data pipeline, I have expanded into backend and data systems.',
+    intro: 'I build web and mobile interfaces with React, Next.js, and React Native. Through TECHZONE commerce operations, QuakeCurrent realtime data, and the Signal Archive tech intelligence pipeline, I have expanded into backend and data systems.',
     actions: { project: 'View projects', github: 'GitHub' },
-    proof: [{ value: '11 mo.', label: 'Frontend practice' }, { value: '5', label: 'Production projects' }, { value: '2', label: 'Full-stack case studies' }],
-    about: ['I have built interfaces for commerce, expert matching, reservations, and mobile applications with React, Next.js, and React Native. I connect real service capabilities such as accounts, orders, payments, search, and tickets through REST APIs.', 'In TECHZONE, I connected orders to payment, inventory, fulfillment, delivery, and returns. In QuakeCurrent, I connected ingestion to REST, WebSocket, and 2D/3D mapping. I care about service boundaries and recovery, not just the surface.'],
+    proof: [{ value: '2 yrs', label: 'Web · app development' }, { value: '5', label: 'Production projects' }, { value: '3', label: 'Full-stack case studies' }],
+    about: ['I have built interfaces for commerce, expert matching, reservations, and mobile applications with React, Next.js, and React Native. I connect real service capabilities such as accounts, orders, payments, search, and tickets through REST APIs.', 'In TECHZONE, I connected orders to payment, inventory, fulfillment, delivery, and returns. In QuakeCurrent, I connected ingestion to REST, WebSocket, and 2D/3D mapping. In Signal Archive, I built a data pipeline with lexical deduplication and evidence-grounded RAG query flow. I care about service boundaries, reliability, and recovery, not just the surface.'],
     principles: [{ title: 'Start with the user flow', description: 'Define what users need to see and do before choosing the technology.' }, { title: 'Make boundaries explicit', description: 'Separate UI state, server state, and data ownership so the system can evolve safely.' }, { title: 'Leave verifiable evidence', description: 'Use builds, tests, performance checks, and recovery scenarios to support implementation decisions.' }],
   };
   english.sections = {
