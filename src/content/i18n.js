@@ -1,4 +1,5 @@
 import { portfolio as koreanPortfolio } from './portfolio.js';
+import { erpEn } from './erp.js';
 
 const clone = (value) => structuredClone(value);
 
@@ -139,6 +140,7 @@ const translateDeep = (value) => {
 };
 
 const englishProjects = (projects) => projects.map((project, index) => {
+  if (project.slug === 'assembly-erp') return clone(erpEn);
   const translated = translateDeep(project);
   if (project.slug === 'techzone' || index === 0) {
     Object.assign(translated, {
@@ -270,7 +272,7 @@ export const getPortfolio = (locale = 'ko') => {
     positionLines: ['A frontend developer', 'expanding into full-stack'],
     intro: 'I build web and mobile interfaces with React, Next.js, and React Native. Through TECHZONE commerce operations, QuakeCurrent realtime data, and the Signal Archive tech intelligence pipeline, I have expanded into backend and data systems.',
     actions: { project: 'View projects', github: 'GitHub' },
-    proof: [{ value: '2 yrs', label: 'Web · app development' }, { value: '5', label: 'Production projects' }, { value: '3', label: 'Full-stack case studies' }],
+    proof: [{ value: '2 yrs', label: 'Web · app development' }, { value: '5', label: 'Production projects' }, { value: '4', label: 'Full-stack case studies' }],
     about: ['I have built interfaces for commerce, expert matching, reservations, and mobile applications with React, Next.js, and React Native. I connect real service capabilities such as accounts, orders, payments, search, and tickets through REST APIs.', 'In TECHZONE, I connected orders to payment, inventory, fulfillment, delivery, and returns. In QuakeCurrent, I connected ingestion to REST, WebSocket, and 2D/3D mapping. In Signal Archive, I built a data pipeline with lexical deduplication and evidence-grounded RAG query flow. I care about service boundaries, reliability, and recovery, not just the surface.'],
     principles: [{ title: 'Start with the user flow', description: 'Define what users need to see and do before choosing the technology.' }, { title: 'Make boundaries explicit', description: 'Separate UI state, server state, and data ownership so the system can evolve safely.' }, { title: 'Leave verifiable evidence', description: 'Use builds, tests, performance checks, and recovery scenarios to support implementation decisions.' }],
   };

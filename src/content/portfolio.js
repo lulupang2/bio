@@ -1,4 +1,6 @@
 // Single source of truth for all editable portfolio content.
+import { erpKo } from './erp.js';
+
 export const portfolio = {
   site: {
     url: 'https://bio.jisung.lol',
@@ -47,7 +49,7 @@ export const portfolio = {
     proof: [
       { value: '2년', label: '웹·앱 개발' },
       { value: '5개', label: '상용 프로젝트 참여' },
-      { value: '3개', label: 'Full-stack Case Study' },
+      { value: '4개', label: 'Full-stack Case Study' },
     ],
     about: [
       'React, Next.js, React Native를 사용해 쇼핑몰, 전문가 매칭, 예약 플랫폼과 모바일 애플리케이션의 사용자 화면을 구현했습니다. REST API를 기반으로 회원·주문·결제·검색·티켓과 같은 실제 서비스 기능을 연결했습니다.',
@@ -1185,6 +1187,7 @@ export const portfolio = {
         validationTitle: '검증과 경계',
       },
     },
+    erpKo,
   ],
   notFound: {
     code: '404',

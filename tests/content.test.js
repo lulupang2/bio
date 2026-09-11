@@ -74,6 +74,16 @@ describe('site paths', () => {
 });
 
 describe('English locale', () => {
+  it('publishes the ERP case study and live link in both languages', () => {
+    for (const locale of ['ko', 'en']) {
+      const project = getPortfolio(locale).projects.find((entry) => entry.slug === 'assembly-erp');
+      expect(project.published).toBe(true);
+      expect(project.liveUrl).toBe('https://erp.jisung.lol/');
+      expect(project.repositoryUrl).toBe('https://github.com/lulupang2/erp_l');
+      expect(project.process.map((phase) => phase.title)).toEqual(['Prototype', 'Plan', 'Autopilot', 'Review']);
+    }
+    expect(JSON.stringify(getPortfolio('en').projects.at(-1))).not.toMatch(/[가-힣]/);
+  });
   it('resolves the English home and project paths', () => {
     const english = getPortfolio('en');
     expect(localeFromPath('/en')).toBe('en');
