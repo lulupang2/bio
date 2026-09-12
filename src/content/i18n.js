@@ -56,7 +56,7 @@ const phraseMap = new Map([
   ['실시간 복구와 계약 자동화', 'Realtime recovery and contract automation'],
   ['재현 가능한 검증 환경', 'Reproducible verification environment'],
   ['포트폴리오 증거 정리', 'Portfolio evidence and documentation'],
-  ['아이디어에서 운영 가능한 커머스까지', 'From idea to an operable commerce platform'],
+  ['쇼핑몰을 만들며 익힌 화면과 서버의 연결', 'Learning to connect a storefront and its backend'],
   ['지진 피드에서 복구 가능한 데이터 제품까지', 'From an earthquake feed to a recoverable data product'],
   ['Variant 예약 · 원장', 'Variant reservation · ledger'],
   ['멱등성 · 재시도', 'Idempotency · retries'],
@@ -109,7 +109,7 @@ const phraseMap = new Map([
   ['상품 Variant·SKU, 다중 창고, 재고 원장, 주문·결제, 출고·배송·반품, 공급사·발주와 관리자 조회 모델을 구현했습니다.', 'Implemented product variants/SKUs, multi-warehouse inventory ledgers, order/payment, fulfillment/delivery/returns, procurement, and admin query models.'],
   ['신뢰성과 보안 강화', 'Strengthening reliability and security'],
   ['재고 선점 경쟁과 예약 만료를 보완하고 Outbox·Inbox, 멱등성, 재시도·DLQ, RBAC, JWT/JWKS와 CSRF를 적용했습니다.', 'Handled inventory reservation races and expiry, then applied Outbox/Inbox, idempotency, retries/DLQ, RBAC, JWT/JWKS, and CSRF.'],
-  ['성능과 운영 검증', 'Performance and operations validation'],
+  ['테스트와 장애 복구 확인', 'Testing behavior and failure recovery'],
   ['React Query·Zustand 상태 경계를 정리하고 Redis 캐시, BullMQ, 구조화 로그와 관측성을 더한 뒤 통합·E2E·장애 복구를 검증했습니다.', 'Clarified React Query/Zustand state boundaries, added Redis cache, BullMQ, structured logs, and observability, then verified integration, E2E, and recovery.'],
   ['지진 수직 슬라이스 검증', 'Validating the earthquake vertical slice'],
   ['USGS 최근 지진 피드를 Celery로 수집하고 PostGIS에 멱등 저장한 뒤 FastAPI REST·WebSocket과 MapLibre/deck.gl 지도까지 연결했습니다.', 'Collected the latest USGS earthquake feed with Celery, stored it idempotently in PostGIS, and connected FastAPI REST/WebSocket to a MapLibre/deck.gl map.'],
@@ -144,25 +144,25 @@ const englishProjects = (projects) => projects.map((project, index) => {
   const translated = translateDeep(project);
   if (project.slug === 'techzone' || index === 0) {
     Object.assign(translated, {
-      status: 'CASE STUDY · LIVE',
+      status: 'PERSONAL LEARNING PROJECT',
       coverAlt: 'TECHZONE storefront home screen',
       gallery: {
         ...translated.gallery,
-        tagline: 'Commerce, from checkout to returns',
-        summary: 'Connected the storefront to order, inventory, and fulfillment operations, including event processing and recovery across service boundaries.',
+        tagline: 'From product discovery to orders and returns',
+        summary: 'Built product browsing, checkout, inventory, and fulfillment features to practice data flow and failure recovery across services.',
         alt: 'TECHZONE storefront product discovery screen',
-        caption: 'Storefront · Product discovery',
+        caption: 'Storefront demo · Product discovery',
       },
       category: '01 · COMMERCE · OMS/WMS · MSA',
       cardBadge: 'SCALABLE ARCHITECTURE',
       caseStudyLabel: 'View case study',
       pendingMessage: 'Case study coming soon.',
-      summary: 'Built and validated a commerce system where storefront and admin operations connect orders, payments, inventory, fulfillment, delivery, and returns across an event-driven MSA.',
-      problem: 'The goal was more than a storefront: product options, orders, payments, inventory reservations, fulfillment, delivery, returns, and operational metrics had to remain consistent across service boundaries.',
+      summary: 'A personal project for learning how to build a commerce system. I connected product browsing, orders, payments, inventory, fulfillment, and returns, then tested event handling and failure recovery between services.',
+      problem: 'An order changes payment, inventory, and fulfillment data across several services. I built this flow to learn service boundaries, duplicate-request handling, and recovery after failures.',
       screenshots: [
-        { src: '/techzone/storefront-home.png', alt: 'TECHZONE storefront home screen', caption: 'Storefront · CMS-based product discovery', width: 1440, height: 1100 },
-        { src: '/techzone/storefront-product-detail.png', alt: 'TECHZONE product detail screen', caption: 'Product detail · Variant and conversion information', width: 1440, height: 1100 },
-        { src: '/techzone/admin-dashboard.png', alt: 'TECHZONE admin dashboard', caption: 'Admin CMS · OMS/WMS operating metrics', width: 1440, height: 1100 },
+        { src: '/techzone/storefront-home.png', alt: 'TECHZONE storefront home screen', caption: 'Storefront demo · CMS-based product discovery', width: 1440, height: 1100 },
+        { src: '/techzone/storefront-product-detail.png', alt: 'TECHZONE product detail screen', caption: 'Product detail demo · Options and purchase information', width: 1440, height: 1100 },
+        { src: '/techzone/admin-dashboard.png', alt: 'TECHZONE admin dashboard', caption: 'Admin demo · Order and inventory metrics', width: 1440, height: 1100 },
       ],
       highlights: [
         'Built storefront and admin OMS/WMS as independent Next.js applications',
@@ -180,16 +180,16 @@ const englishProjects = (projects) => projects.map((project, index) => {
         'Playwright E2E, accessibility, Lighthouse performance, and SEO gates',
         'OpenTelemetry, Prometheus, Tempo, Loki, and Grafana observability stack',
       ],
-      detail: { ...translated.detail, backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'FEATURED CASE STUDY', problemLabel: '01 · PROBLEM', problemTitle: 'Problem definition', architectureLabel: '02 · ARCHITECTURE', topologyLabel: '03 · SYSTEM TOPOLOGY', processLabel: '04 · PROCESS', processTitle: 'From idea to an operable commerce platform', buildLabel: '05 · BUILD', buildTitle: 'Key implementation', aiLabel: '06 · AI COLLABORATION', validationLabel: '07 · VALIDATION', validationTitle: 'Validation and boundaries' },
+      detail: { ...translated.detail, backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'PERSONAL PROJECT · COMMERCE', problemLabel: '01 · PROBLEM', problemTitle: 'Problem definition', architectureLabel: '02 · ARCHITECTURE', topologyLabel: '03 · SYSTEM TOPOLOGY', processLabel: '04 · PROCESS', processTitle: 'Learning to connect a storefront and its backend', buildLabel: '05 · BUILD', buildTitle: 'Key implementation', aiLabel: '06 · AI COLLABORATION', validationLabel: '07 · VALIDATION', validationTitle: 'Tests and observations' },
     });
   } else if (project.slug === 'quakecurrent' || index === 1) {
     Object.assign(translated, {
-      status: 'CASE STUDY · LIVE',
+      status: 'PERSONAL LEARNING PROJECT',
       coverAlt: 'QuakeCurrent earthquake data project brief',
       gallery: {
         ...translated.gallery,
-        tagline: 'A live map of earthquake signals',
-        summary: 'Connected earthquake ingestion to a 3D map. This data prototype catches up on missed changes when its realtime connection drops.',
+        tagline: 'Earthquake feeds and realtime mapping',
+        summary: 'Collected public earthquake data and displayed it on a map to learn how APIs, realtime updates, and reconnect recovery work together.',
         alt: 'QuakeCurrent concept artwork showing a globe and earthquake signals',
         caption: 'Earthquake observation · Project concept artwork',
       },
@@ -197,8 +197,8 @@ const englishProjects = (projects) => projects.map((project, index) => {
       cardBadge: 'RECOVERABLE DATA FLOW',
       caseStudyLabel: 'View case study',
       pendingMessage: 'Case study coming soon.',
-      summary: 'A full-stack data prototype that collects and normalizes USGS earthquake feeds every 60 seconds, then connects REST snapshots and recoverable WebSocket signals to a 2D/3D map.',
-      problem: 'The hard part was not drawing earthquakes on a map. Duplicate ingestion, missed updates during reconnects, and contract drift between the Python API and TypeScript UI could break the experience first.',
+      summary: 'A personal project for learning realtime data processing. I collected and normalized USGS earthquake feeds every 60 seconds, connected them to a 2D/3D map through REST and WebSocket, and implemented recovery for missed updates.',
+      problem: 'Repeated data and dropped connections can leave a map out of sync. I practiced duplicate prevention, reconnect recovery, and shared data contracts between a Python API and a TypeScript interface.',
       screenshots: [
         { src: '/quakecurrent/project-cover.webp', alt: 'QuakeCurrent project brief and globe visual', caption: 'Project brief · Problem and data product scope', width: 1731, height: 909 },
         { src: '/quakecurrent/workflow.webp', alt: 'QuakeCurrent development workflow visual', caption: 'Workflow · Prototype → Plan → Autopilot → Review', width: 1731, height: 909 },
@@ -219,16 +219,16 @@ const englishProjects = (projects) => projects.map((project, index) => {
         'Two FastAPI → OpenAPI → TypeScript contract drift gates passed',
         'Repeated fixture ingestion produced zero new events and zero change signals',
       ],
-      detail: { ...translated.detail, backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'FULL-STACK DATA CASE STUDY', problemLabel: '01 · PROBLEM', problemTitle: 'Problem definition', architectureLabel: '02 · ARCHITECTURE', topologyLabel: '03 · SYSTEM TOPOLOGY', processLabel: '04 · PROCESS', processTitle: 'From an earthquake feed to a recoverable data product', buildLabel: '05 · BUILD', buildTitle: 'Key implementation', aiLabel: '06 · AI COLLABORATION', validationLabel: '07 · VALIDATION', validationTitle: 'Validation and boundaries' },
+      detail: { ...translated.detail, backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'PERSONAL PROJECT · REALTIME DATA', problemLabel: '01 · PROBLEM', problemTitle: 'Problem definition', architectureLabel: '02 · ARCHITECTURE', topologyLabel: '03 · SYSTEM TOPOLOGY', processLabel: '04 · PROCESS', processTitle: 'Learning data collection, updates, and recovery', buildLabel: '05 · BUILD', buildTitle: 'Key implementation', aiLabel: '06 · AI COLLABORATION', validationLabel: '07 · VALIDATION', validationTitle: 'Validation and boundaries' },
     });
   } else if (project.slug === 'signal-archive' || index === 2) {
     Object.assign(translated, {
-      status: 'CASE STUDY · LEARNING ARCHITECTURE PoC',
+      status: 'PERSONAL LEARNING PROJECT',
       coverAlt: 'Signal Archive technology intelligence source status dashboard',
       gallery: {
         ...translated.gallery,
-        tagline: 'Explore technical data, trace the sources',
-        summary: 'A learning prototype for collection, retrieval, and source-grounded Q&A. Its early data coverage and answer limitations are documented openly.',
+        tagline: 'Technical search with source-grounded answers',
+        summary: 'Learned RAG by connecting collection, retrieval, and citation checks. The small initial dataset currently limits the answers it can provide.',
         alt: 'Signal Archive example answer with linked citations',
         caption: 'Q&A example · Answers and source citations',
       },
@@ -237,9 +237,9 @@ const englishProjects = (projects) => projects.map((project, index) => {
       caseStudyLabel: 'View case study',
       pendingMessage: 'Case study coming soon.',
       summary:
-        'A learning prototype designed to explore technical data pipelines and RAG architecture. While collector, queue, DB, and retrieval structures are verified, the early corpus size is currently sparse—causing evidence constraints during queries—with limitations and roadmap explicitly tracked.',
+        'A personal learning prototype for technical search and source-grounded Q&A. I implemented collection, retrieval, and citation checks. The initial dataset is small, so answers remain limited; the case study documents the implementation and remaining work.',
       problem:
-        'The objective was to study system architecture and RAG pipeline design for reliably handling large-scale technology trend data. Rather than uncritically ingesting external data or letting AI models hallucinate plausible answers, the entire flow—ingestion, normalization, deduplication, FTS/vector hybrid retrieval, and citation verification—was validated first. In this initial prototype, sparse corpus volume frequently results in insufficient_evidence responses, which are transparently managed through explicit operational constraints and a staged roadmap.',
+        'I wanted to search material from several sources and trace each answer back to its evidence. I connected collection, deduplication, retrieval, and citation checks to learn the basic RAG workflow. When evidence is insufficient, the system reports that limit without silently expanding the requested scope.',
       screenshots: [
         { src: '/signal-archive/overview.webp', alt: 'Signal Archive technology intelligence source status dashboard', caption: 'Dashboard · Verified data source status and freshness tracking', width: 1024, height: 640 },
         { src: '/signal-archive/qa-panel.webp', alt: 'Signal Archive evidence-grounded AI question-answering panel', caption: 'Q&A · Trend analysis grounded in time filters and citation provenance', width: 1024, height: 640 },
@@ -264,7 +264,7 @@ const englishProjects = (projects) => projects.map((project, index) => {
         '[Roadmap] Integrate approved chat provider and pass RAG golden-set response quality release gates',
         '[Roadmap] Finalize upstream license attribution templates to officially enable full-text excerpt rendering',
       ],
-      detail: { ...translated.detail, backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'TECH INTELLIGENCE & DATA PIPELINE', problemLabel: '01 · PROBLEM', problemTitle: 'Problem definition', architectureLabel: '02 · ARCHITECTURE', topologyLabel: '03 · SYSTEM TOPOLOGY', processLabel: '04 · PROCESS', processTitle: 'From technical data ingestion to grounded intelligence', buildLabel: '05 · BUILD', buildTitle: 'Key implementation', aiLabel: '06 · AI COLLABORATION', validationLabel: '07 · VALIDATION', validationTitle: 'Validation and boundaries' },
+      detail: { ...translated.detail, backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'PERSONAL PROJECT · SEARCH & RAG', problemLabel: '01 · PROBLEM', problemTitle: 'Problem definition', architectureLabel: '02 · ARCHITECTURE', topologyLabel: '03 · SYSTEM TOPOLOGY', processLabel: '04 · PROCESS', processTitle: 'Learning collection, search, and citation checks', buildLabel: '05 · BUILD', buildTitle: 'Key implementation', aiLabel: '06 · AI COLLABORATION', validationLabel: '07 · VALIDATION', validationTitle: 'Validation and boundaries' },
     });
   }
   return translated;
@@ -276,43 +276,43 @@ export const getPortfolio = (locale = 'ko') => {
   english.site = {
     ...english.site,
     title: 'Developer Portfolio',
-    description: 'A developer portfolio focused on building interfaces and designing the flow of complete services with React and Next.js.',
-    socialDescription: 'Designing polished interfaces and the systems that make them work.',
+    description: 'Web and mobile development experience with React, Next.js, and React Native, alongside personal projects for learning backend and data systems.',
+    socialDescription: 'Web and mobile experience, personal projects, and notes on what I learned building them.',
     socialTech: 'React · Next.js · NestJS · FastAPI',
     locale: 'en_US',
     navigation: [
       { label: 'INTRODUCTION', href: '#top' }, { label: 'ABOUT', href: '#about' }, { label: 'TOOLKIT', href: '#skills' },
-      { label: 'EXPERIENCE', href: '#experience' }, { label: 'PROJECTS', href: '#projects' }, { label: 'EDUCATION', href: '#education' }, { label: 'CONTACT', href: '#contact' },
+      { label: 'WORK EXPERIENCE', href: '#experience' }, { label: 'PERSONAL PROJECTS', href: '#projects' }, { label: 'EDUCATION', href: '#education' }, { label: 'GITHUB', href: '#contact' },
     ],
     labels: { skipLink: 'Skip to content', navigation: 'Primary navigation', githubAria: 'Open GitHub in a new tab', lightTheme: 'Switch to light theme', darkTheme: 'Switch to dark theme', proof: 'Experience summary', backToTop: 'Back to top', notFoundPageTitle: 'Page not found' },
-    footer: 'DESIGNED & BUILT AS A FULL-STACK PORTFOLIO / © 2026',
+    footer: 'JISUNG · DEVELOPMENT PORTFOLIO / © 2026',
   };
   english.profile = {
     ...english.profile,
     position: 'A frontend developer expanding into full-stack',
     positionLines: ['A frontend developer', 'expanding into full-stack'],
-    intro: 'I build web and mobile interfaces with React, Next.js, and React Native. Through TECHZONE commerce operations, QuakeCurrent realtime data, and the Signal Archive tech intelligence pipeline, I have expanded into backend and data systems.',
-    actions: { project: 'View projects', github: 'GitHub' },
-    proof: [{ value: '2 yrs', label: 'Web · app development' }, { value: '5', label: 'Production projects' }, { value: '4', label: 'Full-stack case studies' }],
-    about: ['I have built interfaces for commerce, expert matching, reservations, and mobile applications with React, Next.js, and React Native. I connect real service capabilities such as accounts, orders, payments, search, and tickets through REST APIs.', 'In TECHZONE, I connected orders to payment, inventory, fulfillment, delivery, and returns. In QuakeCurrent, I connected ingestion to REST, WebSocket, and 2D/3D mapping. In Signal Archive, I built a data pipeline with lexical deduplication and evidence-grounded RAG query flow. I care about service boundaries, reliability, and recovery, not just the surface.'],
+    intro: 'I have built web and mobile interfaces with React, Next.js, and React Native. Through personal projects, I am extending that experience into backend development and data processing.',
+    actions: { project: 'View personal projects', github: 'GitHub' },
+    proof: [{ value: '2 yrs', label: 'Web · app development' }, { value: '5', label: 'Work projects contributed to' }, { value: '4', label: 'Personal projects' }],
+    about: ['In professional projects, I built web and mobile interfaces and connected APIs for accounts, payments, search, and reservations. I considered both the user journey and how the interface responds as state changes.', 'In personal projects, I explore how data is stored and passed between parts of an application. Commerce, earthquake mapping, technical search, and manufacturing workflows give me different ways to practice APIs, realtime communication, and data handling. I document both the implementation and its limitations.'],
     workflow: {
       label: 'HOW I BUILD',
-      note: 'Each review shapes the next iteration.',
+      note: 'Build something small. Check it. Improve it.',
       steps: [
-        { title: 'Prototype', description: 'Connect the smallest flow to test the idea.', evidence: 'QuakeCurrent · From ingestion to map', projectSlug: 'quakecurrent' },
-        { title: 'Plan', description: 'Define state ownership and failure behavior.', evidence: 'Assembly ERP · Production and stock contracts', projectSlug: 'assembly-erp' },
-        { title: 'Autopilot', description: 'Automate generation and repeatable checks.', evidence: 'QuakeCurrent · Generated API contracts', projectSlug: 'quakecurrent' },
-        { title: 'Review', description: 'Check real flows and failure paths, then refine.', evidence: 'Assembly ERP · Partial production and retries', projectSlug: 'assembly-erp' },
+        { title: 'Prototype', description: 'Start with a small version of the core feature.', evidence: 'QuakeCurrent · From ingestion to map', projectSlug: 'quakecurrent' },
+        { title: 'Plan', description: 'Define scope, data structures, and edge cases.', evidence: 'Assembly ERP · Production and stock rules', projectSlug: 'assembly-erp' },
+        { title: 'Autopilot', description: 'Automate tests and repetitive tasks.', evidence: 'QuakeCurrent · Generated API contracts', projectSlug: 'quakecurrent' },
+        { title: 'Review', description: 'Check behavior and limitations, then iterate.', evidence: 'Assembly ERP · Partial production and retries', projectSlug: 'assembly-erp' },
       ],
     },
   };
   english.sections = {
-    about: { label: '01 · ABOUT', title: ['Understand the user journey.', 'Build the systems that support it.'] },
-    skills: { label: '02 · EXPERTISE', title: ['Choose the right tools.', 'Bring them together.'], summary: 'I build interfaces with React, Next.js, and React Native, and service flows with NestJS, PostgreSQL, Redis, and RabbitMQ.' },
-    experience: { label: '03 · SELECTED EXPERIENCE', title: ['Experience from real services.', 'A foundation for what comes next.'], summary: 'I worked on authentication, payments, search, and admin features across commerce, mobile, matching, and reservation services.' },
-    project: { label: '04 · SELECTED PROJECTS', title: ['From the interface,', 'to the systems behind it.'] },
+    about: { label: '02 · ABOUT', title: ['From building interfaces', 'to understanding the whole application.'] },
+    skills: { label: '03 · TOOLKIT', title: ['Tools I have used,', 'skills I keep developing.'], summary: 'I used React, Next.js, and React Native in professional web and mobile projects. I am learning backend, data, and deployment tools through personal projects.' },
+    experience: { label: '04 · WORK EXPERIENCE', title: ['The roles I took on.', 'The services I helped build.'], summary: 'I contributed frontend development to commerce, mobile, expert-matching, and reservation projects.' },
+    project: { label: '01 · PERSONAL PROJECTS', title: ['Learning by building,', 'and documenting the process.'], summary: 'Personal projects designed and built for learning and this portfolio.', note: 'Explore the implementation, learning notes, demos, and source code.' },
     education: { label: '05 · EDUCATION' },
-    contact: { label: 'CONTACT', title: ['The details are in the code.', 'Explore them on GitHub.'], linkLabel: 'GitHub' },
+    contact: { label: 'GITHUB', title: ['Explore the code', 'and development notes on GitHub.'], linkLabel: 'Explore GitHub' },
   };
   english.skills = [{ id: 'frontend', kicker: '01 · USER EXPERIENCE', title: 'Frontend', items: ['React', 'Next.js', 'TypeScript', 'React Native', 'TanStack Query', 'MapLibre · deck.gl'] }, { id: 'backend', kicker: '02 · SERVICE FLOW', title: 'Backend', items: ['NestJS', 'FastAPI', 'REST · WebSocket', 'JWT · RBAC', 'MSA', 'OpenAPI'] }, { id: 'data', kicker: '03 · CONSISTENCY', title: 'Data & Messaging', items: ['PostgreSQL · PostGIS', 'Drizzle ORM', 'Redis', 'RabbitMQ', 'Celery', 'Outbox · Inbox'] }, { id: 'devops', kicker: '04 · DELIVERY', title: 'DevOps & Quality', items: ['Docker', 'Kubernetes', 'GitHub Actions', 'OpenTelemetry', 'Playwright', 'Lighthouse'] }];
   english.experience = { projects: [{ title: 'Ethereum-based specialist commerce platform', period: '2022.03 — 04', description: 'Built admin screens with React and implemented member, token, and order management through REST APIs.', tags: ['React', 'REST API', 'Admin'] }, { title: 'Blockchain-based commerce mobile app', period: '2022.04 — 05', description: 'Renewed the design of a released Android/iOS app and rebuilt its flows with TypeScript and React Native.', tags: ['React Native', 'TypeScript', 'Android · iOS'] }, { title: 'Wi-Fi device rewards application', period: '2022.06 — 09', description: 'Owned the React Native mobile frontend and implemented Android/iOS user flows.', tags: ['React Native', 'Mobile', 'API Integration'] }, { title: 'Expert matching platform', period: '2022.09 — 12', description: 'Built responsive Next.js web/mobile screens, PG payments, catalog/detail flows, and SEO foundations.', tags: ['Next.js', 'Responsive', 'Payment', 'SEO'] }, { title: 'NFT-based concert reservation platform', period: '2022.12', description: 'Implemented search, login, access tokens, tickets, settings, and profile screens with React.', tags: ['React', 'Token Auth', 'Reservation'] }] };

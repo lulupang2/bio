@@ -3,6 +3,7 @@
   import { localizedPath } from '../content/i18n.js';
 
   export let projects;
+  export let note;
   export let locale = 'ko';
 
   let selected = 0;
@@ -154,5 +155,5 @@
       </section>
     </div>
   {/each}
-  <p class="atlas-list-note">{locale === 'en' ? 'Independent projects. From interface to infrastructure.' : '화면에서 인프라까지, 직접 구현하고 검증한 프로젝트.'}</p>
+  <p class="atlas-list-note">{note}</p>
 </div>

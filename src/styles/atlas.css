@@ -36,10 +36,11 @@ html { scroll-padding-top:92px; }
 .atlas-home .section-label { font-family:inherit; letter-spacing:.08em; font-size:11px; }
 .atlas-home .section-heading h2,.atlas-home .section-title { font-weight:400; font-size:clamp(26px,3vw,42px); letter-spacing:-.045em; }
 .atlas-home .project-section { padding:0; }
-.atlas-home .project-section > .section-title-row { display:flex; align-items:center; justify-content:space-between; gap:32px; padding:24px 5vw; margin:0; border-bottom:1px solid var(--line-strong); }
+.atlas-home .project-section > .section-title-row { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px 32px; padding:24px 5vw; margin:0; border-bottom:1px solid var(--line-strong); }
 .atlas-home .project-section .section-index { margin:0; }
 .atlas-home .project-section .section-index > span { display:none; }
 .atlas-home .project-section .section-title-row h2 { font-size:22px; font-weight:400; margin-bottom:0; }
+.atlas-home .project-section .section-summary { flex:0 0 100%; max-width:none; margin:0; font-size:14px; line-height:1.8; }
 .atlas-home .section-title-row h2 { font-weight:400; word-break:keep-all; overflow-wrap:break-word; }
 .atlas-home .contact-content h2 { font-weight:400; line-height:1.35; word-break:keep-all; overflow-wrap:break-word; }
 .atlas-home .contact-content h2 span { display:block; }
@@ -139,6 +140,7 @@ html { scroll-padding-top:92px; }
  .atlas-home .proof-grid { width:100%; }
  .atlas-home .project-section > .section-title-row { display:block; padding:22px 6vw; }
  .atlas-home .project-section .section-index { margin-bottom:16px; }
+ .atlas-home .project-section .section-summary { margin-top:12px; }
  .atlas-gallery,.atlas-project-item { display:block; }
  .atlas-project-row { min-height:110px; padding:22px 6vw; gap:12px; }
  .atlas-project-number { flex-basis:20px; padding-top:5px; }

@@ -13,19 +13,19 @@ const shared = {
 
 export const erpKo = {
   ...shared,
-  status: 'CASE STUDY · LIVE',
+  status: '학습·포트폴리오 프로젝트',
   coverAlt: 'Assembly ERP 실제 데모의 생산 지시 목록과 양품·불량 현황',
   caseStudyLabel: '제작 과정과 상세 보기',
   gallery: {
-    tagline: '생산과 재고를 함께 맞추는 ERP',
-    summary: '부품 입고부터 생산 실적과 재고 이력까지 연결했습니다. 부분 생산과 불량 처리, 중복 요청에서도 수량이 일치하도록 구현했습니다.',
+    tagline: '부품 입고부터 생산·재고 관리까지',
+    summary: '제조 업무를 주제로 데이터 정합성과 트랜잭션을 학습했습니다. 부품 입고·부분 생산·불량 처리를 구현하고, 재시도와 동시 요청을 테스트했습니다.',
     image: shared.cover,
     alt: 'Assembly ERP의 생산 지시 목록과 양품·불량 수량',
     caption: '제조 데모 · 생산 지시와 재고 흐름',
     position: 'top right',
   },
-  summary: '품목·BOM·부품 입고부터 부분 생산과 불량 처리, 재고 이력까지 연결한 조립 제조 ERP입니다. Go 트랜잭션과 멱등 요청으로 중복 처리와 동시 생산의 재고 정합성을 다뤘습니다.',
-  problem: '생산 실적은 숫자 하나의 수정으로 끝나지 않습니다. 부품 소비, 양품·불량 수량, 재고 잔액과 이력이 함께 일치해야 합니다. 단일 조직·단일 재고 위치의 데모로 범위를 좁혀, 중복 제출과 동시 생산에서도 이 흐름이 하나의 트랜잭션으로 완료되도록 구현했습니다.',
+  summary: '제조 업무의 데이터 처리를 학습하기 위해 만든 개인 ERP 프로젝트입니다. 품목·BOM·입고·생산·재고 이력을 연결하고, Go 트랜잭션과 멱등 요청으로 중복 제출과 동시 생산을 처리하는 방법을 다뤘습니다.',
+  problem: '생산 결과를 기록할 때 부품 소비, 양품·불량 수량과 재고 이력을 어떻게 함께 맞출 수 있을까요? 단일 조직·단일 재고 위치의 데모를 만들고, 이 변경을 하나의 트랜잭션으로 처리하며 중복 제출과 동시 요청을 학습했습니다.',
   screenshots: [{ src: shared.cover, alt: '조립 제조 ERP 생산 지시 화면', caption: '실제 로컬 데모 · 생산 계획과 양품·불량·잔여 수량 조회', width: 1440, height: 1000 }],
   process: [
     { step: '01', title: 'Prototype', description: '품목 → BOM → 입고 → 생산 → 재고 이력의 수직 흐름을 로컬 PostgreSQL로 연결했습니다.', outputs: ['업무 흐름', '로컬 데모'] },
@@ -46,24 +46,24 @@ export const erpKo = {
     '단일 조직·단일 재고 위치의 포트폴리오 데모이며 앱 내 인증은 비범위',
     'erp.jisung.lol 공개 배포 완료 · HTTPS 200 응답 확인, 운영 부하 검증과는 구분',
   ],
-  detail: { backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'MANUFACTURING & INVENTORY', problemLabel: '01 · PROBLEM', problemTitle: '생산과 재고를 함께 맞추는 문제', processLabel: '02 · PROCESS', processTitle: '작은 업무 흐름부터 실패 경로 검증까지', buildLabel: '03 · BUILD', buildTitle: '주요 구현', validationLabel: '04 · VALIDATION', validationTitle: '검증과 경계' },
+  detail: { backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'PERSONAL PROJECT · MANUFACTURING', problemLabel: '01 · PROBLEM', problemTitle: '생산과 재고를 함께 맞추는 문제', processLabel: '02 · PROCESS', processTitle: '제조 업무로 익힌 트랜잭션과 재시도 처리', buildLabel: '03 · BUILD', buildTitle: '주요 구현', validationLabel: '04 · VALIDATION', validationTitle: '검증과 경계' },
 };
 
 export const erpEn = {
   ...shared,
-  status: 'CASE STUDY · LIVE',
+  status: 'PERSONAL LEARNING PROJECT',
   coverAlt: 'Assembly ERP demo production orders with good and defective output quantities',
   caseStudyLabel: 'View case study',
   gallery: {
-    tagline: 'Production and inventory, kept in sync',
-    summary: 'Connected inbound stock, production results, and inventory history. Quantities stay consistent through partial production, defects, and duplicate requests.',
+    tagline: 'From inbound stock to production and inventory',
+    summary: 'Used manufacturing workflows to learn data consistency and transactions. Implemented inbound stock, partial production, and defects, then tested retries and concurrent requests.',
     image: shared.cover,
     alt: 'Assembly ERP production orders with good and defective quantities',
     caption: 'Manufacturing demo · Production orders and inventory',
     position: 'top right',
   },
-  summary: 'An assembly manufacturing ERP connecting items, BOMs, inbound stock, partial production, defects, and inventory history. Go transactions and idempotent requests protect inventory consistency during retries and concurrent production.',
-  problem: 'Recording production changes component consumption, good and defective quantities, inventory balances, and the ledger together. This single-organization, single-location demo focuses on committing those changes atomically, including duplicate submissions and concurrent production.',
+  summary: 'A personal ERP project for learning data handling in manufacturing workflows. I connected items, BOMs, inbound stock, production, and inventory history, using Go transactions and idempotent requests to handle duplicate submissions and concurrent production.',
+  problem: 'How can a production update keep component consumption, good and defective quantities, and inventory history consistent? I built a single-organization, single-location demo to learn atomic transactions, duplicate-submission handling, and concurrent requests.',
   screenshots: [{ src: shared.cover, alt: 'Assembly ERP production order screen in Korean', caption: 'Actual local demo · Production plans, good output, defects, and remaining quantities', width: 1440, height: 1000 }],
   process: [
     { step: '01', title: 'Prototype', description: 'Connected items, BOMs, inbound stock, production, and inventory history using local PostgreSQL.', outputs: ['Vertical workflow', 'Local demo'] },
@@ -84,5 +84,5 @@ export const erpEn = {
     'Single-organization, single-location portfolio demo; in-app authentication is out of scope',
     'Public deployment at erp.jisung.lol with HTTPS 200 verified; this is not production load validation',
   ],
-  detail: { backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'MANUFACTURING & INVENTORY', problemLabel: '01 · PROBLEM', problemTitle: 'Keeping production and inventory consistent', processLabel: '02 · PROCESS', processTitle: 'From a vertical workflow to failure-path verification', buildLabel: '03 · BUILD', buildTitle: 'Key implementation', validationLabel: '04 · VALIDATION', validationTitle: 'Validation and boundaries' },
+  detail: { backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'PERSONAL PROJECT · MANUFACTURING', problemLabel: '01 · PROBLEM', problemTitle: 'Keeping production and inventory consistent', processLabel: '02 · PROCESS', processTitle: 'Learning transactions and retries through manufacturing', buildLabel: '03 · BUILD', buildTitle: 'Key implementation', validationLabel: '04 · VALIDATION', validationTitle: 'Validation and boundaries' },
 };

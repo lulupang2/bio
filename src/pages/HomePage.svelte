@@ -80,13 +80,13 @@
       </section>
 
       <section id="projects" class="editorial-section project-section reveal" use:reveal>
-        <SectionHeading section={{ ...portfolio.sections.project, label: '01 · SELECTED PROJECTS' }} />
+        <SectionHeading section={portfolio.sections.project} />
 
-      <ProjectGallery projects={portfolio.projects} {locale} />
+      <ProjectGallery projects={portfolio.projects} note={portfolio.sections.project.note} {locale} />
       </section>
 
       <section id="about" class="editorial-section reveal" use:reveal>
-        <SectionHeading section={{ ...portfolio.sections.about, label: '02 · ABOUT' }} />
+        <SectionHeading section={portfolio.sections.about} />
 
       <div class="about-copy">
         {#each portfolio.profile.about as paragraph}
@@ -116,7 +116,7 @@
       </section>
 
       <section id="skills" class="editorial-section reveal" use:reveal>
-        <SectionHeading section={{ ...portfolio.sections.skills, label: '03 · EXPERTISE' }} />
+        <SectionHeading section={portfolio.sections.skills} />
 
       <div class="skills-list">
         {#each portfolio.skills as skill}
@@ -136,7 +136,7 @@
       </section>
 
       <section id="experience" class="editorial-section reveal" use:reveal>
-        <SectionHeading section={{ ...portfolio.sections.experience, label: '04 · SELECTED EXPERIENCE' }} />
+        <SectionHeading section={portfolio.sections.experience} />
 
       <div class="experience-grid">
         {#each portfolio.experience.projects as project, index}

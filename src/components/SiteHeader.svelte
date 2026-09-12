@@ -23,7 +23,7 @@
   <div class="atlas-header-actions">
     <a href={localizedPath('/', locale === 'en' ? 'ko' : 'en')} aria-label={locale === 'en' ? '한국어 버전' : 'English version'}>{locale === 'en' ? 'KO' : 'EN'}</a>
     <button on:click={onToggleTheme} aria-label={theme === 'light' ? site.labels.darkTheme : site.labels.lightTheme}>{theme === 'light' ? '◐' : '◑'}</button>
-    <a href="#contact" on:click={close}>CONTACT ↗</a>
+    <a href="#contact" on:click={close}>GITHUB ↗</a>
   </div>
 </header>
 <nav id="atlas-menu" class="atlas-menu" class:open inert={!open} aria-label={site.labels.navigation}>
