@@ -51,29 +51,31 @@
           <span>{portfolio.profile.positionLines[0]}</span>
           <mark>{portfolio.profile.positionLines[1]}</mark>
         </h1>
-        <p class="profile-intro">{portfolio.profile.intro}</p>
-
-        <div class="profile-actions">
-          <a class="button button-primary" href="#projects">
-            {portfolio.profile.actions.project} <ArrowRight size={17} />
-          </a>
-          <a
-            class="button button-secondary"
-            href={portfolio.profile.github}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Github size={17} /> {portfolio.profile.actions.github}
-          </a>
-        </div>
-
-        <div class="proof-grid" aria-label={portfolio.site.labels.proof}>
-          {#each portfolio.profile.proof as item}
-            <div>
-              <strong>{item.value}</strong>
-              <span>{item.label}</span>
+        <div class="profile-support">
+          <div>
+            <p class="profile-intro">{portfolio.profile.intro}</p>
+            <div class="profile-actions">
+              <a class="button button-primary" href="#projects">
+                {portfolio.profile.actions.project} <ArrowRight size={17} />
+              </a>
+              <a
+                class="button button-secondary"
+                href={portfolio.profile.github}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Github size={17} /> {portfolio.profile.actions.github}
+              </a>
             </div>
-          {/each}
+          </div>
+          <div class="proof-grid" aria-label={portfolio.site.labels.proof}>
+            {#each portfolio.profile.proof as item}
+              <div>
+                <strong>{item.value}</strong>
+                <span>{item.label}</span>
+              </div>
+            {/each}
+          </div>
         </div>
       </section>
 
@@ -92,14 +94,24 @@
         {/each}
       </div>
 
-      <div class="principle-grid">
-        {#each portfolio.profile.principles as principle, index}
-          <article>
-            <span>0{index + 1}</span>
-            <h3>{principle.title}</h3>
-            <p>{principle.description}</p>
-          </article>
-        {/each}
+      <div class="atlas-workflow">
+        <div class="atlas-workflow-heading">
+          <h3>{portfolio.profile.workflow.label}</h3>
+          <p>{portfolio.profile.workflow.note} <span aria-hidden="true">↺</span></p>
+        </div>
+        <ol class="atlas-workflow-steps">
+          {#each portfolio.profile.workflow.steps as step, index}
+            <li>
+              <div class="atlas-workflow-step">
+                <span>0{index + 1}</span>
+                <h4>{step.title}</h4>
+                <span class="atlas-workflow-arrow" aria-hidden="true">{index === 3 ? '↺' : '→'}</span>
+              </div>
+              <p>{step.description}</p>
+              <a href={localizedPath(`/projects/${step.projectSlug}`, locale)}>{step.evidence} <span aria-hidden="true">↗</span></a>
+            </li>
+          {/each}
+        </ol>
       </div>
       </section>
 

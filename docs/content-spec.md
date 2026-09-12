@@ -62,7 +62,9 @@ flowchart TD
 - `actions`: 행동 유도 버튼 텍스트 객체 (`{ project, github }`)
 - `proof`: 경력/경험 수치 요약 배열 (`Array<{ value: string, label: string }>`)
 - `about`: 상세 소개 문단 배열 (`string[]`)
-- `principles`: 핵심 엔지니어링 원칙 배열 (`Array<{ title: string, description: string }>`)
+- `workflow`: 홈에서 보여주는 반복 개발 방식 (`{ label, note, steps }`)
+  - `steps`: `Prototype → Plan → Autopilot → Review` 순서의 배열
+  - 각 단계는 `title`, `description`, 실제 사례를 설명하는 `evidence`, 공개 프로젝트를 가리키는 `projectSlug`를 가집니다.
 
 ### 2.3. 스킬 및 섹션 (`portfolio.skills`, `portfolio.sections`)
 - `sections`: 각 섹션 번호, 타이틀, 서머리 문구 관리 객체
@@ -98,6 +100,7 @@ interface Screenshot {
 ```
 
 #### 케이스 스터디 상세 필드 (`detail` 및 옵션 필드)
+- `gallery` (`object`): 홈 갤러리의 한 줄 설명(`tagline`), 짧은 요약(`summary`), 대표 장면(`image`, `alt`, `caption`, 선택적 `position`). 상세 페이지의 `summary`와 `cover`는 별도로 유지합니다. 이미지 경로는 `public/`의 기존 자산을 사용하고, 콘셉트 이미지나 예시 화면은 캡션에서 구분합니다. 한국어·영어의 모든 공개 프로젝트에 작성합니다.
 - `published` (`boolean`): 공개 여부 (`true`일 때만 라우팅 등록, 사이트맵 포함, 카드 노출)
 - `status` (`string`): 상태 배지 문구 (예: `'CASE STUDY · LIVE'`)
 - `category` (`string`): 프로젝트 카테고리 분류

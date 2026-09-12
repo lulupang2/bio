@@ -55,20 +55,16 @@ export const portfolio = {
       'React, Next.js, React Native를 사용해 쇼핑몰, 전문가 매칭, 예약 플랫폼과 모바일 애플리케이션의 사용자 화면을 구현했습니다. REST API를 기반으로 회원·주문·결제·검색·티켓과 같은 실제 서비스 기능을 연결했습니다.',
       'TECHZONE에서는 주문이 결제·재고·배송·반품으로 이어지는 커머스 운영 흐름을, QuakeCurrent에서는 지진 피드 수집부터 REST·WebSocket·3D 지도까지 이어지는 데이터 흐름을, Signal Archive에서는 기술 데이터 수집·중복제거와 근거 기반 RAG 질의 흐름을 구현했습니다. 화면을 만드는 데서 멈추지 않고 서비스 전체의 경계와 신뢰성까지 검증합니다.',
     ],
-    principles: [
-      {
-        title: '사용자 흐름부터 봅니다',
-        description: '기술보다 먼저 사용자가 무엇을 보고 어떤 행동을 이어가는지 정의합니다.',
-      },
-      {
-        title: '경계를 명확하게 만듭니다',
-        description: '화면, 서버 상태, 데이터 소유권을 구분해 변경에 강한 구조를 만듭니다.',
-      },
-      {
-        title: '검증 가능한 결과를 남깁니다',
-        description: '빌드, 테스트, 성능과 복구 시나리오로 구현의 근거를 남깁니다.',
-      },
-    ],
+    workflow: {
+      label: 'HOW I BUILD',
+      note: '검증한 결과를, 다음 구현의 출발점으로.',
+      steps: [
+        { title: 'Prototype', description: '가장 작은 흐름을 연결해 가능성을 확인합니다.', evidence: 'QuakeCurrent · 수집부터 지도까지', projectSlug: 'quakecurrent' },
+        { title: 'Plan', description: '상태의 소유자와 실패했을 때의 동작을 정합니다.', evidence: 'Assembly ERP · 생산·재고 계약', projectSlug: 'assembly-erp' },
+        { title: 'Autopilot', description: '생성과 반복 검증을 자동화합니다.', evidence: 'QuakeCurrent · API 계약 자동 생성', projectSlug: 'quakecurrent' },
+        { title: 'Review', description: '실제 흐름과 실패 경로를 확인하고 개선합니다.', evidence: 'Assembly ERP · 부분 생산·재시도 검증', projectSlug: 'assembly-erp' },
+      ],
+    },
   },
   sections: {
     about: {
@@ -182,6 +178,13 @@ export const portfolio = {
     coverAlt: 'TECHZONE 고객 스토어 홈 화면',
     coverPosition: 'top left',
     category: '01 · COMMERCE · OMS/WMS · MSA',
+    gallery: {
+      tagline: '주문부터 반품까지 연결한 커머스',
+      summary: '고객 스토어와 주문·재고·배송 관리가 하나의 흐름으로 이어집니다. 서비스 사이의 이벤트 처리와 장애 복구까지 구현했습니다.',
+      image: '/techzone/storefront-home.png',
+      alt: 'TECHZONE 고객 스토어의 상품 탐색 화면',
+      caption: '고객 스토어 · 상품 탐색 화면',
+    },
     cardBadge: 'SCALABLE ARCHITECTURE',
     caseStudyLabel: '제작 과정과 상세 보기',
     pendingMessage: 'Case Study 공개 준비 중입니다.',
@@ -554,6 +557,14 @@ export const portfolio = {
       coverAlt: 'QuakeCurrent 지진 데이터 프로젝트 브리프',
       coverPosition: 'center',
       category: '02 · REALTIME DATA · MAP · FULL STACK',
+      gallery: {
+        tagline: '실시간 지진 데이터를 읽는 지도',
+        summary: '지진 피드 수집부터 3D 지도까지 연결했습니다. 실시간 연결이 끊겨도 누락된 변경을 복구하도록 설계한 데이터 프로토타입입니다.',
+        image: '/quakecurrent/prototype.webp',
+        alt: '지구본과 지진 신호로 표현한 QuakeCurrent 콘셉트 이미지',
+        caption: '지진 관측 · 프로젝트 콘셉트 이미지',
+        position: 'left center',
+      },
       cardBadge: 'RECOVERABLE DATA FLOW',
       caseStudyLabel: '제작 과정과 상세 보기',
       pendingMessage: 'Case Study 공개 준비 중입니다.',
@@ -906,6 +917,13 @@ export const portfolio = {
       coverAlt: 'Signal Archive 기술 인텔리전스 소스 현황 대시보드',
       coverPosition: 'center',
       category: '03 · TECH INTELLIGENCE · DATA PIPELINE · RAG',
+      gallery: {
+        tagline: '출처를 따라가는 기술 데이터 탐색',
+        summary: '기술 자료 수집·검색과 출처 기반 질의 흐름을 검증한 학습용 프로토타입입니다. 초기 데이터 부족에 따른 답변 제약도 함께 공개합니다.',
+        image: '/signal-archive/qa-panel.webp',
+        alt: 'Signal Archive 질의응답 패널의 답변과 인용 출처',
+        caption: '질의응답 예시 · 답변과 인용 출처',
+      },
       cardBadge: 'PIPELINE & RAG PoC',
       caseStudyLabel: '제작 과정과 상세 보기',
       pendingMessage: 'Case Study 공개 준비 중입니다.',

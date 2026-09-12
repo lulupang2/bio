@@ -73,6 +73,23 @@ describe('site paths', () => {
   });
 });
 
+describe('gallery and workflow content', () => {
+  it.each(['ko', 'en'])('%s gallery assets and workflow links resolve', (locale) => {
+    const content = getPortfolio(locale);
+    for (const project of content.projects) {
+      for (const field of ['tagline', 'summary', 'image', 'alt', 'caption']) {
+        expect(project.gallery[field], `${project.slug}.gallery.${field}`).toBeTruthy();
+      }
+      expect(publicFileExists(project.gallery.image), project.gallery.image).toBe(true);
+      if (locale === 'en') expect(JSON.stringify(project.gallery)).not.toMatch(/[가-힣]/);
+    }
+    for (const step of content.profile.workflow.steps) {
+      expect(content.projects.find((project) => project.slug === step.projectSlug)?.published).toBe(true);
+    }
+    if (locale === 'en') expect(JSON.stringify(content.profile.workflow)).not.toMatch(/[가-힣]/);
+  });
+});
+
 describe('English locale', () => {
   it('publishes the ERP case study and live link in both languages', () => {
     for (const locale of ['ko', 'en']) {

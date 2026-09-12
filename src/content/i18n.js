@@ -146,6 +146,13 @@ const englishProjects = (projects) => projects.map((project, index) => {
     Object.assign(translated, {
       status: 'CASE STUDY · LIVE',
       coverAlt: 'TECHZONE storefront home screen',
+      gallery: {
+        ...translated.gallery,
+        tagline: 'Commerce, from checkout to returns',
+        summary: 'Connected the storefront to order, inventory, and fulfillment operations, including event processing and recovery across service boundaries.',
+        alt: 'TECHZONE storefront product discovery screen',
+        caption: 'Storefront · Product discovery',
+      },
       category: '01 · COMMERCE · OMS/WMS · MSA',
       cardBadge: 'SCALABLE ARCHITECTURE',
       caseStudyLabel: 'View case study',
@@ -179,6 +186,13 @@ const englishProjects = (projects) => projects.map((project, index) => {
     Object.assign(translated, {
       status: 'CASE STUDY · LIVE',
       coverAlt: 'QuakeCurrent earthquake data project brief',
+      gallery: {
+        ...translated.gallery,
+        tagline: 'A live map of earthquake signals',
+        summary: 'Connected earthquake ingestion to a 3D map. This data prototype catches up on missed changes when its realtime connection drops.',
+        alt: 'QuakeCurrent concept artwork showing a globe and earthquake signals',
+        caption: 'Earthquake observation · Project concept artwork',
+      },
       category: '02 · REALTIME DATA · MAP · FULL STACK',
       cardBadge: 'RECOVERABLE DATA FLOW',
       caseStudyLabel: 'View case study',
@@ -211,6 +225,13 @@ const englishProjects = (projects) => projects.map((project, index) => {
     Object.assign(translated, {
       status: 'CASE STUDY · LEARNING ARCHITECTURE PoC',
       coverAlt: 'Signal Archive technology intelligence source status dashboard',
+      gallery: {
+        ...translated.gallery,
+        tagline: 'Explore technical data, trace the sources',
+        summary: 'A learning prototype for collection, retrieval, and source-grounded Q&A. Its early data coverage and answer limitations are documented openly.',
+        alt: 'Signal Archive example answer with linked citations',
+        caption: 'Q&A example · Answers and source citations',
+      },
       category: '03 · TECH INTELLIGENCE · DATA PIPELINE · RAG',
       cardBadge: 'PIPELINE & RAG PoC',
       caseStudyLabel: 'View case study',
@@ -274,7 +295,16 @@ export const getPortfolio = (locale = 'ko') => {
     actions: { project: 'View projects', github: 'GitHub' },
     proof: [{ value: '2 yrs', label: 'Web · app development' }, { value: '5', label: 'Production projects' }, { value: '4', label: 'Full-stack case studies' }],
     about: ['I have built interfaces for commerce, expert matching, reservations, and mobile applications with React, Next.js, and React Native. I connect real service capabilities such as accounts, orders, payments, search, and tickets through REST APIs.', 'In TECHZONE, I connected orders to payment, inventory, fulfillment, delivery, and returns. In QuakeCurrent, I connected ingestion to REST, WebSocket, and 2D/3D mapping. In Signal Archive, I built a data pipeline with lexical deduplication and evidence-grounded RAG query flow. I care about service boundaries, reliability, and recovery, not just the surface.'],
-    principles: [{ title: 'Start with the user flow', description: 'Define what users need to see and do before choosing the technology.' }, { title: 'Make boundaries explicit', description: 'Separate UI state, server state, and data ownership so the system can evolve safely.' }, { title: 'Leave verifiable evidence', description: 'Use builds, tests, performance checks, and recovery scenarios to support implementation decisions.' }],
+    workflow: {
+      label: 'HOW I BUILD',
+      note: 'Each review shapes the next iteration.',
+      steps: [
+        { title: 'Prototype', description: 'Connect the smallest flow to test the idea.', evidence: 'QuakeCurrent · From ingestion to map', projectSlug: 'quakecurrent' },
+        { title: 'Plan', description: 'Define state ownership and failure behavior.', evidence: 'Assembly ERP · Production and stock contracts', projectSlug: 'assembly-erp' },
+        { title: 'Autopilot', description: 'Automate generation and repeatable checks.', evidence: 'QuakeCurrent · Generated API contracts', projectSlug: 'quakecurrent' },
+        { title: 'Review', description: 'Check real flows and failure paths, then refine.', evidence: 'Assembly ERP · Partial production and retries', projectSlug: 'assembly-erp' },
+      ],
+    },
   };
   english.sections = {
     about: { label: '01 · ABOUT', title: ['Understand the user journey.', 'Build the systems that support it.'] },
