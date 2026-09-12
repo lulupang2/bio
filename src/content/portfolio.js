@@ -73,29 +73,29 @@ export const portfolio = {
   sections: {
     about: {
       label: '01 · ABOUT',
-      title: ['웹·모바일 화면을 만들고', '서비스 기능을 연결했습니다.'],
+      title: ['사용자의 흐름을 읽고,', '서비스의 구조를 만듭니다.'],
     },
     skills: {
       label: '02 · EXPERTISE',
-      title: ['화면부터 데이터 처리까지', '이 기술들을 사용했습니다.'],
+      title: ['필요한 기술을 골라,', '하나의 서비스로 연결합니다.'],
       summary:
         'React·Next.js·React Native로 화면을 만들고 NestJS·PostgreSQL·Redis·RabbitMQ로 API와 데이터 흐름을 구현했습니다.',
     },
     experience: {
       label: '03 · SELECTED EXPERIENCE',
-      title: ['실무 프로젝트 다섯 개에서', '화면과 핵심 기능을 구현했습니다.'],
+      title: ['실제 서비스에서 쌓은 경험,', '다음 설계의 바탕이 됩니다.'],
       summary: '쇼핑몰, 모바일 앱, 전문가 매칭과 예약 서비스에서 인증, 결제, 검색과 관리자 기능을 맡았습니다.',
     },
     project: {
       label: '04 · SELECTED PROJECTS',
-      title: ['커머스 운영과 실시간 데이터 흐름을', '처음부터 끝까지 구현했습니다.'],
+      title: ['화면에서 시작해,', '서비스가 동작하는 곳까지.'],
     },
     education: {
       label: '05 · EDUCATION',
     },
     contact: {
       label: 'CONTACT',
-      title: ['구현한 프로젝트와 코드는', 'GitHub에서 확인할 수 있습니다.'],
+      title: ['더 자세한 이야기는,', '코드에 담았습니다.'],
       linkLabel: 'GitHub',
     },
   },

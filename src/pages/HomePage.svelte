@@ -4,7 +4,7 @@
     ArrowUpRight,
     GitFork as Github,
   } from '@lucide/svelte';
-  import ProjectCard from '../components/ProjectCard.svelte';
+  import ProjectGallery from '../components/ProjectGallery.svelte';
   import SectionHeading from '../components/SectionHeading.svelte';
   import SiteHeader from '../components/SiteHeader.svelte';
   import { localizedPath } from '../content/i18n.js';
@@ -40,7 +40,7 @@
   };
 </script>
 
-<div class="page-wrap">
+<div class="page-wrap atlas-home">
   <SiteHeader site={portfolio.site} github={portfolio.profile.github} {theme} {locale} {onToggleTheme} />
 
   <div class="content-column">
@@ -77,8 +77,14 @@
         </div>
       </section>
 
+      <section id="projects" class="editorial-section project-section reveal" use:reveal>
+        <SectionHeading section={{ ...portfolio.sections.project, label: '01 · SELECTED PROJECTS' }} />
+
+      <ProjectGallery projects={portfolio.projects} {locale} />
+      </section>
+
       <section id="about" class="editorial-section reveal" use:reveal>
-        <SectionHeading section={portfolio.sections.about} />
+        <SectionHeading section={{ ...portfolio.sections.about, label: '02 · ABOUT' }} />
 
       <div class="about-copy">
         {#each portfolio.profile.about as paragraph}
@@ -98,7 +104,7 @@
       </section>
 
       <section id="skills" class="editorial-section reveal" use:reveal>
-        <SectionHeading section={portfolio.sections.skills} />
+        <SectionHeading section={{ ...portfolio.sections.skills, label: '03 · EXPERTISE' }} />
 
       <div class="skills-list">
         {#each portfolio.skills as skill}
@@ -118,7 +124,7 @@
       </section>
 
       <section id="experience" class="editorial-section reveal" use:reveal>
-        <SectionHeading section={portfolio.sections.experience} />
+        <SectionHeading section={{ ...portfolio.sections.experience, label: '04 · SELECTED EXPERIENCE' }} />
 
       <div class="experience-grid">
         {#each portfolio.experience.projects as project, index}
@@ -137,15 +143,7 @@
       </div>
       </section>
 
-      <section id="projects" class="editorial-section project-section reveal" use:reveal>
-        <SectionHeading section={portfolio.sections.project} />
 
-      <div class="projects-list">
-        {#each portfolio.projects as project}
-          <ProjectCard {project} {locale} />
-        {/each}
-      </div>
-      </section>
 
       <section id="education" class="linear-section education-section reveal" use:reveal>
         <div class="section-index">
@@ -168,7 +166,7 @@
           <span aria-hidden="true"></span>
         </div>
         <div class="contact-content">
-          <h2>{portfolio.sections.contact.title.join(' ')}</h2>
+          <h2>{#each portfolio.sections.contact.title as line}<span>{line}</span>{/each}</h2>
           <a
             class="contact-link"
             href={portfolio.profile.github}
