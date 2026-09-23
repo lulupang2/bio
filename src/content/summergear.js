@@ -25,18 +25,52 @@ export const summergearKo = {
     position: 'top',
   },
   summary: '서핑·테니스 중고 장비 거래와 커뮤니티를 주제로 만든 개인 프로젝트입니다. Next.js 웹과 Expo WebView 앱이 화면·도메인 계약을 공유하고, Go API와 PostgreSQL 기반 River 작업 큐로 거래 기능을 확장하고 있습니다. 공개 데모는 테스트 데이터와 토스페이먼츠 테스트 환경을 사용합니다.',
-  problem: '웹과 앱에서 같은 거래 화면을 제공하면서 사진 선택 같은 기기 기능은 어떻게 연결할까요? 주문·재고·결제 결과가 서로 어긋나지 않게 처리하는 방법도 함께 학습하기 위해, 화면 공유와 네이티브 브릿지, 서버의 상태 전이를 나누어 구현했습니다.',
+  problem: "웹과 앱에서 거래 화면은 공유하되 사진 선택 같은 기기 기능은 따로 연결해야 했습니다. 거래 처리에서는 브라우저에 표시된 완료 상태를 그대로 믿지 않고, 서버의 주문·재고와 PG 결과를 대조하도록 나눴습니다. 현재 공개 환경은 테스트 데이터와 테스트 결제를 사용하는 데모입니다.",
   screenshots: [
     { src: shared.cover, alt: 'SummerGear 장비 탐색 홈', caption: '공개 테스트 홈 · 실제 고객 상품이 아닌 테스트 데이터', width: 960, height: 600 },
     { src: '/summergear/listing.png', alt: 'SummerGear 토스 테스트 전용 서프보드 상세 화면', caption: '모바일 웹 상세 · 테스트 승인·취소용 상품, 앱 실기기 캡처 아님', width: 480, height: 900, displayWidth: 480 },
   ],
   process: [
-    { step: '01', title: 'Prototype', description: '종목별 장비 탐색·매물 상세·판매 등록과 커뮤니티 화면을 만들고, Expo WebView에서 웹 화면을 여는 구조를 구성했습니다.', outputs: ['Next.js', 'Expo WebView', '종목별 스펙'] },
-    { step: '02', title: 'Plan', description: '공유 Zod 계약과 네이티브 브릿지를 정의하고, Go로 이전하는 매물·주문 기능의 소유권·세션·이미지 접근 규칙을 정리했습니다.', outputs: ['공유 계약', 'OpenAPI', '소유권 검사'] },
-    { step: '03', title: 'Autopilot', description: 'River worker로 결제 결과 대조와 재시도 작업을 분리하고, 격리 DB 테스트·역할별 Docker 이미지·키 없는 CI 검증을 구성했습니다.', outputs: ['River', '격리 DB', 'Docker / CI'] },
-    { step: '04', title: 'Review', description: '저장소의 2026-09-23 배포 기록에서 토스 테스트 승인·전체 취소·재고 복원을 확인했습니다. 실제 OAuth·모바일 실기기와 PG 직접 웹훅 수신은 별도 검증이 남아 있습니다.', outputs: ['테스트 결제 기록', '재고 복원', '미검증 범위'] },
-  ],
-  highlights: [
+    {
+      "step": "01",
+      "title": "Prototype",
+      "description": "장비 탐색·상세·판매 등록은 Next.js에 두고 Expo 앱이 WebView로 같은 화면을 열도록 했습니다. 사진 선택과 햅틱은 메시지 브릿지로 기기 쪽에 요청합니다. 웹 코드는 공유할 수 있지만 기기 권한과 앱 복귀 동작은 별도로 확인해야 합니다.",
+      "outputs": [
+        "공유 화면",
+        "사진 선택 브릿지"
+      ]
+    },
+    {
+      "step": "02",
+      "title": "Plan",
+      "description": "웹과 앱이 쓰는 입력 형식은 공통 패키지의 Zod 스키마로 맞췄습니다. Go로 옮기는 매물 기능은 세션에서 소유자를 확인하고, 이미지 업로드 URL도 권한 검사 후 발급합니다. 기존 Supabase 경로와 Go 경로가 함께 남아 있어 인증 전환을 완료한 상태로 표현하지 않았습니다.",
+      "outputs": [
+        "Zod",
+        "Go 서비스 세션",
+        "이미지 권한"
+      ]
+    },
+    {
+      "step": "03",
+      "title": "Autopilot",
+      "description": "브라우저의 결제 완료 화면만으로 주문을 승인하지 않고 서버가 주문 금액과 결제 결과를 대조하도록 했습니다. 응답이 불명확하거나 취소 처리가 남은 경우는 River worker가 다시 조회합니다. DB 마이그레이션은 API 시작과 분리된 단계로 실행합니다.",
+      "outputs": [
+        "결제 결과 대조",
+        "River 재시도",
+        "독립 마이그레이션"
+      ]
+    },
+    {
+      "step": "04",
+      "title": "Review",
+      "description": "2026-09-23 테스트 배포 기록에서는 간편결제 승인 후 주문·예약 재고를 대조하고, 전체 취소 후 재고가 돌아오는 것을 확인했습니다. 중복 취소와 사용자 결제 취소도 구분해 확인했습니다. 실제 OAuth·모바일 실기기·PG가 직접 보낸 웹훅 수신은 아직 검증이 남아 있습니다.",
+      "outputs": [
+        "테스트 승인·취소",
+        "재고 복원",
+        "남은 검증"
+      ]
+    }
+  ],  highlights: [
     'Next.js 웹과 Expo WebView 앱에서 TypeScript·Zod 도메인 계약 공유',
     '사진 선택·햅틱 등 기기 기능을 웹 메시지와 연결하는 네이티브 브릿지 코드',
     'Go 서비스 세션과 CSRF·소유권 검사, 매물 이미지의 서명 URL 업로드 계약',
@@ -67,18 +101,52 @@ export const summergearEn = {
     position: 'top',
   },
   summary: 'A personal project exploring secondhand surf and tennis equipment trading and community features. A Next.js web app and Expo WebView share screens and domain contracts, while a Go API and PostgreSQL-backed River jobs support the evolving transaction flow. The public demo uses fixture data and Toss Payments test mode.',
-  problem: 'How can web and mobile share a trading interface while still supporting device features such as photo selection? I separated shared screens, a native bridge, and server-side state transitions to explore both cross-platform UI and consistent order, inventory, and payment handling.',
+  problem: "Web and mobile share trading screens, but device features such as photo selection need a separate bridge. For transactions, the server compares order and inventory state with provider results rather than trusting a browser completion screen. The public environment uses fixture data and test payments.",
   screenshots: [
     { src: shared.cover, alt: 'SummerGear equipment discovery home in Korean', caption: 'Public test home with fixture data, not real customer listings', width: 960, height: 600 },
     { src: '/summergear/listing.png', alt: 'SummerGear test surfboard detail in Korean', caption: 'Mobile web detail for payment testing, not a native-device capture', width: 480, height: 900, displayWidth: 480 },
   ],
   process: [
-    { step: '01', title: 'Prototype', description: 'Built sport-specific discovery, listing details, selling, and community screens, with an Expo WebView shell for the web interface.', outputs: ['Next.js', 'Expo WebView', 'Sport-specific specs'] },
-    { step: '02', title: 'Plan', description: 'Defined shared Zod contracts and the native bridge, then documented ownership, sessions, and image access for listing and order features moving to Go.', outputs: ['Shared contracts', 'OpenAPI', 'Ownership checks'] },
-    { step: '03', title: 'Autopilot', description: 'Separated payment reconciliation and retries into River jobs, with isolated database tests, role-specific Docker images, and keyless CI checks.', outputs: ['River', 'Isolated database', 'Docker / CI'] },
-    { step: '04', title: 'Review', description: 'The repository deployment record dated September 23, 2026 documents Toss test approval, full cancellation, and inventory restoration. Real OAuth, native-device flows, and provider-originated webhooks still need verification.', outputs: ['Test-payment record', 'Stock restoration', 'Remaining checks'] },
-  ],
-  highlights: [
+    {
+      "step": "01",
+      "title": "Prototype",
+      "description": "Discovery, listing details, and selling screens live in Next.js; the Expo app opens the same interface in a WebView. Photo selection and haptics go through a message bridge to native code. Sharing screens does not remove the need to check device permissions and app-resume behavior separately.",
+      "outputs": [
+        "Shared screens",
+        "Photo-selection bridge"
+      ]
+    },
+    {
+      "step": "02",
+      "title": "Plan",
+      "description": "Shared Zod schemas keep web and mobile input formats aligned. Listing features moving to Go derive ownership from the service session and issue upload URLs after permission checks. Legacy Supabase paths still coexist with Go paths, so the authentication migration is not described as complete.",
+      "outputs": [
+        "Zod",
+        "Go sessions",
+        "Image permissions"
+      ]
+    },
+    {
+      "step": "03",
+      "title": "Autopilot",
+      "description": "A payment callback in the browser is not enough to approve an order. The server compares the stored order amount with the provider result, and River jobs revisit uncertain results or pending cancellations. Database migration runs as a separate step, not during API startup.",
+      "outputs": [
+        "Payment reconciliation",
+        "River retries",
+        "Separate migration"
+      ]
+    },
+    {
+      "step": "04",
+      "title": "Review",
+      "description": "The September 23, 2026 test deployment record compares approved payments with orders and reserved stock, then checks inventory restoration after full cancellation. Duplicate cancellation and user-aborted payment are separate cases. Real OAuth, native-device flows, and provider-originated webhook delivery still need verification.",
+      "outputs": [
+        "Test approval and cancellation",
+        "Stock restoration",
+        "Remaining checks"
+      ]
+    }
+  ],  highlights: [
     'Shared TypeScript and Zod domain contracts across Next.js and Expo WebView',
     'Native bridge code for photo selection, haptics, and web messages',
     'Go service sessions, CSRF and ownership checks, and signed-URL listing image contracts',

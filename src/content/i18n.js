@@ -49,14 +49,6 @@ const phraseMap = new Map([
   ['복구 가능한 이벤트 처리', 'Recoverable event processing'],
   ['Outbox·Inbox·멱등 키·DLQ를 통해 중복과 일시 장애를 제어합니다.', 'Control duplicates and transient failures with Outbox, Inbox, idempotency keys, and DLQ.'],
   ['AI 협업 개발', 'AI-assisted development'],
-  ['기획과 설계', 'Planning and architecture'],
-  ['구현과 리팩터링', 'Implementation and refactoring'],
-  ['검증과 문서화', 'Validation and documentation'],
-  ['지진 수직 슬라이스 검증', 'Earthquake vertical-slice validation'],
-  ['탐색 상태와 URL 설계', 'Exploration state and URL design'],
-  ['실시간 복구와 계약 자동화', 'Realtime recovery and contract automation'],
-  ['재현 가능한 검증 환경', 'Reproducible verification environment'],
-  ['포트폴리오 증거 정리', 'Portfolio evidence and documentation'],
   ['쇼핑몰을 만들며 익힌 화면과 서버의 연결', 'Learning to connect a storefront and its backend'],
   ['지진 피드에서 복구 가능한 데이터 제품까지', 'From an earthquake feed to a recoverable data product'],
   ['Variant 예약 · 원장', 'Variant reservation · ledger'],
@@ -94,41 +86,11 @@ const phraseMap = new Map([
   ['PostgreSQL은 사실의 원본, Redis는 작업·잠금·신호 전달 역할만 담당합니다.', 'PostgreSQL is the source of truth; Redis handles jobs, locks, and signal delivery only.'],
   ['전체 데이터는 REST로 받고 WebSocket은 변경 sequence만 전달합니다.', 'The full snapshot arrives over REST; WebSocket carries change sequences only.'],
   ['계약 기반 프론트엔드', 'Contract-driven frontend'],
-  ['제품 범위와 비범위, 기술 선택과 상태의 소유자를 결정했습니다. AI가 제안한 코드는 타입·계약·브라우저 테스트와 실제 화면 검토를 거쳐 수정하거나 제외했으며, 검증되지 않은 운영 성능은 프로젝트 범위에서 명시적으로 분리했습니다.', 'I decided the product scope, non-scope, technology choices, and state ownership. AI suggestions were amended or rejected after type, contract, browser, and visual review; unverified production performance stays explicitly out of scope.'],
-  ['아이디어 탐색, 구현 초안, 오류 분석과 문서 구조화에 AI를 활용하고, 각 결과는 Prototype → Plan → Autopilot → Review 사이클의 실행 결과로 검토했습니다.', 'I used AI for ideation, implementation drafts, error analysis, and documentation structure, then reviewed each result through the Prototype → Plan → Autopilot → Review cycle.'],
-  ['서비스 방향과 우선순위, 기술 선택과 서비스 경계를 결정하고 AI가 제안한 결과를 검토했습니다. 실제 사용자 흐름과 통합 테스트 결과를 확인하며 수정 방향과 최종 수용 여부를 판단했습니다.', 'I set service direction, priorities, technology choices, and boundaries, then reviewed AI proposals against user flows and integration tests before accepting them.'],
-  ['대화로 요구사항을 구체화하고 PRD·SSOT·아키텍처와 데이터 모델 초안을 반복해서 정리했습니다.', 'Structured requirements through conversation and iterated on PRD, SSOT, architecture, and data-model drafts.'],
-  ['화면과 API 코드 초안, 구조 전환과 반복 작업에 활용하고 서비스 경계에 맞게 검토·수정했습니다.', 'Used AI for UI/API drafts, structural changes, and repetitive work, then reviewed and adapted the output to service boundaries.'],
-  ['통합·보안·E2E·장애 복구 시나리오와 로그 분석을 보조받고 결과를 기준으로 결함을 보완했습니다.', 'Used AI to assist with integration, security, E2E, recovery scenarios, and log analysis, then fixed defects based on the results.'],
-  ['문제와 범위 정의', 'Problem and scope definition'],
-  ['시각 중심의 포트폴리오 아이디어를 Tech·IT 커머스로 구체화하고, 고객 경험과 MSA 역량을 함께 보여주는 범위를 정했습니다.', 'Turned a visual portfolio idea into a technology-focused commerce product and defined a scope that demonstrates both customer experience and MSA capability.'],
-  ['고객 구매 경험 구축', 'Building the customer purchase experience'],
-  ['SPA 프로토타입에서 Next.js App Router 기반 스토어로 전환하고 탐색, 상품 상세, 장바구니, 견적, 주문과 비회원 조회를 연결했습니다.', 'Moved from an SPA prototype to a Next.js App Router storefront and connected discovery, product detail, cart, quote, checkout, and guest order lookup.'],
-  ['NestJS MSA 전환', 'Transitioning to a NestJS MSA'],
-  ['Gateway와 도메인 서비스를 실제 NestJS 구조로 분리하고 Drizzle ORM과 서비스별 PostgreSQL 소유권을 적용했습니다.', 'Separated the gateway and domain services into a real NestJS structure with Drizzle ORM and service-owned PostgreSQL schemas.'],
-  ['OMS/WMS 운영 모델 확장', 'Expanding the OMS/WMS operating model'],
-  ['상품 Variant·SKU, 다중 창고, 재고 원장, 주문·결제, 출고·배송·반품, 공급사·발주와 관리자 조회 모델을 구현했습니다.', 'Implemented product variants/SKUs, multi-warehouse inventory ledgers, order/payment, fulfillment/delivery/returns, procurement, and admin query models.'],
-  ['신뢰성과 보안 강화', 'Strengthening reliability and security'],
-  ['재고 선점 경쟁과 예약 만료를 보완하고 Outbox·Inbox, 멱등성, 재시도·DLQ, RBAC, JWT/JWKS와 CSRF를 적용했습니다.', 'Handled inventory reservation races and expiry, then applied Outbox/Inbox, idempotency, retries/DLQ, RBAC, JWT/JWKS, and CSRF.'],
-  ['테스트와 장애 복구 확인', 'Testing behavior and failure recovery'],
-  ['React Query·Zustand 상태 경계를 정리하고 Redis 캐시, BullMQ, 구조화 로그와 관측성을 더한 뒤 통합·E2E·장애 복구를 검증했습니다.', 'Clarified React Query/Zustand state boundaries, added Redis cache, BullMQ, structured logs, and observability, then verified integration, E2E, and recovery.'],
-  ['지진 수직 슬라이스 검증', 'Validating the earthquake vertical slice'],
-  ['USGS 최근 지진 피드를 Celery로 수집하고 PostGIS에 멱등 저장한 뒤 FastAPI REST·WebSocket과 MapLibre/deck.gl 지도까지 연결했습니다.', 'Collected the latest USGS earthquake feed with Celery, stored it idempotently in PostGIS, and connected FastAPI REST/WebSocket to a MapLibre/deck.gl map.'],
-  ['시간·규모·깊이 필터를 목록·지도·통계에 동시에 반영하고 URL을 상태 기준으로 사용해 새로고침과 링크 공유를 지원했습니다.', 'Applied time, magnitude, and depth filters to the list, map, and stats while using the URL as the state source for refresh and link sharing.'],
-  ['전체 데이터 대신 작은 변경 신호를 전달하고 마지막 sequence 이후를 REST로 복구했습니다. FastAPI에서 OpenAPI와 TypeScript client를 생성해 drift를 차단했습니다.', 'Sent compact change signals instead of the full dataset and recovered after the last sequence through REST. Generated OpenAPI and the TypeScript client from FastAPI to block drift.'],
-  ['uv.lock으로 Python 의존성을 고정하고 Python 3.12·3.13, API 컨테이너, 웹·브라우저 검증을 GitHub Actions에서 분리 실행했습니다.', 'Pinned Python dependencies with uv.lock and ran Python 3.12/3.13, API container, web, and browser verification as separate GitHub Actions jobs.'],
-  ['프로젝트 브리프와 Build Log에 문제, 판단 기준, 결함과 보류 범위를 기록하고 apps/web·apps/api·packages/api-client 모노레포 경계를 정리했습니다.', 'Recorded problems, decision criteria, defects, and deferred scope in the project brief and Build Log, then clarified the apps/web, apps/api, and packages/api-client monorepo boundaries.'],
   ['TECHZONE 고객 화면, 주문 Saga, 데이터와 운영 조회로 구성된 아키텍처', 'TECHZONE architecture with customer screens, Order Saga, data, and operations queries'],
   ['TECHZONE 전체 시스템 토폴로지', 'TECHZONE full system topology'],
   ['QuakeCurrent 수집, 실시간 전달, 지도 경험으로 구성된 아키텍처', 'QuakeCurrent architecture with ingestion, realtime delivery, and map experience'],
   ['QuakeCurrent 전체 시스템 토폴로지', 'QuakeCurrent full system topology'],
   ['FastAPI OpenAPI에서 TypeScript client를 생성해 API 모델 차이를 차단합니다.', 'Generate the TypeScript client from FastAPI OpenAPI to prevent API model drift.'],
-  ['Codex와 Antigravity를 활용한 AI 협업 개발', 'AI-assisted development with Codex and Antigravity'],
-  ['요구사항 구조화, UI 시안 탐색, 코드 초안과 반복 리팩터링, 테스트 시나리오 작성과 오류 분석 보조에 AI 도구를 활용했습니다.', 'Used AI tools to structure requirements, explore UI directions, draft code, iterate on refactors, write test scenarios, and analyze errors.'],
-  ['Codex를 활용한 반복형 개발과 검토', 'Iterative development and review with Codex'],
-  ['지진 수직 슬라이스의 화면과 API 초안을 빠르게 만들고 가장 큰 기술 위험을 확인했습니다.', 'Rapidly built the UI and API draft for the earthquake vertical slice and tested the highest-risk assumptions.'],
-  ['OpenAPI 생성, URL 필터 E2E와 CI 반복 작업의 구현·테스트 초안을 보조받았습니다.', 'Used AI assistance for OpenAPI generation, URL-filter E2E, CI automation, and test drafts.'],
-  ['지도 로딩, WebSocket 재연결, 경계값 오류를 분석하고 수정 결과를 다시 검증했습니다.', 'Analyzed map loading, WebSocket reconnects, and boundary-value bugs, then re-validated the fixes.'],
 ]);
 
 const translateDeep = (value) => {
@@ -146,6 +108,91 @@ const englishProjects = (projects) => projects.map((project, index) => {
   const translated = translateDeep(project);
   if (project.slug === 'techzone' || index === 0) {
     Object.assign(translated, {
+      ai: {
+        "label": "AI-ASSISTED DEVELOPMENT",
+        "title": "Where I used AI and what I checked",
+        "tools": [
+          "Codex",
+          "Antigravity"
+        ],
+        "summary": "I used Codex and Antigravity to draft requirements, screens, and APIs, and to help with repeated edits and test cases. I decided what to keep by checking the project's data flow and execution results.",
+        "responsibility": "I reviewed design decisions such as which service changes an order, payment, or inventory record and how retries work against the documentation and tests. Generated code was not treated as finished without checking purchase flows and recovery behavior.",
+        "uses": [
+          {
+            "title": "Requirements drafts",
+            "description": "Used AI to outline checkout, delivery, and returns and identify missing states. I revised those drafts against the PRD and data model."
+          },
+          {
+            "title": "UI and API drafts",
+            "description": "Used AI for components, API drafts, and repetitive structural changes, then reviewed data ownership and request/response shapes."
+          },
+          {
+            "title": "Tests and error analysis",
+            "description": "Used assistance for duplicate-request, redelivery, and recovery test cases and log analysis. Changes were followed by the relevant checks."
+          }
+        ]
+      },
+      process: [
+        {
+          "step": "01",
+          "title": "Use the selected variant throughout checkout",
+          "description": "Different colors or capacities can have different prices and stock. I kept product descriptions on Product and used Variant for carts, order snapshots, and inventory. Before checkout, the server quote API recalculates prices, discounts, shipping, and available stock.",
+          "outputs": [
+            "Product / Variant",
+            "Server quote"
+          ]
+        },
+        {
+          "step": "02",
+          "title": "Share storefront screens between web and Android",
+          "description": "I moved the SPA prototype into a Next.js storefront and connected browsing, checkout, and order lookup. The web build uses SSR and product metadata; Android uses a Capacitor build of the same customer screens. This reduces duplicated UI code, with limits on native-specific interactions.",
+          "outputs": [
+            "Next.js SSR",
+            "Capacitor",
+            "Shared storefront"
+          ]
+        },
+        {
+          "step": "03",
+          "title": "Give each service ownership of its data",
+          "description": "I separated order, payment, inventory, and other NestJS services behind a gateway. Each service manages its own PostgreSQL data and exchanges state through APIs and events instead of changing another service's tables. The split provides more to study, but also makes the local stack and failure tracing more complicated.",
+          "outputs": [
+            "NestJS",
+            "Service-owned data",
+            "APIs / Events"
+          ]
+        },
+        {
+          "step": "04",
+          "title": "Build a separate read model for admin screens",
+          "description": "Admin Query maintains lists and aggregates from domain events, rather than making the dashboard call every service for each view. This introduces a delay between a source update and the displayed result. I included source-total comparisons and a projection rebuild procedure to check that read model.",
+          "outputs": [
+            "Admin Query",
+            "Projection",
+            "Source-total checks"
+          ]
+        },
+        {
+          "step": "05",
+          "title": "Handle the gap between saving and publishing",
+          "description": "An order can be committed before its event reaches RabbitMQ. I write the domain change and outbox record in one transaction, then mark publication complete only after broker confirmation. Consumers deduplicate by inbox event ID, while command APIs use idempotency keys for retries.",
+          "outputs": [
+            "Outbox / Inbox",
+            "Publisher confirm",
+            "Idempotency keys"
+          ]
+        },
+        {
+          "step": "06",
+          "title": "Test checkout separately from failure recovery",
+          "description": "Integration tests cover member and guest checkout, changed prices, and duplicate requests. Resilience tests stop RabbitMQ, commit an order, then restart the broker to check outbox delivery and Saga recovery. Payment, shipping, and SMS use mock adapters, so these checks do not establish real provider integration.",
+          "outputs": [
+            "Checkout tests",
+            "RabbitMQ recovery",
+            "Mock adapters"
+          ]
+        }
+      ],
       status: 'PERSONAL LEARNING PROJECT',
       coverAlt: 'TECHZONE storefront home screen',
       gallery: {
@@ -160,7 +207,7 @@ const englishProjects = (projects) => projects.map((project, index) => {
       caseStudyLabel: 'View case study',
       pendingMessage: 'Case study coming soon.',
       summary: 'A personal project for learning how to build a commerce system. I connected product browsing, orders, payments, inventory, fulfillment, and returns, then tested event handling and failure recovery between services.',
-      problem: 'An order changes payment, inventory, and fulfillment data across several services. I built this flow to learn service boundaries, duplicate-request handling, and recovery after failures.',
+      problem: "This personal project follows an order through payment, stock reservation, and fulfillment. The main concerns are consistent variant pricing and stock, plus missing or duplicate events after an order is saved. Payments use a mock adapter rather than a real payment provider.",
       screenshots: [
         { src: '/techzone/storefront-home.png', alt: 'TECHZONE storefront home screen', caption: 'Storefront demo · CMS-based product discovery', width: 1440, height: 1100 },
         { src: '/techzone/storefront-product-detail.png', alt: 'TECHZONE product detail screen', caption: 'Product detail demo · Options and purchase information', width: 1440, height: 1100 },
@@ -177,15 +224,91 @@ const englishProjects = (projects) => projects.map((project, index) => {
         'Defined Docker Compose, Kubernetes, and GitHub Actions delivery contracts',
       ],
       validation: [
-        'Integration tests for member/guest purchase flows and price/inventory changes',
-        'Recovery verification after RabbitMQ, PostgreSQL, Order, and Inventory failures',
-        'Playwright E2E, accessibility, Lighthouse performance, and SEO gates',
-        'OpenTelemetry, Prometheus, Tempo, Loki, and Grafana observability stack',
+        'Implementation record: integration tests for member/guest checkout, changed prices and stock, and duplicate requests',
+        'Failure scenario: outbox redelivery and order Saga recovery after a RabbitMQ outage',
+        'Playwright checkout, accessibility, and Lighthouse checks configured; these are not real-user performance measurements',
+        'OpenTelemetry and Grafana tooling configured for logs, metrics, and distributed traces',
+        'Payment, shipping, and SMS use mock adapters; this does not verify real provider approvals or deliveries',
       ],
       detail: { ...translated.detail, backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'PERSONAL PROJECT · COMMERCE', problemLabel: '01 · PROBLEM', problemTitle: 'Problem definition', architectureLabel: '02 · ARCHITECTURE', topologyLabel: '03 · SYSTEM TOPOLOGY', processLabel: '04 · PROCESS', processTitle: 'Learning to connect a storefront and its backend', buildLabel: '05 · BUILD', buildTitle: 'Key implementation', aiLabel: '06 · AI COLLABORATION', validationLabel: '07 · VALIDATION', validationTitle: 'Tests and observations' },
     });
   } else if (project.slug === 'quakecurrent' || index === 1) {
     Object.assign(translated, {
+      ai: {
+        "label": "AI-ASSISTED DEVELOPMENT",
+        "title": "Using Codex for drafts and debugging",
+        "tools": [
+          "Codex"
+        ],
+        "summary": "I used Codex to draft ingestion and map code, write tests, and analyze errors. Work started with a small feed-to-screen flow, followed by checks and revisions to filters and reconnection behavior.",
+        "responsibility": "I defined the API contract, URL state, and recovery sequence rules and reviewed the proposed code. Passing type checks did not replace checking map loading and reconnection in a browser.",
+        "uses": [
+          {
+            "title": "The first connected flow",
+            "description": "Used assistance to draft the USGS-to-API-to-map path and inspect how data changes between stages."
+          },
+          {
+            "title": "Repeatable checks",
+            "description": "Used AI for OpenAPI generation, filter tests, and CI drafts, with checks to expose mismatches between generated contracts and code."
+          },
+          {
+            "title": "Reproducing errors",
+            "description": "Used AI to analyze map loading, filter edge cases, and reconnect issues, then checked proposed fixes in tests and the interface."
+          }
+        ]
+      },
+      process: [
+        {
+          "step": "01",
+          "title": "Connect one earthquake feed to the map",
+          "description": "I limited the initial scope to USGS earthquakes instead of adding several types of natural events. Celery ingests the feed into PostGIS, and FastAPI supplies the map. Re-ingesting the same fixture checks that unchanged events do not create duplicate records or change signals.",
+          "outputs": [
+            "USGS",
+            "Celery / PostGIS",
+            "Duplicate-ingestion check"
+          ]
+        },
+        {
+          "step": "02",
+          "title": "Keep the map and list on the same filters",
+          "description": "Time, magnitude, and depth filters live in the URL and drive the list, map, and statistics together. Filtering currently runs in the browser over the received snapshot. Refreshing and sharing preserve those conditions, but a bounded snapshot is not a complete record of every earthquake in the period.",
+          "outputs": [
+            "URL filters",
+            "Map and list sync",
+            "Bounded snapshot"
+          ]
+        },
+        {
+          "step": "03",
+          "title": "Recover from the last processed update",
+          "description": "WebSocket carries compact change signals rather than complete event data. The client remembers its processed sequence and uses REST to fetch later changes when reconnecting. PostgreSQL's change log is the recovery source; Redis signals are not treated as durable history.",
+          "outputs": [
+            "WebSocket signals",
+            "REST catch-up",
+            "Sequence"
+          ]
+        },
+        {
+          "step": "04",
+          "title": "Keep the Python API and web types in step",
+          "description": "I generate OpenAPI and the TypeScript client from FastAPI schemas, with drift checks that fail when the outputs no longer match. Python dependencies are locked with uv.lock. Separate API, container, web, and browser checks make the failing part easier to identify.",
+          "outputs": [
+            "OpenAPI generation",
+            "uv.lock",
+            "CI"
+          ]
+        },
+        {
+          "step": "05",
+          "title": "Document what recovery does not guarantee",
+          "description": "The Build Log records defects and deferred work alongside the implementation. Recovering missing updates on reconnect is different from immediately detecting every lost signal on an open connection; the latter is not guaranteed. Local and CI results are also kept separate from production performance claims.",
+          "outputs": [
+            "Build Log",
+            "Defects and deferred work",
+            "Verification scope"
+          ]
+        }
+      ],
       status: 'PERSONAL LEARNING PROJECT',
       coverAlt: 'QuakeCurrent earthquake data project brief',
       gallery: {
@@ -200,7 +323,7 @@ const englishProjects = (projects) => projects.map((project, index) => {
       caseStudyLabel: 'View case study',
       pendingMessage: 'Case study coming soon.',
       summary: 'A personal project for learning realtime data processing. I collected and normalized USGS earthquake feeds every 60 seconds, connected them to a 2D/3D map through REST and WebSocket, and implemented recovery for missed updates.',
-      problem: 'Repeated data and dropped connections can leave a map out of sync. I practiced duplicate prevention, reconnect recovery, and shared data contracts between a Python API and a TypeScript interface.',
+      problem: "A feed can repeat or revise an event, and a browser connection can drop at any time. I store events and their change history in the database so the interface can catch up from the last processed update.",
       screenshots: [
         { src: '/quakecurrent/project-cover.webp', alt: 'QuakeCurrent project brief and globe visual', caption: 'Project brief · Problem and data product scope', width: 1731, height: 909 },
         { src: '/quakecurrent/workflow.webp', alt: 'QuakeCurrent development workflow visual', caption: 'Workflow · Prototype → Plan → Autopilot → Review', width: 1731, height: 909 },
@@ -216,15 +339,93 @@ const englishProjects = (projects) => projects.map((project, index) => {
         'Organized the monorepo around apps/web, apps/api, and packages/api-client',
       ],
       validation: [
-        '14 web model, 12 API client, 15 FastAPI, 4 SSR, and 10 browser tests passed locally',
-        'Public CI passed for Python 3.12/3.13 API contracts, API container, and web URL filters',
-        'Two FastAPI → OpenAPI → TypeScript contract drift gates passed',
-        'Repeated fixture ingestion produced zero new events and zero change signals',
+        'Initial implementation record: 14 web model, 12 API client, 15 FastAPI, 4 SSR, and 10 browser tests passed locally',
+        'CI record at that stage: Python 3.12/3.13 API contracts, API container, and web URL-filter checks passed',
+        'Recorded passes for two FastAPI → OpenAPI → TypeScript generated-contract drift checks',
+        'Recorded fixture re-ingestion produced zero new events and zero change signals',
+        'These are historical implementation results, not checks of the current deployment or long-term production performance',
       ],
       detail: { ...translated.detail, backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'PERSONAL PROJECT · REALTIME DATA', problemLabel: '01 · PROBLEM', problemTitle: 'Problem definition', architectureLabel: '02 · ARCHITECTURE', topologyLabel: '03 · SYSTEM TOPOLOGY', processLabel: '04 · PROCESS', processTitle: 'Learning data collection, updates, and recovery', buildLabel: '05 · BUILD', buildTitle: 'Key implementation', aiLabel: '06 · AI COLLABORATION', validationLabel: '07 · VALIDATION', validationTitle: 'Validation and boundaries' },
     });
   } else if (project.slug === 'signal-archive' || index === 2) {
     Object.assign(translated, {
+      ai: {
+        "label": "RAG WORKFLOW",
+        "title": "Connecting retrieved evidence to an answer",
+        "tools": [
+          "LangGraph.js",
+          "Vitest",
+          "Playwright"
+        ],
+        "summary": "Question parsing, retrieval, evidence assembly, and citation checks are separate steps with defined outputs. This makes missing evidence or mismatched references easier to locate. Fake-model flow tests are kept separate from real-model answer evaluation.",
+        "responsibility": "The design distinguishes insufficient evidence from implementation failures. Answers must not cite unretrieved material or silently expand the requested period. Limited data and pending provider evaluation are not presented as a finished AI service.",
+        "uses": [
+          {
+            "title": "Question and date range",
+            "description": "Parse the requested comparison or update summary and its date range into structured fields for retrieval."
+          },
+          {
+            "title": "Evidence assembly",
+            "description": "Connect retrieved revisions and chunks with their source metadata. Report insufficient evidence when the material does not support the request."
+          },
+          {
+            "title": "Citation checks",
+            "description": "Compare citation identifiers with the actual retrieval results. A response matching the schema is checked separately from a response supported by evidence."
+          }
+        ]
+      },
+      process: [
+        {
+          "step": "01",
+          "title": "Separate source support from data coverage",
+          "description": "GitHub, npm, arXiv, and other sources have different response formats and usage conditions, so each has its own collector. I normalize publication time, canonical URL, and external ID, while checking metadata and body-use rules separately. A working adapter does not by itself mean enough data has been collected.",
+          "outputs": [
+            "Source collectors",
+            "Publication time",
+            "Usage conditions"
+          ]
+        },
+        {
+          "step": "02",
+          "title": "Keep collection jobs out of page requests",
+          "description": "The API, worker, and web app share TypeBox contracts. BullMQ workers handle collection and reprocessing, while PostgreSQL stores source records and processed data. Redis delivers jobs; it is not the durable store for searchable documents.",
+          "outputs": [
+            "TypeBox",
+            "BullMQ",
+            "PostgreSQL"
+          ]
+        },
+        {
+          "step": "03",
+          "title": "Preserve originals before preparing search data",
+          "description": "I keep the source response as a raw item and process it into searchable documents separately. Content fingerprints group exact and near duplicates, and heading-aware chunking splits the text. Revision and chunk identifiers remain attached so an answer's evidence can be traced back.",
+          "outputs": [
+            "Raw items",
+            "Duplicate groups",
+            "Revision / Chunk"
+          ]
+        },
+        {
+          "step": "04",
+          "title": "Check citations against retrieved passages",
+          "description": "Retrieval combines keyword and vector search within the requested time range. Citation checks compare an answer's references with the chunks actually retrieved. If there is not enough evidence, the response reports insufficient_evidence rather than silently widening the date range.",
+          "outputs": [
+            "Keyword and vector search",
+            "Date filters",
+            "Citation checks"
+          ]
+        },
+        {
+          "step": "05",
+          "title": "Distinguish passing tests from useful answers",
+          "description": "Seeded database data and a fake model make API and browser regression tests repeatable. They check retrieval and citation behavior, not the quality of answers to real questions. Limited initial data, provider approval, and the remaining golden-set evaluation are documented separately.",
+          "outputs": [
+            "Seeded DB",
+            "Fake model",
+            "Pending quality evaluation"
+          ]
+        }
+      ],
       status: 'PERSONAL LEARNING PROJECT',
       coverAlt: 'Signal Archive technology intelligence source status dashboard',
       gallery: {
@@ -240,8 +441,7 @@ const englishProjects = (projects) => projects.map((project, index) => {
       pendingMessage: 'Case study coming soon.',
       summary:
         'A personal learning prototype for technical search and source-grounded Q&A. I implemented collection, retrieval, and citation checks. The initial dataset is small, so answers remain limited; the case study documents the implementation and remaining work.',
-      problem:
-        'I wanted to search material from several sources and trace each answer back to its evidence. I connected collection, deduplication, retrieval, and citation checks to learn the basic RAG workflow. When evidence is insufficient, the system reports that limit without silently expanding the requested scope.',
+      problem: "Retrieving a document does not mean it is enough to answer the question. Several sources may repeat the same material, or the document may fall outside the requested dates. Collection, deduplication, date filtering, and citation checks are separate so those differences can be inspected.",
       screenshots: [
         { src: '/signal-archive/overview.webp', alt: 'Signal Archive technology intelligence source status dashboard', caption: 'Dashboard · Verified data source status and freshness tracking', width: 1024, height: 640 },
         { src: '/signal-archive/qa-panel.webp', alt: 'Signal Archive evidence-grounded AI question-answering panel', caption: 'Q&A · Trend analysis grounded in time filters and citation provenance', width: 1024, height: 640 },
@@ -258,15 +458,13 @@ const englishProjects = (projects) => projects.map((project, index) => {
         '[DevOps] Docker Compose, GHCR images, and SSH rollback deployment pipeline',
       ],
       validation: [
-        '[Passed] 51 API unit/contract, 152 collector, 33 web unit tests, and 4 Playwright Chromium E2E tests',
-        '[Boundary] Sparse initial corpus leads to frequent insufficient_evidence responses on arbitrary queries',
-        '[Boundary] Commercial chat provider unapproved; production-grade generative synthesis and golden set gates deferred',
-        '[Boundary] License attribution templates unfinalized; full excerpts deferred in favor of metadata-only citations',
-        '[Roadmap] Accumulate continuous ingestion data to scale the production corpus volume',
-        '[Roadmap] Integrate approved chat provider and pass RAG golden-set response quality release gates',
-        '[Roadmap] Finalize upstream license attribution templates to officially enable full-text excerpt rendering',
+        'Initial implementation record: 51 API unit/contract, 152 collector, 33 web unit tests, and Playwright E2E passed',
+        'Regression checks use a seeded database and fake model, separate from real-model answer evaluation',
+        'Limited initial data can produce insufficient_evidence for real questions',
+        'Provider approval and golden-set answer evaluation were still pending at the recorded stage',
+        'Full excerpts require verified attribution and usage conditions; citations stay metadata-focused until then',
       ],
-      detail: { ...translated.detail, backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'PERSONAL PROJECT · SEARCH & RAG', problemLabel: '01 · PROBLEM', problemTitle: 'Problem definition', architectureLabel: '02 · ARCHITECTURE', topologyLabel: '03 · SYSTEM TOPOLOGY', processLabel: '04 · PROCESS', processTitle: 'Learning collection, search, and citation checks', buildLabel: '05 · BUILD', buildTitle: 'Key implementation', aiLabel: '06 · AI COLLABORATION', validationLabel: '07 · VALIDATION', validationTitle: 'Validation and boundaries' },
+      detail: { ...translated.detail, backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'PERSONAL PROJECT · SEARCH & RAG', problemLabel: '01 · PROBLEM', problemTitle: 'Problem definition', architectureLabel: '02 · ARCHITECTURE', topologyLabel: '03 · SYSTEM TOPOLOGY', processLabel: '04 · PROCESS', processTitle: 'Learning collection, search, and citation checks', buildLabel: '05 · BUILD', buildTitle: 'Key implementation', aiLabel: '06 · ANSWER FLOW', validationLabel: '07 · VALIDATION', validationTitle: 'Validation and boundaries' },
     });
   }
   return translated;

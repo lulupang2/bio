@@ -194,7 +194,7 @@ export const portfolio = {
     summary:
       '프론트엔드와 백엔드 연결을 연습하기 위해 만든 개인 커머스 프로젝트입니다. 상품 탐색부터 주문·결제·재고·배송·반품까지 구현하고, 서비스 간 이벤트 처리와 실패 후 복구를 테스트했습니다.',
     problem:
-      '한 번의 주문이 결제·재고·배송으로 이어질 때 각 서비스의 데이터는 어떻게 맞춰야 할까요? 이 흐름을 직접 구현하면서 서비스 분리, 중복 요청과 장애 후 복구를 학습하는 것을 목표로 삼았습니다.',
+      "주문 한 건이 결제·재고 예약·출고로 이어지는 구조를 구현했습니다. 여기서 중요한 부분은 상품 옵션의 가격과 재고 기준을 맞추는 일, 그리고 주문 저장 후 이벤트가 전달되지 않거나 중복 전달되는 경우를 처리하는 일이었습니다. 실제 PG 연동이 아닌 Mock 결제를 사용하는 개인 프로젝트입니다.",
     architecture: {
       title: '고객 경험과 운영 도메인을 이벤트로 연결했습니다.',
       description:
@@ -414,71 +414,89 @@ export const portfolio = {
       ],
     },
     ai: {
-      label: 'AI-ASSISTED DEVELOPMENT',
-      title: 'Codex와 Antigravity를 활용한 AI 협업 개발',
-      tools: ['Codex', 'Antigravity'],
-      summary:
-        '요구사항 구조화, UI 시안 탐색, 코드 초안과 반복 리팩터링, 테스트 시나리오 작성과 오류 분석 보조에 AI 도구를 활용했습니다.',
-      responsibility:
-        '서비스 방향과 우선순위, 기술 선택과 서비스 경계를 결정하고 AI가 제안한 결과를 검토했습니다. 실제 사용자 흐름과 통합 테스트 결과를 확인하며 수정 방향과 최종 수용 여부를 판단했습니다.',
-      uses: [
-        {
-          title: '기획과 설계',
-          description: '대화로 요구사항을 구체화하고 PRD·SSOT·아키텍처와 데이터 모델 초안을 반복해서 정리했습니다.',
-        },
-        {
-          title: '구현과 리팩터링',
-          description: '화면과 API 코드 초안, 구조 전환과 반복 작업에 활용하고 서비스 경계에 맞게 검토·수정했습니다.',
-        },
-        {
-          title: '검증과 문서화',
-          description: '통합·보안·E2E·장애 복구 시나리오와 로그 분석을 보조받고 결과를 기준으로 결함을 보완했습니다.',
-        },
+      "label": "AI-ASSISTED DEVELOPMENT",
+      "title": "AI에 맡긴 작업과 검토한 부분",
+      "tools": [
+        "Codex",
+        "Antigravity"
       ],
+      "summary": "요구사항과 화면·API 코드의 초안을 만드는 데 Codex와 Antigravity를 사용했습니다. 반복 수정과 테스트 케이스 정리에도 도움을 받았고, 적용 여부는 프로젝트의 데이터 흐름과 실행 결과를 보고 결정했습니다.",
+      "responsibility": "주문·결제·재고를 어디서 변경할지, 재시도를 어떻게 처리할지 같은 설계 판단은 문서와 테스트를 함께 보며 검토했습니다. 코드가 생성됐다는 사실을 구현 완료로 보지 않고 구매 흐름과 장애 복구 결과를 확인했습니다.",
+      "uses": [
+        {
+          "title": "요구사항 초안",
+          "description": "구매·배송·반품 흐름을 정리하고 빠진 상태와 예외를 찾는 데 사용했습니다. 초안은 PRD와 데이터 모델을 맞춰 보며 수정했습니다."
+        },
+        {
+          "title": "화면·API 구현",
+          "description": "컴포넌트와 API 초안, 반복되는 구조 변경에 사용했습니다. 서비스가 소유한 데이터와 요청·응답 형식이 맞는지 검토했습니다."
+        },
+        {
+          "title": "테스트와 오류 분석",
+          "description": "중복 요청·메시지 재전달·장애 복구의 테스트 케이스와 로그 분석을 보조받았습니다. 수정 후에는 관련 검사를 다시 실행하는 방식으로 작업했습니다."
+        }
+      ]
     },
     process: [
       {
-        step: '01',
-        title: '문제와 범위 정의',
-        description:
-          '시각 중심의 포트폴리오 아이디어를 Tech·IT 커머스로 구체화하고, 고객 경험과 MSA 역량을 함께 보여주는 범위를 정했습니다.',
-        outputs: ['PRD', 'SSOT', 'Architecture', 'Data Model'],
+        "step": "01",
+        "title": "상품 옵션을 주문과 재고의 기준으로",
+        "description": "같은 상품이라도 색상이나 용량이 다르면 가격과 재고가 달라집니다. 상품 설명은 Product에 두고, 장바구니·주문·재고는 Variant를 참조하도록 맞췄습니다. 주문 전에는 서버의 quote API가 가격·쿠폰·배송비·가용 재고를 다시 계산하게 했습니다.",
+        "outputs": [
+          "Product / Variant",
+          "서버 quote"
+        ]
       },
       {
-        step: '02',
-        title: '고객 구매 경험 구축',
-        description:
-          'SPA 프로토타입에서 Next.js App Router 기반 스토어로 전환하고 탐색, 상품 상세, 장바구니, 견적, 주문과 비회원 조회를 연결했습니다.',
-        outputs: ['Next.js', 'SSR · SEO', 'Checkout', 'Capacitor Shell'],
+        "step": "02",
+        "title": "웹과 앱에서 구매 화면 공유",
+        "description": "SPA 프로토타입을 Next.js 스토어로 옮기면서 상품 탐색부터 주문 조회까지 연결했습니다. 웹은 SSR과 상품별 메타데이터를 사용하고, Android는 같은 고객 화면을 Capacitor용으로 빌드합니다. 화면 중복은 줄지만 네이티브 중심의 사용성에는 제약이 있는 선택입니다.",
+        "outputs": [
+          "Next.js SSR",
+          "Capacitor",
+          "공유 고객 화면"
+        ]
       },
       {
-        step: '03',
-        title: 'NestJS MSA 전환',
-        description:
-          'Gateway와 도메인 서비스를 실제 NestJS 구조로 분리하고 Drizzle ORM과 서비스별 PostgreSQL 소유권을 적용했습니다.',
-        outputs: ['NestJS', 'Drizzle ORM', '13 Services', 'OpenAPI'],
+        "step": "03",
+        "title": "서비스마다 변경할 데이터를 구분",
+        "description": "Gateway 뒤에 주문·결제·재고 등의 NestJS 서비스를 나누고, 각 서비스가 자기 PostgreSQL 데이터를 관리하도록 했습니다. 다른 서비스의 DB를 직접 수정하지 않고 API와 이벤트로 상태를 전달합니다. 학습 범위는 넓어졌지만 서비스가 늘어난 만큼 실행 환경과 장애 추적도 복잡해졌습니다.",
+        "outputs": [
+          "NestJS",
+          "서비스별 DB",
+          "API / 이벤트"
+        ]
       },
       {
-        step: '04',
-        title: 'OMS/WMS 운영 모델 확장',
-        description:
-          '상품 Variant·SKU, 다중 창고, 재고 원장, 주문·결제, 출고·배송·반품, 공급사·발주와 관리자 조회 모델을 구현했습니다.',
-        outputs: ['OMS/WMS', 'Inventory Ledger', 'Fulfillment', 'Admin Query'],
+        "step": "04",
+        "title": "관리자 조회를 별도 읽기 모델로 분리",
+        "description": "관리자 화면에서 주문·결제·재고 서비스를 매번 모아서 조회하지 않도록 Admin Query에 읽기 모델을 뒀습니다. 이벤트를 받아 목록과 집계를 갱신하므로 원본 변경이 바로 보이지 않을 수 있습니다. 이 차이를 확인할 수 있도록 원본 합계 대조와 projection 재생성 절차를 함께 마련했습니다.",
+        "outputs": [
+          "Admin Query",
+          "Projection",
+          "원본 합계 대조"
+        ]
       },
       {
-        step: '05',
-        title: '신뢰성과 보안 강화',
-        description:
-          '재고 선점 경쟁과 예약 만료를 보완하고 Outbox·Inbox, 멱등성, 재시도·DLQ, RBAC, JWT/JWKS와 CSRF를 적용했습니다.',
-        outputs: ['Saga', 'Outbox · Inbox', 'Idempotency', 'RBAC · CSRF'],
+        "step": "05",
+        "title": "주문 저장과 이벤트 발행 사이의 유실 처리",
+        "description": "주문만 저장되고 메시지는 발행되지 않는 경우를 다루기 위해 DB 변경과 outbox 기록을 같은 트랜잭션에 넣었습니다. 발행기는 RabbitMQ의 확인을 받은 뒤 완료 처리하고, 수신 측은 inbox의 event ID로 중복을 걸러냅니다. API 재시도에는 별도의 멱등 키를 사용합니다.",
+        "outputs": [
+          "Outbox / Inbox",
+          "Publisher confirm",
+          "멱등 키"
+        ]
       },
       {
-        step: '06',
-        title: '테스트와 장애 복구 확인',
-        description:
-          'React Query·Zustand 상태 경계를 정리하고 Redis 캐시, BullMQ, 구조화 로그와 관측성을 더한 뒤 통합·E2E·장애 복구를 검증했습니다.',
-        outputs: ['TanStack Query', 'Redis · BullMQ', 'OpenTelemetry', 'CI Gates'],
-      },
+        "step": "06",
+        "title": "정상 구매와 장애 후 복구를 따로 확인",
+        "description": "회원·비회원 구매, 주문 직전 가격 변경, 중복 요청을 통합 테스트로 확인했습니다. RabbitMQ를 멈춘 상태에서 주문을 저장한 뒤 다시 실행해 outbox와 Saga가 이어지는지도 검사합니다. 결제·택배·SMS는 Mock adapter를 사용하므로 실제 외부 서비스 연동 검증과는 구분합니다.",
+        "outputs": [
+          "구매 통합 테스트",
+          "RabbitMQ 복구",
+          "Mock adapter"
+        ]
+      }
     ],
     stack: [
       'Next.js',
@@ -503,10 +521,11 @@ export const portfolio = {
       'Docker Compose, Kubernetes, GitHub Actions 배포 계약 구성',
     ],
     validation: [
-      '회원·비회원 구매와 가격·재고 변경 방어 통합 테스트',
-      'RabbitMQ·PostgreSQL·Order·Inventory 장애 후 복구 검증',
-      'Playwright E2E, 접근성, Lighthouse 성능·SEO 게이트',
-      'OpenTelemetry·Prometheus·Tempo·Loki·Grafana 관측성 구성',
+      '구현 기록: 회원·비회원 구매, 가격·재고 변경과 중복 요청의 통합 테스트',
+      '장애 시나리오: RabbitMQ 중단 후 outbox 재발행과 주문 Saga 복구 검사',
+      'Playwright 구매 흐름과 접근성·Lighthouse 검사 구성. 실제 사용자의 성능 지표와는 구분',
+      '로그·메트릭·분산 추적을 위한 OpenTelemetry와 Grafana 계열 도구 구성',
+      '결제·택배·SMS는 Mock adapter 사용. 실제 PG 승인이나 배송 연동을 검증한 결과가 아님',
     ],
     screenshots: [
       {
@@ -574,7 +593,7 @@ export const portfolio = {
       summary:
         '실시간 데이터 처리를 학습하기 위해 만든 개인 프로젝트입니다. USGS 지진 피드를 60초마다 수집·정규화하고, REST API와 WebSocket을 통해 3D·2D 지도에 연결했습니다. 연결 중단 후 누락된 변경을 복구하는 방법도 다뤘습니다.',
       problem:
-        '주기적으로 가져오는 데이터가 중복되거나 실시간 연결이 끊기면 화면에는 무엇을 보여줘야 할까요? 중복 저장 방지, 재연결 복구와 Python API·TypeScript 화면 사이의 데이터 형식을 직접 구현하고 테스트했습니다.',
+        "외부 피드는 같은 사건을 반복해서 보내거나 내용을 수정할 수 있고, 브라우저 연결은 언제든 끊길 수 있습니다. 수집한 사건과 변경 기록을 DB에 남기고, 화면은 마지막으로 처리한 변경 이후부터 다시 따라갈 수 있도록 나눴습니다.",
       architecture: {
         title: '수집 원본과 실시간 신호를 분리해 복구 가능한 흐름을 만들었습니다.',
         description:
@@ -782,64 +801,79 @@ export const portfolio = {
         ],
       },
       ai: {
-        label: 'AI-ASSISTED DEVELOPMENT',
-        title: 'Codex를 활용한 반복형 개발과 검토',
-        tools: ['Codex'],
-        summary:
-          '아이디어 탐색, 구현 초안, 오류 분석과 문서 구조화에 AI를 활용하고, 각 결과는 Prototype → Plan → Autopilot → Review 사이클의 실행 결과로 검토했습니다.',
-        responsibility:
-          '제품 범위와 비범위, 기술 선택과 상태의 소유자를 결정했습니다. AI가 제안한 코드는 타입·계약·브라우저 테스트와 실제 화면 검토를 거쳐 수정하거나 제외했으며, 검증되지 않은 운영 성능은 프로젝트 범위에서 명시적으로 분리했습니다.',
-        uses: [
-          {
-            title: 'Prototype',
-            description: '지진 수직 슬라이스의 화면과 API 초안을 빠르게 만들고 가장 큰 기술 위험을 확인했습니다.',
-          },
-          {
-            title: 'Autopilot',
-            description: 'OpenAPI 생성, URL 필터 E2E와 CI 반복 작업의 구현·테스트 초안을 보조받았습니다.',
-          },
-          {
-            title: 'Review',
-            description: '지도 로딩, WebSocket 재연결, 경계값 오류를 분석하고 수정 결과를 다시 검증했습니다.',
-          },
+        "label": "AI-ASSISTED DEVELOPMENT",
+        "title": "코드 초안과 오류 분석에 사용한 도구",
+        "tools": [
+          "Codex"
         ],
+        "summary": "Codex로 수집·지도 화면의 코드 초안과 테스트를 작성하고 오류를 분석했습니다. 한 번에 기능을 늘리기보다 수집한 데이터가 화면까지 오는 작은 흐름을 만든 뒤, 필터와 재연결 동작을 확인하며 수정했습니다.",
+        "responsibility": "API 계약과 URL 상태, 복구에 사용할 sequence의 기준을 정하고 제안된 코드를 검토했습니다. 타입 검사를 통과해도 실제 지도 로딩이나 브라우저 재연결은 별도로 확인해야 한다는 기준을 유지했습니다.",
+        "uses": [
+          {
+            "title": "처음 연결하는 흐름",
+            "description": "USGS 수집부터 API·지도 표시까지 이어지는 초안을 만들고, 데이터가 어느 단계에서 달라지는지 확인하는 데 사용했습니다."
+          },
+          {
+            "title": "반복 검사",
+            "description": "OpenAPI 생성과 필터 테스트, CI 설정의 초안을 보조받았습니다. 생성된 계약이 코드와 어긋나면 검사에서 드러나도록 했습니다."
+          },
+          {
+            "title": "오류 재현",
+            "description": "지도 로딩·필터 경계값·재연결 문제를 분석하는 데 사용했습니다. 제안된 수정은 관련 테스트와 화면에서 다시 확인했습니다."
+          }
+        ]
       },
       process: [
         {
-          step: '01',
-          title: '지진 수직 슬라이스 검증',
-          description:
-            'USGS 최근 지진 피드를 Celery로 수집하고 PostGIS에 멱등 저장한 뒤 FastAPI REST·WebSocket과 MapLibre/deck.gl 지도까지 연결했습니다.',
-          outputs: ['USGS', 'Celery', 'PostGIS', '3D · 2D Map'],
+          "step": "01",
+          "title": "수집한 지진 한 건을 지도까지 연결",
+          "description": "처음부터 여러 자연현상을 다루지 않고 USGS 지진 피드로 범위를 좁혔습니다. Celery로 받은 데이터를 PostGIS에 저장하고 FastAPI를 거쳐 지도에 표시했습니다. 같은 피드를 다시 수집했을 때 사건과 변경 기록이 중복으로 생기지 않는지도 확인했습니다.",
+          "outputs": [
+            "USGS",
+            "Celery / PostGIS",
+            "중복 수집 검사"
+          ]
         },
         {
-          step: '02',
-          title: '탐색 상태와 URL 설계',
-          description:
-            '시간·규모·깊이 필터를 목록·지도·통계에 동시에 반영하고 URL을 상태 기준으로 사용해 새로고침과 링크 공유를 지원했습니다.',
-          outputs: ['URL State', 'Responsive Filter', 'Map Sync', 'E2E'],
+          "step": "02",
+          "title": "필터를 바꿔도 목록과 지도가 같은 결과를 보도록",
+          "description": "시간·규모·깊이 필터는 URL에 저장하고 목록·지도·통계가 같은 조건을 사용하게 했습니다. 현재는 받은 스냅샷 안에서 브라우저가 필터를 계산합니다. 새로고침과 링크 공유는 지원하지만, 제한된 스냅샷이 해당 시간대의 모든 지진을 포함한다고 가정하지는 않습니다.",
+          "outputs": [
+            "URL 필터",
+            "목록·지도 동기화",
+            "제한된 스냅샷"
+          ]
         },
         {
-          step: '03',
-          title: '실시간 복구와 계약 자동화',
-          description:
-            '전체 데이터 대신 작은 변경 신호를 전달하고 마지막 sequence 이후를 REST로 복구했습니다. FastAPI에서 OpenAPI와 TypeScript client를 생성해 drift를 차단했습니다.',
-          outputs: ['REST Catch-up', 'WebSocket', 'OpenAPI', 'TypeScript Client'],
+          "step": "03",
+          "title": "연결이 끊겨도 마지막 처리 지점부터 복구",
+          "description": "WebSocket은 전체 사건 데이터 대신 작은 변경 신호를 보냅니다. 클라이언트는 처리한 sequence를 기억하고, 재연결할 때 REST로 그 이후의 변경을 가져옵니다. PostgreSQL 변경 기록이 복구 기준이며 Redis 신호 자체를 영구 기록으로 쓰지는 않습니다.",
+          "outputs": [
+            "WebSocket 신호",
+            "REST catch-up",
+            "Sequence"
+          ]
         },
         {
-          step: '04',
-          title: '재현 가능한 검증 환경',
-          description:
-            'uv.lock으로 Python 의존성을 고정하고 Python 3.12·3.13, API 컨테이너, 웹·브라우저 검증을 GitHub Actions에서 분리 실행했습니다.',
-          outputs: ['uv.lock', 'Python 3.12 · 3.13', 'Container', 'GitHub Actions'],
+          "step": "04",
+          "title": "Python API 변경이 웹 타입에도 반영되도록",
+          "description": "FastAPI 스키마에서 OpenAPI와 TypeScript client를 생성하고, 생성물이 원본과 다르면 검사가 실패하게 했습니다. Python 의존성은 uv.lock으로 고정했습니다. API·컨테이너·웹·브라우저 검사를 나눠 어느 부분에서 실패했는지 확인할 수 있게 했습니다.",
+          "outputs": [
+            "OpenAPI 생성",
+            "uv.lock",
+            "CI"
+          ]
         },
         {
-          step: '05',
-          title: '포트폴리오 증거 정리',
-          description:
-            '프로젝트 브리프와 Build Log에 문제, 판단 기준, 결함과 보류 범위를 기록하고 apps/web·apps/api·packages/api-client 모노레포 경계를 정리했습니다.',
-          outputs: ['Project Brief', 'Build Log', 'Monorepo', 'Explicit Scope'],
-        },
+          "step": "05",
+          "title": "복구되는 경우와 남은 한계를 구분",
+          "description": "Build Log에는 구현 내용뿐 아니라 발견한 결함과 보류 항목도 남겼습니다. 재연결 시 누락을 보충하는 동작과, 연결이 유지되는 동안 모든 신호 유실을 즉시 감지하는 것은 다릅니다. 후자는 보장하지 않으며 로컬·CI 통과도 운영 트래픽 성능으로 표현하지 않았습니다.",
+          "outputs": [
+            "Build Log",
+            "결함·보류 기록",
+            "검증 범위"
+          ]
+        }
       ],
       stack: [
         'Next.js',
@@ -863,10 +897,11 @@ export const portfolio = {
         'apps/web·apps/api·packages/api-client 경계의 모노레포 구성',
       ],
       validation: [
-        '웹 모델 14개, API client 12개, FastAPI 15개, SSR 4개, 브라우저 10개 로컬 통과',
-        'Python 3.12·3.13 API 계약, API 컨테이너와 웹·URL 필터 공개 CI 통과',
-        'FastAPI → OpenAPI → TypeScript 계약 drift gate 2개 통과',
-        '동일 fixture 재수집 시 신규 사건과 변경 신호 0건으로 멱등성 확인',
+        '초기 구현 기록: 웹 모델 14개, API client 12개, FastAPI 15개, SSR 4개, 브라우저 10개 로컬 통과',
+        '당시 CI 기록: Python 3.12·3.13 API 계약, API 컨테이너와 웹·URL 필터 검사 통과',
+        'FastAPI → OpenAPI → TypeScript 생성물 차이를 검사하는 단계 2개 통과 기록',
+        '동일 fixture를 다시 수집했을 때 신규 사건과 변경 신호가 0건인 것을 확인한 기록',
+        '위 수치는 해당 구현 시점의 결과이며, 현재 배포 상태나 장기 운영 성능을 뜻하지 않음',
       ],
       screenshots: [
         {
@@ -933,7 +968,7 @@ export const portfolio = {
       summary:
         '기술 자료 수집과 출처 기반 질의응답을 연습한 개인 프로젝트입니다. 수집·검색·인용 검증을 구현했으며, 현재는 수집 데이터가 적어 답변이 제한될 수 있습니다. 구현한 구조와 남은 과제를 함께 정리했습니다.',
       problem:
-        '여러 곳에서 수집한 자료를 검색하고, 답변의 출처까지 확인할 수 있을까요? 자료 수집·중복 제거·검색·인용 검증을 연결하며 RAG의 기본 구조를 학습했습니다. 근거가 부족할 때는 답변 범위를 임의로 넓히지 않고 부족한 상태를 알리도록 구현했습니다.',
+        "자료가 검색됐다는 이유만으로 질문에 답할 근거가 충분한 것은 아닙니다. 같은 자료가 여러 소스에 중복될 수 있고, 질문에서 지정한 기간과 맞지 않을 수도 있습니다. 수집·중복 정리·기간 필터·인용 검사를 나눠 이 차이를 확인할 수 있도록 만들었습니다.",
       architecture: {
         title: '수집·처리 파이프라인과 근거 기반 질의 계층을 모노레포로 격리했습니다.',
         description:
@@ -1071,64 +1106,81 @@ export const portfolio = {
         ],
       },
       ai: {
-        label: 'AI ORCHESTRATION & AGENTS',
-        title: '결정적 워크플로우와 Agent 기반 파이프라인 설계',
-        tools: ['LangGraph.js', 'Vitest', 'Playwright'],
-        summary:
-          '자연어 질문 해석과 근거 검색·답변 생성에 LangGraph.js 기반의 결정적 워크플로우를 적용하고, 구현 및 검증 과정에서 Agent 기반 태스크 분해와 엄격한 검토 게이트를 거쳤습니다.',
-        responsibility:
-          '기술 학습과 아키텍처 검증이 주 목적인 프로토타입이므로, 임의 생성된 그럴듯한 답변(Hallucination)보다 시스템의 안전성과 정직한 근거 제시를 우선했습니다. 현재 근거 데이터가 부족한 상태에서는 기간을 임의로 늘려 왜곡하지 않고 근거 부족(insufficient_evidence)으로 명확히 응답하도록 규칙을 강제했습니다.',
-        uses: [
-          {
-            title: 'Intent & Range Parse',
-            description: '질문의 의도(비교, 트렌드, 최신 요약)와 조회 기간을 구조화된 JSON으로 추출합니다.',
-          },
-          {
-            title: 'Evidence Assembly',
-            description: '검색된 revision/chunk의 출처와 라이선스를 대조하고 근거가 부족하면 조용히 기간을 늘리지 않고 거부합니다.',
-          },
-          {
-            title: 'Citation Validation',
-            description: '모델이 생성한 인용 번호와 실제 검색 청크를 1:1 교차 검증해 미등록 인용을 차단합니다.',
-          },
+        "label": "RAG WORKFLOW",
+        "title": "검색 근거를 답변과 연결하는 과정",
+        "tools": [
+          "LangGraph.js",
+          "Vitest",
+          "Playwright"
         ],
+        "summary": "질문 해석·검색·근거 구성·인용 검사를 단계로 나눴습니다. 각 단계가 반환하는 형식을 고정해 어디에서 자료가 부족하거나 인용이 어긋나는지 확인할 수 있도록 했습니다. fake model을 사용한 흐름 검사와 실제 모델의 답변 품질 평가는 구분합니다.",
+        "responsibility": "근거가 부족한 경우와 구현이 실패한 경우를 구분해 응답하도록 설계했습니다. 검색되지 않은 자료를 인용하거나 사용자가 정한 기간을 임의로 넓히지 않는 것이 기준입니다. 초기 데이터와 모델 제공자 검증이 부족한 상태를 완료된 AI 서비스로 표현하지 않았습니다.",
+        "uses": [
+          {
+            "title": "질문과 기간 해석",
+            "description": "질문에서 비교·최근 업데이트 등의 의도와 조회 기간을 구조화합니다. 뒤의 검색 단계는 이 조건을 사용합니다."
+          },
+          {
+            "title": "검색 근거 구성",
+            "description": "검색된 문서의 revision·chunk와 출처 정보를 답변 근거로 묶습니다. 자료가 부족하면 그 상태를 응답에 남깁니다."
+          },
+          {
+            "title": "인용 검사",
+            "description": "답변의 인용 식별자를 실제 검색 결과와 대조합니다. 응답이 문법적으로 맞는 것과 근거에 맞는 것은 별도로 검사합니다."
+          }
+        ]
       },
       process: [
         {
-          step: '01',
-          title: '기술 소스 타당성과 권리 정책 수립',
-          description:
-            '11개 공개 소스(GitHub, npm, arXiv 등)의 수집 가능성과 rate limit, 라이선스 귀속 규칙을 검토하고 격리했습니다.',
-          outputs: ['Source Matrix', 'SSRF Guard', 'Rate Limit', 'ADR'],
+          "step": "01",
+          "title": "소스마다 가져올 수 있는 데이터부터 구분",
+          "description": "GitHub·npm·arXiv처럼 응답 형식과 이용 조건이 다른 소스를 각각 수집기로 나눴습니다. 게시 시각·원문 URL·외부 ID를 공통 필드로 정리하되, 수집 가능한 메타데이터와 본문 저장·표시 범위는 따로 확인했습니다. 수집기를 만들었다는 사실과 실제 데이터가 충분히 쌓였다는 것은 구분했습니다.",
+          "outputs": [
+            "소스별 수집기",
+            "게시 시각",
+            "이용 조건"
+          ]
         },
         {
-          step: '02',
-          title: '모노레포 및 계약 기반 파이프라인 구축',
-          description:
-            'pnpm workspaces와 Turborepo 기반으로 apps와 packages를 분리하고 TypeBox 단일 계약을 공유했습니다.',
-          outputs: ['Turborepo', 'TypeBox Contracts', 'BullMQ', 'Neon Postgres'],
+          "step": "02",
+          "title": "수집 작업과 화면 요청을 분리",
+          "description": "API·worker·웹이 주고받는 형식을 TypeBox로 공유했습니다. 수집과 재처리는 BullMQ worker에 두고, PostgreSQL에는 원본과 처리 결과를 남깁니다. Redis는 작업 전달에 사용하며 검색 데이터의 최종 저장소로 취급하지 않습니다.",
+          "outputs": [
+            "TypeBox",
+            "BullMQ",
+            "PostgreSQL"
+          ]
         },
         {
-          step: '03',
-          title: '결정적 정규화와 중복 클러스터링',
-          description:
-            '외부 원본을 불변 raw item으로 저장하고 어휘 핑거프린트 기반 exact/near dedup 및 heading-aware 청킹을 구현했습니다.',
-          outputs: ['Raw Ingestion', 'Lexical Dedup', 'Heading Chunker', 'Topic Classifier'],
+          "step": "03",
+          "title": "원본을 보존하고 중복 문서를 정리",
+          "description": "외부 응답은 raw item으로 보존하고 검색용 문서로 변환하는 단계를 나눴습니다. 내용의 핑거프린트로 완전·유사 중복을 묶고, 제목 구조를 기준으로 본문을 청크로 나눕니다. 답변의 출처를 따라갈 수 있도록 revision과 chunk 식별자도 유지했습니다.",
+          "outputs": [
+            "Raw item",
+            "중복 그룹",
+            "Revision / Chunk"
+          ]
         },
         {
-          step: '04',
-          title: '하이브리드 검색과 인용 검증 구조',
-          description:
-            'PostgreSQL tsvector FTS와 exact cosine vector 검색을 결합하고, 불변 revision 기반 인용 출처 추적을 구성했습니다.',
-          outputs: ['Hybrid Retrieval', 'Citation Provenance', 'Fake Harness', 'Elysia API'],
+          "step": "04",
+          "title": "검색 결과와 답변의 인용을 대조",
+          "description": "키워드 검색과 벡터 검색을 함께 사용하고, 질문의 기간 조건에 맞는 문서를 추립니다. 답변의 인용 번호가 실제로 검색된 청크에 있는지 검사합니다. 근거가 부족하면 조회 기간을 임의로 늘리지 않고 insufficient_evidence를 반환하도록 했습니다.",
+          "outputs": [
+            "키워드·벡터 검색",
+            "기간 필터",
+            "인용 검사"
+          ]
         },
         {
-          step: '05',
-          title: '웹 대시보드와 엔드투엔드 검증',
-          description:
-            'SvelteKit으로 소스 현황, 토픽 카탈로그, 근거 기반 질의응답 UI를 만들고 Playwright E2E 및 Docker Compose 스택을 구축했습니다.',
-          outputs: ['SvelteKit UI', 'Playwright E2E', 'Docker Stack', 'Runbook'],
-        },
+          "step": "05",
+          "title": "테스트 통과와 답변 품질을 따로 판단",
+          "description": "준비된 DB 데이터와 fake model로 API·브라우저 흐름을 반복 검사했습니다. 이 검사는 검색·인용 처리의 회귀를 확인하는 용도이며 실제 질문에 좋은 답을 한다는 증거는 아닙니다. 초기 데이터 부족과 모델 제공자·골든셋 검증이 남아 있다는 점을 별도로 기록했습니다.",
+          "outputs": [
+            "Seeded DB",
+            "Fake model",
+            "남은 품질 평가"
+          ]
+        }
       ],
       stack: [
         'TypeScript',
@@ -1152,13 +1204,11 @@ export const portfolio = {
         '[배포 구성] Docker Compose, GHCR 이미지, SSH 기반 롤백 지원 프로덕션 배포 파이프라인 구성',
       ],
       validation: [
-        '[검증 통과] API 단위/계약 테스트 51개, 수집기 테스트 152개, 웹 단위 테스트 33개 및 Playwright E2E 통과',
-        '[작동 한계] 초기 수집 데이터(Corpus) 모수 부족으로 실제 질의 시 근거 부족(insufficient_evidence) 빈번 발생',
-        '[작동 한계] 유료 상용 Chat Provider 미승인 상태로 프로덕션 레벨의 유려한 문장 생성 및 골든셋 게이트 보류',
-        '[작동 한계] 라이선스 귀속 템플릿 검증 미완료로 본문 상세 발췌(Excerpt) 노출은 보류하고 메타데이터 위주 인용',
-        '[향후 과제] 지속적 스케줄링을 통한 수집 데이터 축적 및 프로덕션 코퍼스 볼륨 확대',
-        '[향후 과제] 승인된 Chat Provider 도입 및 RAG 골든셋 기반 응답 생성 품질 릴리스 게이트 통과',
-        '[향후 과제] 원문 라이선스 귀속 표기 확정 및 본문 발췌 표시 정식 활성화',
+        '초기 구현 기록: API 단위·계약 51개, 수집기 152개, 웹 단위 33개와 Playwright E2E 통과',
+        '준비된 DB와 fake model을 사용한 회귀 검사이며 실제 모델의 답변 품질 평가와는 구분',
+        '초기 수집 자료가 적어 실제 질문에서 insufficient_evidence가 발생하는 한계',
+        '기록 시점에 모델 제공자 승인과 골든셋 기반 답변 품질 검증이 남아 있었음',
+        '본문 발췌는 출처·이용 조건 표시 검증 후 노출하는 범위로 두고, 검증 전에는 메타데이터 중심으로 인용',
       ],
       screenshots: [
         {
@@ -1203,7 +1253,7 @@ export const portfolio = {
         processTitle: '자료 수집부터 검색·인용 검증까지',
         buildLabel: '05 · BUILD',
         buildTitle: '주요 구현',
-        aiLabel: '06 · AI COLLABORATION',
+        aiLabel: '06 · ANSWER FLOW',
         validationLabel: '07 · VALIDATION',
         validationTitle: '검증과 경계',
       },

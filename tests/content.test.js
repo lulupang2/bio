@@ -74,6 +74,20 @@ describe('site paths', () => {
 });
 
 describe('gallery and workflow content', () => {
+  it.each(['ko', 'en'])('%s case studies contain complete process narratives', (locale) => {
+    for (const project of getPortfolio(locale).projects) {
+      expect(project.process.length).toBeGreaterThanOrEqual(4);
+      expect(new Set(project.process.map((phase) => phase.step)).size).toBe(project.process.length);
+      for (const phase of project.process) {
+        expect(phase.title).toBeTruthy();
+        expect(phase.description.length).toBeGreaterThan(60);
+        expect(phase.outputs.length).toBeGreaterThan(0);
+      }
+      if (locale === 'en') {
+        expect(JSON.stringify({ problem: project.problem, process: project.process, ai: project.ai, validation: project.validation })).not.toMatch(/[가-힣]/);
+      }
+    }
+  });
   it.each(['ko', 'en'])('%s gallery assets and workflow links resolve', (locale) => {
     const content = getPortfolio(locale);
     for (const project of content.projects) {
