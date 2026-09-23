@@ -1,5 +1,6 @@
 // Single source of truth for all editable portfolio content.
 import { erpKo } from './erp.js';
+import { summergearKo } from './summergear.js';
 
 export const portfolio = {
   site: {
@@ -49,7 +50,7 @@ export const portfolio = {
     proof: [
       { value: '2년', label: '웹·앱 개발' },
       { value: '5개', label: '실무 프로젝트 참여' },
-      { value: '4개', label: '개인 프로젝트' },
+      { value: '5개', label: '개인 프로젝트' },
     ],
     about: [
       '실무에서는 웹과 앱의 사용자 화면을 개발하고, API를 연결해 회원·결제·검색·예약 기능을 구현했습니다. 사용자가 기능을 이용하는 과정과 화면의 상태 변화를 함께 고려하며 작업했습니다.',
@@ -1208,6 +1209,7 @@ export const portfolio = {
       },
     },
     erpKo,
+    summergearKo,
   ],
   notFound: {
     code: '404',

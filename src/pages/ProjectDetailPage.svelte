@@ -80,6 +80,7 @@
           alt={image.alt}
           width={image.width}
           height={image.height}
+          style={image.displayWidth ? `display:block;max-width:${image.displayWidth}px;margin-inline:auto` : undefined}
           loading="lazy"
           decoding="async"
         />

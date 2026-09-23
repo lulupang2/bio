@@ -99,7 +99,20 @@ describe('English locale', () => {
       expect(project.repositoryUrl).toBe('https://github.com/lulupang2/erp_l');
       expect(project.process.map((phase) => phase.title)).toEqual(['Prototype', 'Plan', 'Autopilot', 'Review']);
     }
-    expect(JSON.stringify(getPortfolio('en').projects.at(-1))).not.toMatch(/[가-힣]/);
+    expect(JSON.stringify(getPortfolio('en').projects.find((project) => project.slug === 'assembly-erp'))).not.toMatch(/[가-힣]/);
+  });
+  it.each(['ko', 'en'])('%s includes SummerGear with a test demo, localized case study, and updated project count', (locale) => {
+    const content = getPortfolio(locale);
+    const project = content.projects.find((entry) => entry.slug === 'summergear');
+    expect(project.published).toBe(true);
+    expect(project.liveUrl).toBe('https://sg.jisung.lol/');
+    expect(project.repositoryUrl).toBe('https://github.com/lulupang2/social_commerce');
+    expect(project.detail.liveLabel).toBe('Test Demo');
+    expect(project.process.map((phase) => phase.title)).toEqual(['Prototype', 'Plan', 'Autopilot', 'Review']);
+    expect(collectSitePaths(content)).toContain('/projects/summergear');
+    expect(findPublishedProjectByPath('/projects/summergear', content.projects)).toBe(project);
+    expect(Number.parseInt(content.profile.proof[2].value, 10)).toBe(content.projects.filter((entry) => entry.published).length);
+    if (locale === 'en') expect(JSON.stringify(project)).not.toMatch(/[가-힣]/);
   });
   it('resolves the English home and project paths', () => {
     const english = getPortfolio('en');
