@@ -29,15 +29,18 @@ npm test
 
 ## 공개 프로젝트
 
-- `/projects/techzone`: 고객 스토어와 관리자 OMS/WMS·MSA 프로젝트 상세
-- `/projects/quakecurrent`: 지진 수집·실시간 복구·지도 데이터 프로젝트 상세
-- `/projects/signal-archive`: 기술 소스 수집·정규화·근거 기반 RAG 질의 프로젝트 상세
+| 프로젝트 | 상세 페이지 | 데모 |
+| --- | --- | --- |
+| TECHZONE | `/projects/techzone` | <https://techzone.jisung.lol/> |
+| QuakeCurrent | `/projects/quakecurrent` | <https://quake.jisung.lol/> |
+| Signal Archive | `/projects/signal-archive` | <https://signal.jisung.lol/> |
+| Assembly ERP | `/projects/assembly-erp` | <https://erp.jisung.lol/> |
+| SummerGear | `/projects/summergear` | <https://sg.jisung.lol/> (테스트 데모) |
+| PricePulse | `/projects/pricepulse` | 로컬 검증, 공개 데모 없음 |
+| GrantFit | `/projects/grantfit` | 공개 데모 없음 |
+| 자취방 수리 접수 | `/projects/room-repair` | 로컬 검증, 공개 데모 없음 |
 
-세 프로젝트의 상세 페이지와 라이브 데모가 모두 공개되어 있습니다.
-
-- TECHZONE: <https://techzone.jisung.lol/>
-- QuakeCurrent: <https://quake.jisung.lol/>
-- Signal Archive: <https://signal.jisung.lol/>
+상세 페이지 공개와 원본 서비스 배포는 별개입니다. 공개 데모가 없는 프로젝트의 화면·아키텍처 자료에는 검증 범위를 명시합니다.
 
 ## 배포
 

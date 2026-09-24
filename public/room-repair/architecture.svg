@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <style>
+      .bg { fill: #0b1118; }
+      .box { rx: 8px; stroke-width: 1.5px; fill: #131b26; }
+      .client-flutter { stroke: #0284c7; }
+      .client-react { stroke: #0d9488; }
+      .server-box { stroke: #10b981; }
+      .security-box { stroke: #f59e0b; }
+      .edge-box { stroke: #a855f7; }
+      .header-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 22px; font-weight: 700; fill: #ffffff; }
+      .header-desc { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; fill: #94a3b8; }
+      .node-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #f8fafc; }
+      .node-badge { font-family: monospace; font-size: 11px; fill: #38bdf8; }
+      .node-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; fill: #94a3b8; }
+      .line-req { stroke: #38bdf8; stroke-width: 2; fill: none; marker-end: url(#arrow-cyan); }
+      .line-realtime { stroke: #10b981; stroke-width: 2; stroke-dasharray: 4,4; fill: none; marker-end: url(#arrow-green); }
+      .line-edge { stroke: #c084fc; stroke-width: 2; fill: none; marker-end: url(#arrow-purple); }
+    </style>
+    <marker id="arrow-cyan" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#38bdf8" />
+    </marker>
+    <marker id="arrow-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#10b981" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#c084fc" />
+    </marker>
+  </defs>
+
+  <rect width="1200" height="800" class="bg" />
+
+  <text x="60" y="55" class="header-title">Room Repair Platform — Integrated System &amp; Security Architecture</text>
+  <text x="60" y="82" class="header-desc">Dual Client (Flutter Mobile + React Staff Web) / Supabase BaaS (PostgreSQL RLS, RPCs, Edge Functions)</text>
+
+  <!-- Flutter Client -->
+  <rect x="60" y="120" width="320" height="340" class="box client-flutter" />
+  <text x="80" y="150" class="node-title">Customer Mobile App (Flutter 3.13)</text>
+  <text x="80" y="172" class="node-badge">Clean Architecture · Riverpod 3.4</text>
+  <text x="80" y="202" class="node-text">• GoRouter navigation with auth state stream</text>
+  <text x="80" y="227" class="node-text">• Drift SQLite for debounce draft auto-saving</text>
+  <text x="80" y="252" class="node-text">• Offline cached read fallback on network loss</text>
+  <text x="80" y="277" class="node-text">• Kakao Address Search WebView JavaScript bridge</text>
+  <text x="80" y="302" class="node-text">• Client UUID request ID for idempotency</text>
+  <text x="80" y="327" class="node-text">• Invalidation signal consumer on Realtime</text>
+  <text x="80" y="352" class="node-text">• FCM background token lifecycle management</text>
+  <text x="80" y="377" class="node-text">• PDF completion report native generator</text>
+  <text x="80" y="420" class="node-badge">[Customer Interface — Android / iOS]</text>
+
+  <!-- React Staff Web -->
+  <rect x="60" y="490" width="320" height="230" class="box client-react" />
+  <text x="80" y="520" class="node-title">Staff Operations Web (React 19)</text>
+  <text x="80" y="542" class="node-badge">Vite 8.3 · TypeScript · Tailwind CSS</text>
+  <text x="80" y="572" class="node-text">• Staff RBAC role gate on login session</text>
+  <text x="80" y="597" class="node-text">• Repair requests master list &amp; status filtering</text>
+  <text x="80" y="622" class="node-text">• Photo inspector with signed URL reader</text>
+  <text x="80" y="647" class="node-text">• Forward state machine transition triggers</text>
+  <text x="80" y="672" class="node-text">• Realtime bi-directional messaging console</text>
+
+  <!-- Supabase Core (PostgreSQL 15) -->
+  <rect x="460" y="120" width="380" height="420" class="box server-box" />
+  <text x="480" y="150" class="node-title">Supabase Database &amp; Security Layer</text>
+  <text x="480" y="172" class="node-badge">PostgreSQL 15 · 10 Migrations · 112 pgTAP Tests</text>
+
+  <rect x="480" y="195" width="340" height="90" rx="4" class="box security-box" />
+  <text x="495" y="220" class="node-title" style="font-size: 13px;">Row Level Security (RLS) Policies</text>
+  <text x="495" y="242" class="node-text">• profiles: SELECT auth.uid() = id, role immutable</text>
+  <text x="495" y="265" class="node-text">• repair_requests: customer owns row, staff full view</text>
+
+  <rect x="480" y="300" width="340" height="110" rx="4" class="box security-box" />
+  <text x="495" y="325" class="node-title" style="font-size: 13px;">Security Definer RPCs (Transactional SSOT)</text>
+  <text x="495" y="347" class="node-text">• create_repair_request(idempotent, photo guard)</text>
+  <text x="495" y="370" class="node-text">• transition_repair_status(received→in_progress→completed)</text>
+  <text x="495" y="393" class="node-text">• send_repair_message(idempotent client_msg_id)</text>
+
+  <rect x="480" y="425" width="340" height="95" rx="4" class="box" style="stroke: #0284c7;" />
+  <text x="495" y="450" class="node-title" style="font-size: 13px;">Private Storage: repair-photos</text>
+  <text x="495" y="472" class="node-text">• Strictly private bucket (no public URL)</text>
+  <text x="495" y="495" class="node-text">• Storage path: /customers/{uuid}/photo_{n}.jpg</text>
+
+  <!-- Edge Functions & External Services -->
+  <rect x="460" y="560" width="380" height="160" class="box edge-box" />
+  <text x="480" y="590" class="node-title">Supabase Edge Functions (Deno 2)</text>
+  <text x="480" y="612" class="node-badge">Serverless TypeScript Backend Automation</text>
+  <text x="480" y="642" class="node-text">• delete-account: Service Role atomic cleanup</text>
+  <text x="495" y="662" class="node-text">1. Delete storage files → 2. Delete Auth user (FK cascade)</text>
+  <text x="480" y="687" class="node-text">• send-repair-notification: FCM HTTP v1 push dispatcher</text>
+
+  <!-- External Services Block -->
+  <rect x="910" y="120" width="230" height="260" class="box" style="stroke: #64748b;" />
+  <text x="930" y="150" class="node-title">External Integration</text>
+  <text x="930" y="172" class="node-badge">Integration Boundaries</text>
+  <text x="930" y="202" class="node-text">• FCM push request contract</text>
+  <text x="945" y="222" class="node-text">(External setup not verified)</text>
+  <text x="930" y="252" class="node-text">• Kakao Address API</text>
+  <text x="945" y="272" class="node-text">(Postcode JS bridge)</text>
+  <text x="930" y="302" class="node-text">• Android release signing check</text>
+  <text x="945" y="322" class="node-text">(unsigned APK verified)</text>
+
+  <!-- Realtime PubSub -->
+  <rect x="910" y="410" width="230" height="130" class="box" style="stroke: #10b981;" />
+  <text x="930" y="440" class="node-title">Supabase Realtime</text>
+  <text x="930" y="462" class="node-badge">WebSocket Notification</text>
+  <text x="930" y="492" class="node-text">• Invalidation signal emission</text>
+  <text x="930" y="515" class="node-text">• Re-fetches current server state</text>
+
+  <!-- Connectors -->
+  <path d="M 380 270 L 460 270" class="line-req" />
+  <path d="M 380 580 L 460 380" class="line-req" />
+  <path d="M 840 280 L 910 280" class="line-edge" />
+  <path d="M 840 470 L 910 470" class="line-realtime" />
+  <path d="M 910 490 L 380 340" class="line-realtime" />
+
+  <text x="60" y="760" class="node-text" style="font-size: 12px; fill: #6b7280;">* Note: Illustrative architectural diagram based on room_repair_platform codebase (Flutter, React, Supabase RLS &amp; Edge Functions).</text>
+</svg>

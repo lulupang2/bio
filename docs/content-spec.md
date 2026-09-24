@@ -10,7 +10,7 @@
 - 근거 없는 장애 경험, 성능 개선 수치, 개발 기간, 사용자 반응을 서사에 추가하지 않습니다. 기존 기록의 테스트 결과는 해당 시점의 결과임을 표시합니다.
 - AI 도구 사용은 숨기지 않고 초안·반복 작업·오류 분석의 역할과 검토 범위를 구분합니다. 제품의 RAG 처리 단계와 개발 도구 사용 기록도 혼동하지 않습니다.
 - 제작 과정의 긴 영문 문단은 `englishProjects`에서 명시적으로 관리합니다. 한국어 문장 일치에 의존하는 `phraseMap`에 새 제작 과정 문단을 넣지 않습니다.
-- TECHZONE의 CASE_STUDY, QuakeCurrent의 DECISIONS·ARCHITECTURE, Signal Archive의 README·RAG·DATA_PIPELINE, ERP의 SSOT-V1, SummerGear의 테스트 배포 기록을 설명 근거로 사용합니다. ERP 제작 과정은 v1 범위이며 후속 v2 완료 주장으로 확장하지 않습니다.
+- TECHZONE의 CASE_STUDY, QuakeCurrent의 DECISIONS·ARCHITECTURE, Signal Archive의 README·RAG·DATA_PIPELINE, ERP의 v1 검증 기록과 v2 공장 업무 흐름, SummerGear의 테스트 배포 기록을 설명 근거로 사용합니다. 소스가 확인되지 않은 과거 프로젝트는 기존 범위 주장을 보수적으로 유지하고 새 incident를 만들지 않습니다.
 
 - 01 섹션의 프로젝트는 학습·포트폴리오용 개인 프로젝트이며, 04 섹션의 실무 참여 경험과 구분합니다.
 - 소개는 웹·앱 개발 경험과 개인 프로젝트를 통한 학습 방향을 중심으로 작성합니다. 특정 프로젝트의 도메인을 개발자 전체의 전문 분야처럼 표현하지 않습니다.
@@ -89,11 +89,8 @@ flowchart TD
 - `skills`: 스킬 그룹 배열 (`Array<{ id, kicker, title, items: string[] }>`)
   - 각 스킬 카테고리(Frontend, Backend, Data & Messaging, DevOps & Quality) 정의
 
-### 2.4. 프로젝트 상세 (`portfolio.projects[]`)
-개별 포트폴리오 프로젝트의 전체 메타데이터 및 상세 케이스 스터디 내용입니다.
-
 #### 필수 필드 명세 (CI 및 테스트 검증 대상)
-새 프로젝트를 추가하거나 수정할 때 아래 8개 필드는 **반드시 작성**되어야 하며 `tests/content.test.js`에서 자동으로 누락 여부를 검증합니다.
+새 프로젝트를 추가하거나 수정할 때 아래 필드는 반드시 작성되어야 하며 `tests/content.test.js`에서 자동으로 누락 여부를 검증합니다.
 
 | 필수 필드 | 타입 | 설명 | 필수 조건 / 제약 |
 | --- | --- | --- | --- |
@@ -102,9 +99,25 @@ flowchart TD
 | `summary` | `string` | 프로젝트 핵심 요약 문구 | 메타 설명(description)으로 활용 |
 | `cover` | `string` | 대표 썸네일 이미지 상대 경로 | `public/` 디렉터리에 실제 파일 존재 필수 |
 | `coverAlt` | `string` | 대표 이미지 대체 텍스트 | 웹 접근성 및 SEO 준수 |
-| `liveUrl` | `string` | 실제 배포된 서비스 데모 URL | 프로덕션 접속 가능한 전체 URL |
-| `repositoryUrl` | `string` | 소스코드 GitHub 저장소 URL | 접속 가능한 GitHub 전체 URL |
-| `screenshots` | `Array<Screenshot>` | 상세 화면 스크린샷 목록 | 최소 1개 이상 필수, 파일 실존 필수 |
+| `screenshots` | `Array<Screenshot>` | 상세 시각 자료 목록 | 최소 1개 이상 필수, 파일 실존 필수 |
+| `liveUrl` | `string?` | 실제 공개 데모 URL | 검증된 배포가 있을 때만 작성; 미배포 프로젝트는 생략 |
+| `repositoryUrl` | `string?` | 공개 코드 저장소 URL | 원격 저장소와 공개 상태를 확인할 수 있을 때만 작성; 없으면 생략 |
+
+`liveUrl`과 `repositoryUrl`은 선택 필드입니다. 준비 예정, 로컬 전용, 공개 여부를 확인할 수 없는 저장소에는 가짜 링크를 넣지 않습니다. 상세 및 홈 화면은 값이 존재할 때만 링크를 렌더링합니다.
+
+#### 필수 8개 케이스 섹션
+모든 공개 프로젝트는 한국어와 영어 모두에서 다음 의미 있는 내용을 제공해야 합니다. 상세 라벨은 각 프로젝트의 `detail` 객체에서 명시적으로 번역합니다.
+
+1. Introduction: 프로젝트 소개 (`summary`와 hero)
+2. Problem: 해결하려는 문제 (`problem`)
+3. Role & Work: 역할 및 구현 범위 (`role.summary`, `role.items`)
+4. Stack: 사용 기술 (`stack`)
+5. Process: 실제 구현 과정 (`process`)
+6. Technical Decisions: 기술적 선택의 배경·결정·영향 (`decisions`)
+7. Troubleshooting: 확인된 문제/실패 시나리오, 원인, 해결 (`troubleshooting`)
+8. Outcome & Learnings: 결과, 배움, 한계 (`outcome`)
+
+테스트 배포 기록과 재현 가능한 검증 시나리오는 운영 중 실제 incident와 구분해 기술합니다. 실제 장애를 경험했다고 주장할 근거가 없으면 troubleshooting 항목을 검증한 실패/복구 시나리오로 표현합니다.
 
 #### `Screenshot` 객체 명세
 ```typescript
@@ -118,26 +131,26 @@ interface Screenshot {
 }
 ```
 
+실제 화면을 캡처하지 않은 경우 screenshots에는 UI처럼 보이는 가짜 mock을 넣지 않습니다. 소스 근거의 SVG 아키텍처/흐름도를 사용할 수 있으며 캡션에 반드시 “다이어그램, UI 캡처 아님”을 표시합니다. 실제 스크린샷과 설계도는 alt 및 caption에서도 구분합니다.
+
 #### 케이스 스터디 상세 필드 (`detail` 및 옵션 필드)
-- `gallery` (`object`): 홈 갤러리의 한 줄 설명(`tagline`), 짧은 요약(`summary`), 대표 장면(`image`, `alt`, `caption`, 선택적 `position`). 상세 페이지의 `summary`와 `cover`는 별도로 유지합니다. 이미지 경로는 `public/`의 기존 자산을 사용하고, 콘셉트 이미지나 예시 화면은 캡션에서 구분합니다. 한국어·영어의 모든 공개 프로젝트에 작성합니다.
+
+- `gallery` (`object`): 홈 갤러리의 한 줄 설명(`tagline`), 짧은 요약(`summary`), 대표 장면(`image`, `alt`, `caption`, 선택적 `position`). 한국어·영어의 모든 공개 프로젝트에 작성합니다.
 - `published` (`boolean`): 공개 여부 (`true`일 때만 라우팅 등록, 사이트맵 포함, 카드 노출)
-- `status` (`string`): 상태 배지 문구 (예: `'CASE STUDY · LIVE'`)
+- `status` (`string`): 상태 배지 문구
 - `category` (`string`): 프로젝트 카테고리 분류
 - `cardBadge` (`string`): 카드 하단 특화 배지 문구
 - `caseStudyLabel` (`string`): 상세 보기 버튼 문구
-- `problem` (`string`): 문제 정의 본문 요약
+- `problem` (`string`): 문제 정의 본문
+- `role` (`{ summary: string, items: string[] }`): 담당 역할과 수행 범위
+- `stack` (`string[]`): 기술 스택 태그
+- `process` (`Array<{ step, title, description, outputs }>`): 개발 단계별 과정
+- `decisions` (`Array<{ title, context, decision, impact }>`): 기술적 결정의 배경과 결과
+- `troubleshooting` (`Array<{ title, problem, cause, solution }>`): 확인된 문제 또는 검증 시나리오와 대응
+- `outcome` (`{ summary, results: string[], learnings: string[] }`): 결과·배움·한계
 - `highlights` (`string[]`): 주요 구현 목록
 - `validation` (`string[]`): 검증 및 품질 게이트 목록
-- `detail` (`object`): 상세 페이지 렌더링용 확장 객체
-  - `sections`: 상세 탭/섹션 라벨 및 제목
-  - `metrics`: 주요 수치 성과 리스트
-  - `problem`: 세부 문제 상황 문단 및 해결 방안
-  - `architecture`: 아키텍처 다이어그램 데이터 및 설명 블록
-  - `topology`: 시스템 토폴로지 다이어그램 데이터 및 레이어 정의
-  - `process`: 개발 단계별 진행 과정
-  - `build`: 기술적 난제 해결 및 핵심 코드 구현 설명
-  - `ai`: AI 협업(도구 활용, 리뷰 및 검증) 기록
-  - `validation`: 테스트, 복구 시나리오, 배포 파이프라인 증거
+- `detail` (`object`): 상세 페이지 렌더링용 라벨 및 Architecture/Topology/AI 확장
 
 ---
 

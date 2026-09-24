@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <style>
+      .bg { fill: #0f141c; }
+      .box { rx: 8px; stroke-width: 1.5px; }
+      .client-box { fill: #17202e; stroke: #3b82f6; }
+      .svc-box { fill: #16222f; stroke: #06b6d4; }
+      .db-box { fill: #1c2333; stroke: #10b981; }
+      .ai-box { fill: #241d31; stroke: #a855f7; }
+      .ext-box { fill: #221c1f; stroke: #f43f5e; }
+      .text-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 16px; font-weight: 700; fill: #f3f4f6; }
+      .text-sub { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; fill: #9ca3af; }
+      .text-badge { font-family: monospace; font-size: 11px; fill: #38bdf8; }
+      .text-header { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 22px; font-weight: 700; fill: #ffffff; }
+      .text-desc { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; fill: #94a3b8; }
+      .arrow { stroke: #64748b; stroke-width: 1.5; stroke-dasharray: 4,4; marker-end: url(#arrowhead); fill: none; }
+      .solid-arrow { stroke: #38bdf8; stroke-width: 2; marker-end: url(#arrowhead-cyan); fill: none; }
+      .pull-arrow { stroke: #10b981; stroke-width: 2; marker-end: url(#arrowhead-green); fill: none; }
+    </style>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#64748b" />
+    </marker>
+    <marker id="arrowhead-cyan" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#38bdf8" />
+    </marker>
+    <marker id="arrowhead-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#10b981" />
+    </marker>
+  </defs>
+
+  <rect width="1200" height="800" class="bg" />
+
+  <text x="60" y="55" class="text-header">GrantFit — Microservice System &amp; Data Isolation Architecture</text>
+  <text x="60" y="82" class="text-desc">Nx + pnpm + uv Hybrid Monorepo / Pull-based Index Projection / Isolated PostgreSQL Containers</text>
+
+  <!-- External / Edge Zone -->
+  <rect x="60" y="120" width="300" height="240" class="box client-box" />
+  <text x="85" y="155" class="text-title">Web Frontend &amp; BFF</text>
+  <text x="85" y="178" class="text-badge">Next.js App Router · Port 80/3000</text>
+  <text x="85" y="210" class="text-sub">• TypeScript · Tailwind CSS</text>
+  <text x="85" y="235" class="text-sub">• Search UI, Company Profile Input</text>
+  <text x="85" y="260" class="text-sub">• SSR / Route Handlers (BFF Proxy)</text>
+  <text x="85" y="285" class="text-sub">• Shared Contract Types Validation</text>
+  <text x="85" y="325" class="text-badge">[Public Ingress Boundary]</text>
+
+  <!-- Contracts Package -->
+  <rect x="60" y="400" width="300" height="110" class="box client-box" style="stroke-dasharray: 4,4;" />
+  <text x="85" y="435" class="text-title">Shared Contracts</text>
+  <text x="85" y="458" class="text-badge">packages/contracts (TypeScript &amp; Schemas)</text>
+  <text x="85" y="485" class="text-sub">API DTOs, Search Criteria, Evaluation Types</text>
+
+  <!-- Catalog Microservice -->
+  <rect x="440" y="120" width="320" height="280" class="box svc-box" />
+  <text x="465" y="155" class="text-title">Catalog Service</text>
+  <text x="465" y="178" class="text-badge">FastAPI · Python 3.12 (uv) · Internal Port 8001</text>
+  <text x="465" y="210" class="text-sub">• Grant Announcement CRUD &amp; Versioning</text>
+  <text x="465" y="235" class="text-sub">• Ingestion &amp; Raw Document Normalization</text>
+  <text x="465" y="260" class="text-sub">• Monotonic Revision Tracker (Changelog)</text>
+  <text x="465" y="285" class="text-sub">• Pull Endpoint: /internal/v1/snapshot</text>
+  <text x="465" y="310" class="text-sub">• Change Feed: /internal/v1/changes</text>
+  <text x="465" y="360" class="text-badge">[Origin SSOT Data Owner]</text>
+
+  <!-- Catalog DB -->
+  <rect x="440" y="450" width="320" height="140" class="box db-box" />
+  <text x="465" y="485" class="text-title">Catalog Database</text>
+  <text x="465" y="508" class="text-badge">PostgreSQL Container (Isolated Volume)</text>
+  <text x="465" y="535" class="text-sub">• grants (raw metadata &amp; eligibility rules)</text>
+  <text x="465" y="555" class="text-sub">• grant_revisions (audit &amp; changelog)</text>
+
+  <!-- Discovery Microservice -->
+  <rect x="820" y="120" width="320" height="320" class="box svc-box" />
+  <text x="845" y="155" class="text-title">Discovery Service</text>
+  <text x="845" y="178" class="text-badge">FastAPI · Python 3.12 (uv) · Internal Port 8002</text>
+  <text x="845" y="210" class="text-sub">• Pull-based Periodic Sync (5s interval)</text>
+  <text x="845" y="235" class="text-sub">• PostgreSQL GIN Full-Text Indexing</text>
+  <text x="845" y="260" class="text-sub">• Deterministic Rule Engine (ranking.py)</text>
+  <text x="845" y="285" class="text-sub">• Criteria: region, age, sector, certs</text>
+  <text x="845" y="310" class="text-sub">• Verdicts: MATCH, REVIEW, MISMATCH, CLOSED</text>
+  <text x="845" y="335" class="text-sub">• Answering Fallback Guard (answering.py)</text>
+  <text x="845" y="390" class="text-badge">[Query Hot-Path Search Engine]</text>
+
+  <!-- Discovery DB -->
+  <rect x="820" y="490" width="320" height="140" class="box db-box" />
+  <text x="845" y="525" class="text-title">Discovery Database</text>
+  <text x="845" y="548" class="text-badge">PostgreSQL Container (GIN FTS Index)</text>
+  <text x="845" y="575" class="text-sub">• grant_projections (denormalized read model)</text>
+  <text x="845" y="595" class="text-sub">• query_metrics &amp; user feedback logs</text>
+
+  <!-- AI Layer -->
+  <rect x="820" y="660" width="320" height="100" class="box ai-box" />
+  <text x="845" y="690" class="text-title">AI Layer: TokenRouter (Kimi K3)</text>
+  <text x="845" y="712" class="text-badge">Non-invasive Summary Only (Top 3 Grants)</text>
+  <text x="845" y="735" class="text-sub">Prompt Injection Shield · Deterministic Fallback</text>
+
+  <!-- Connectors -->
+  <!-- Web to Discovery -->
+  <path d="M 360 210 L 820 210" class="solid-arrow" />
+  <text x="560" y="200" class="text-badge">1. Search Query (/api/search)</text>
+
+  <!-- Discovery to Catalog (Pull sync) -->
+  <path d="M 820 280 L 760 280" class="pull-arrow" />
+  <text x="765" y="270" class="text-badge">Pull Sync</text>
+
+  <!-- Catalog to Catalog DB -->
+  <path d="M 600 400 L 600 450" class="solid-arrow" />
+
+  <!-- Discovery to Discovery DB -->
+  <path d="M 980 440 L 980 490" class="solid-arrow" />
+
+  <!-- Discovery to AI -->
+  <path d="M 980 630 L 980 660" class="arrow" />
+
+  <!-- Note Footer -->
+  <text x="60" y="760" class="text-sub" style="font-size: 12px; fill: #6b7280;">* Note: Illustrative architectural diagram based on GrantFit monorepo source code (Nx, FastAPI, PostgreSQL FTS, Docker Compose topology).</text>
+</svg>

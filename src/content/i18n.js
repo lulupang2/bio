@@ -1,6 +1,9 @@
 import { portfolio as koreanPortfolio } from './portfolio.js';
 import { erpEn } from './erp.js';
 import { summergearEn } from './summergear.js';
+import { pricepulseEn } from './pricepulse.js';
+import { grantfitEn } from './grantfit.js';
+import { roomRepairEn } from './roomrepair.js';
 
 const clone = (value) => structuredClone(value);
 
@@ -105,6 +108,9 @@ const translateDeep = (value) => {
 const englishProjects = (projects) => projects.map((project, index) => {
   if (project.slug === 'assembly-erp') return clone(erpEn);
   if (project.slug === 'summergear') return clone(summergearEn);
+  if (project.slug === 'pricepulse') return clone(pricepulseEn);
+  if (project.slug === 'grantfit') return clone(grantfitEn);
+  if (project.slug === 'room-repair') return clone(roomRepairEn);
   const translated = translateDeep(project);
   if (project.slug === 'techzone' || index === 0) {
     Object.assign(translated, {
@@ -230,7 +236,18 @@ const englishProjects = (projects) => projects.map((project, index) => {
         'OpenTelemetry and Grafana tooling configured for logs, metrics, and distributed traces',
         'Payment, shipping, and SMS use mock adapters; this does not verify real provider approvals or deliveries',
       ],
-      detail: { ...translated.detail, backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'PERSONAL PROJECT · COMMERCE', problemLabel: '01 · PROBLEM', problemTitle: 'Problem definition', architectureLabel: '02 · ARCHITECTURE', topologyLabel: '03 · SYSTEM TOPOLOGY', processLabel: '04 · PROCESS', processTitle: 'Learning to connect a storefront and its backend', buildLabel: '05 · BUILD', buildTitle: 'Key implementation', aiLabel: '06 · AI COLLABORATION', validationLabel: '07 · VALIDATION', validationTitle: 'Tests and observations' },
+      role: { summary: 'Designed and implemented the Next.js storefront, NestJS domain services, RabbitMQ event architecture, and local deployment configuration as a solo engineer.', items: ['Built independent Next.js storefront and admin CMS applications', 'Implemented NestJS domain services for Catalog, Cart, Order, and Stock with API Gateway routing', 'Designed RabbitMQ choreography Saga orchestration with Transactional Outbox and Inbox patterns', 'Modeled Variant-based stock reservation, order confirmation, payment approval, and returns state transitions', 'Orchestrated local distributed services using Docker Compose and Kubernetes manifests'] },
+      decisions: [
+        { title: 'Choreography Saga for Distributed Workflows', context: 'A centralized orchestrator can become a single point of failure and increase coupling between commerce services.', decision: 'Each domain service subscribes to RabbitMQ events and owns its local state transitions.', impact: 'Removed synchronous cross-service dependencies and enabled asynchronous workflow coordination.' },
+        { title: 'Independent Database Ownership per Domain Service', context: 'Shared databases make schema changes across service boundaries dependent and difficult to deploy independently.', decision: 'Assigned separate PostgreSQL databases to Order, Catalog, and Stock services and disallowed direct cross-service access.', impact: 'Maintained domain ownership and independent migration boundaries.' },
+        { title: 'Temporary Inventory Reservation before Payment', context: 'Deducting stock before payment risks inconsistencies on abandonment, while waiting until payment can permit overselling.', decision: 'Reserved stock at order acceptance and committed the deduction after payment confirmation.', impact: 'Provides an explicit reservation and release path for concurrent order scenarios.' },
+      ],
+      troubleshooting: [
+        { title: 'Compensating for a Failed Saga Step', problem: 'A payment failure after order acceptance can leave reserved inventory unavailable.', cause: 'Distributed workflows cannot rely on a shared transaction across services.', solution: 'The design publishes an order-cancelled compensation event after payment failure for the Stock service to release the reservation; validation uses the configured mock adapters.' },
+        { title: 'Duplicate Event Delivery', problem: 'At-least-once RabbitMQ delivery can present the same payment completion event more than once.', cause: 'A consumer acknowledgement may be lost during a network interruption, causing broker redelivery.', solution: 'The Inbox pattern records event identifiers transactionally so a previously processed event is ignored on redelivery.' },
+      ],
+      outcome: { summary: 'Implemented a portfolio commerce system for practicing order, inventory, and fulfillment workflows across microservices.', results: ['Built independent storefront and operations applications with asynchronous domain-service flows', 'Configured mock payment and shipping adapters and documented their verification boundaries', 'Recorded integration and failure-recovery scenarios for duplicate requests and message redelivery'], learnings: ['Distributed systems require explicit compensation and idempotency, not only a successful-path workflow', 'Mock-provider checks do not demonstrate real payment authorization or shipping integration'] },
+      detail: { ...translated.detail, backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'PERSONAL PROJECT · COMMERCE', problemLabel: '01 · PROBLEM', problemTitle: 'Problem definition', roleLabel: '02 · ROLE & SCOPE', roleTitle: 'Solo Full-Stack Architecture and Implementation', architectureLabel: '03 · ARCHITECTURE', topologyLabel: '04 · SYSTEM TOPOLOGY', processLabel: '05 · PROCESS', processTitle: 'Learning to connect a storefront and its backend', decisionsLabel: '06 · TECHNICAL DECISIONS', decisionsTitle: 'Architecture Decisions for Distributed Workflows', troubleshootingLabel: '07 · TROUBLESHOOTING', troubleshootingTitle: 'Recovery Scenarios and Idempotency', buildLabel: 'BUILD HIGHLIGHTS', buildTitle: 'Key implementation', aiLabel: 'AI COLLABORATION', validationLabel: 'VALIDATION', validationTitle: 'Tests and observations', outcomeLabel: '08 · RESULTS & RETROSPECTIVE', outcomeTitle: 'Outcomes and Limitations' },
     });
   } else if (project.slug === 'quakecurrent' || index === 1) {
     Object.assign(translated, {
@@ -345,7 +362,18 @@ const englishProjects = (projects) => projects.map((project, index) => {
         'Recorded fixture re-ingestion produced zero new events and zero change signals',
         'These are historical implementation results, not checks of the current deployment or long-term production performance',
       ],
-      detail: { ...translated.detail, backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'PERSONAL PROJECT · REALTIME DATA', problemLabel: '01 · PROBLEM', problemTitle: 'Problem definition', architectureLabel: '02 · ARCHITECTURE', topologyLabel: '03 · SYSTEM TOPOLOGY', processLabel: '04 · PROCESS', processTitle: 'Learning data collection, updates, and recovery', buildLabel: '05 · BUILD', buildTitle: 'Key implementation', aiLabel: '06 · AI COLLABORATION', validationLabel: '07 · VALIDATION', validationTitle: 'Validation and boundaries' },
+      role: { summary: 'Designed and implemented the USGS ingestion workers, PostGIS storage, FastAPI REST/WebSocket API, Next.js map interface, and generated API contracts as a solo full-stack project.', items: ['Built idempotent 60-second USGS GeoJSON ingestion with Celery Beat', 'Separated PostgreSQL/PostGIS persistence from Redis broker, locking, and Pub/Sub responsibilities', 'Implemented FastAPI REST snapshots and sequence-based WebSocket update signals', 'Developed a Next.js earthquake map using MapLibre/deck.gl with URL-persisted filters', 'Generated a TypeScript client from OpenAPI and added contract drift checks'] },
+      decisions: [
+        { title: 'Client-Side Filtering for a Small Snapshot', context: 'The initial active-event snapshot was around 45 KB, making repeated server requests unnecessary for interactive filters.', decision: 'Kept the snapshot in browser memory and applied time, magnitude, and depth filters client-side.', impact: 'Enabled immediate filter changes while preserving shareable URL query state.' },
+        { title: 'Use replaceState for Filter URL Changes', context: 'Pushing every filter adjustment into browser history would pollute the back-navigation stack.', decision: 'Updated filter query parameters with replaceState rather than pushState.', impact: 'Kept shareable and refreshable filter URLs without adding an entry for every interaction.' },
+        { title: 'Generate TypeScript Client from OpenAPI', context: 'Maintaining Python and TypeScript API shapes separately risks silent contract drift.', decision: 'Generated the TypeScript client from FastAPI OpenAPI output and checked generated artifacts in CI.', impact: 'Added an automated way to detect client/server contract mismatches.' },
+      ],
+      troubleshooting: [
+        { title: 'Earthquake Markers Visible through the Globe', problem: 'Markers on the far side of the globe appeared on top of the sphere.', cause: 'Point-layer depth sorting did not account for camera-relative globe occlusion.', solution: 'Computed camera-view and surface-normal relationships to exclude markers behind the globe and applied depth ordering.' },
+        { title: 'Empty USGS Feature Array during Feed Gaps', problem: 'The renderer raised an exception when the external feed returned an empty feature list.', cause: 'The client assumed that each valid snapshot contains at least one earthquake feature.', solution: 'Handled empty snapshots explicitly and displayed a fallback state while retaining metadata from the last valid snapshot.' },
+      ],
+      outcome: { summary: 'Connected public USGS feed ingestion, PostGIS persistence, sequence-based realtime recovery, and interactive map visualization.', results: ['Recorded idempotent fixture re-ingestion with no new events or change signals', 'Configured CI checks for generated FastAPI OpenAPI and TypeScript client contracts', 'Recorded low-memory Docker deployment and public demo availability'], learnings: ['Globe rendering must account for observer viewpoint and surface occlusion, not only map projection', 'External feeds require empty and repeated data to be treated as expected boundary cases', 'Historical test records should not be generalized into current operational performance claims'] },
+      detail: { ...translated.detail, backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'PERSONAL PROJECT · REALTIME DATA', problemLabel: '01 · PROBLEM', problemTitle: 'Problem definition', roleLabel: '02 · ROLE & SCOPE', roleTitle: 'Solo Full-Stack Implementation from Ingestion to Map', architectureLabel: '03 · ARCHITECTURE', topologyLabel: '04 · SYSTEM TOPOLOGY', processLabel: '05 · PROCESS', processTitle: 'Learning data collection, updates, and recovery', decisionsLabel: '06 · TECHNICAL DECISIONS', decisionsTitle: 'Technical Choices for Realtime Data and Maps', troubleshootingLabel: '07 · TROUBLESHOOTING', troubleshootingTitle: 'Globe Occlusion and Empty-Feed Recovery', buildLabel: 'BUILD HIGHLIGHTS', buildTitle: 'Key implementation', aiLabel: 'AI COLLABORATION', validationLabel: 'VALIDATION', validationTitle: 'Validation and boundaries', outcomeLabel: '08 · RESULTS & RETROSPECTIVE', outcomeTitle: 'Outcomes and Learnings' },
     });
   } else if (project.slug === 'signal-archive' || index === 2) {
     Object.assign(translated, {
@@ -449,11 +477,12 @@ const englishProjects = (projects) => projects.map((project, index) => {
         { src: '/signal-archive/status.webp', alt: 'Signal Archive pipeline system health screen', caption: 'System Health · Realtime readiness of API and data-processing layers', width: 1024, height: 640 },
       ],
       highlights: [
-        '[Implemented] Collector adapters and SSRF defenses across 11 technical sources including GitHub Releases, npm, arXiv, and Stack Exchange',
+        '[Implemented] Collector adapters and SSRF defenses across approved technical sources including GitHub, npm, arXiv, Reddit, and Hugging Face',
         '[Implemented] PostgreSQL authoritative store separated from Redis + BullMQ for job delivery, scheduling, and concurrency caps',
         '[Implemented] TypeBox single-source contracts synchronizing Elysia API, BullMQ Worker, and SvelteKit Web runtime validation and TypeScript types',
         '[Implemented] Data pipeline featuring lexical fingerprint deduplication, heading-aware chunking, and deterministic topic classification',
         '[Implemented] Time-filtered PostgreSQL FTS + exact cosine vector hybrid retrieval with provenance citation validation',
+        '[Implemented] Bounded on-demand technical evidence acquisition with limits and persisted-document re-search',
         '[Security] Hardened with CORS, rate limits, prompt-injection defense, and private network egress protection',
         '[DevOps] Docker Compose, GHCR images, and SSH rollback deployment pipeline',
       ],
@@ -464,7 +493,19 @@ const englishProjects = (projects) => projects.map((project, index) => {
         'Provider approval and golden-set answer evaluation were still pending at the recorded stage',
         'Full excerpts require verified attribution and usage conditions; citations stay metadata-focused until then',
       ],
-      detail: { ...translated.detail, backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'PERSONAL PROJECT · SEARCH & RAG', problemLabel: '01 · PROBLEM', problemTitle: 'Problem definition', architectureLabel: '02 · ARCHITECTURE', topologyLabel: '03 · SYSTEM TOPOLOGY', processLabel: '04 · PROCESS', processTitle: 'Learning collection, search, and citation checks', buildLabel: '05 · BUILD', buildTitle: 'Key implementation', aiLabel: '06 · ANSWER FLOW', validationLabel: '07 · VALIDATION', validationTitle: 'Validation and boundaries' },
+      role: { summary: 'Designed and implemented public technical-source collectors, Node.js Elysia API, BullMQ workers, PostgreSQL/pgvector search, and SvelteKit UI in a monorepo.', items: ['Built source-specific collectors with policy-based URL and SSRF guards', 'Managed collection delivery, locks, and retries with Redis and BullMQ', 'Implemented normalization, lexical deduplication, heading-aware chunking, and pgvector embeddings', 'Built PostgreSQL full-text and exact cosine vector retrieval with citation checks', 'Developed a technical-intelligence dashboard and evidence-grounded Q&A interface'] },
+      decisions: [
+        { title: 'Elysia on Node.js Runtime', context: 'Some Bun ecosystem compatibility issues constrained Playwright-based checks and package integration.', decision: 'Kept Elysia while moving the backend runtime to Node.js.', impact: 'Preserved the lightweight API framework while improving ecosystem compatibility.' },
+        { title: 'TypeBox as a Single API Contract', context: 'Separately maintained runtime validators and TypeScript interfaces can drift across the API, workers, and web app.', decision: 'Shared TypeBox schemas across the Elysia API, BullMQ workers, and SvelteKit client.', impact: 'Kept static types and runtime input validation derived from the same contract.' },
+        { title: 'Bounded Live Evidence Acquisition for Corpus Gaps', context: 'An initially small corpus can return insufficient_evidence for a relevant question and time range.', decision: 'Added bounded on-demand technical evidence acquisition with explicit policy, request, time, and byte limits, followed by one lexical re-search of persisted material.', impact: 'Added a controlled way to address corpus gaps without removing acquisition and evidence boundaries.' },
+      ],
+      troubleshooting: [
+        { title: 'Embedding API Budget Risk during Evaluation', problem: 'Repeatedly embedding duplicate or previously evaluated documents could exceed the external API budget.', cause: 'Duplicate documents and uncached evaluation reruns repeated paid embedding requests.', solution: 'Filtered duplicate material before embedding and introduced offline evaluation with cached results to isolate repeated checks.' },
+        { title: 'SSRF Risk in External Source Collection', problem: 'A malicious source URL could direct server-side collection requests to internal addresses or metadata endpoints.', cause: 'Unvalidated URLs passed into outbound HTTP requests can reach private network targets.', solution: 'Applied policy-based URL validation and private-network blocking to outbound collection transports.' },
+        { title: 'Insufficient Local Search Evidence', problem: 'The local corpus did not always contain enough material matching a question and its requested date range.', cause: 'The initial corpus size and topic coverage did not span every possible query.', solution: 'Separated bounded on-demand acquisition from the local search path and re-searched persisted documents when eligible evidence was acquired.' },
+      ],
+      outcome: { summary: 'Built a RAG data pipeline connecting heterogeneous source collection, normalization, retrieval, and citation validation.', results: ['Expanded collector implementation to include Reddit and Hugging Face alongside GitHub, npm, arXiv, and Stack Exchange', 'Added bounded live technical evidence acquisition for local corpus gaps', 'Recorded a proof of concept with API, collector, web, and Playwright regression checks'], learnings: ['Passing tests do not establish real-corpus coverage or answer quality; fixture regression and answer evaluation are distinct', 'Budget limits, source terms, and SSRF guards are core constraints for external collection', 'Provider approval and golden-set evaluation remained open at the recorded stage, so this is not presented as a production-grade RAG service'] },
+      detail: { ...translated.detail, backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'PERSONAL PROJECT · SEARCH & RAG', problemLabel: '01 · PROBLEM', problemTitle: 'Problem definition', roleLabel: '02 · ROLE & SCOPE', roleTitle: 'Solo Implementation of Data Collection and RAG Search', architectureLabel: '03 · ARCHITECTURE', topologyLabel: '04 · SYSTEM TOPOLOGY', processLabel: '05 · PROCESS', processTitle: 'Learning collection, search, and citation checks', decisionsLabel: '06 · TECHNICAL DECISIONS', decisionsTitle: 'Technical Choices for Provenance and Safe Collection', troubleshootingLabel: '07 · TROUBLESHOOTING', troubleshootingTitle: 'Corpus Gaps, Cost, and SSRF Risks', buildLabel: 'BUILD HIGHLIGHTS', buildTitle: 'Key implementation', aiLabel: 'ANSWER FLOW', validationLabel: 'VALIDATION', validationTitle: 'Validation and boundaries', outcomeLabel: '08 · RESULTS & RETROSPECTIVE', outcomeTitle: 'Outcomes and Remaining Limits' },
     });
   }
   return translated;
@@ -493,8 +534,8 @@ export const getPortfolio = (locale = 'ko') => {
     positionLines: ['A frontend developer', 'expanding into full-stack'],
     intro: 'I have built web and mobile interfaces with React, Next.js, and React Native. Through personal projects, I am extending that experience into backend development and data processing.',
     actions: { project: 'View personal projects', github: 'GitHub' },
-    proof: [{ value: '2 yrs', label: 'Web · app development' }, { value: '5', label: 'Work projects contributed to' }, { value: '5', label: 'Personal projects' }],
-    about: ['In professional projects, I built web and mobile interfaces and connected APIs for accounts, payments, search, and reservations. I considered both the user journey and how the interface responds as state changes.', 'In personal projects, I explore how data is stored and passed between parts of an application. Commerce, earthquake mapping, technical search, and manufacturing workflows give me different ways to practice APIs, realtime communication, and data handling. I document both the implementation and its limitations.'],
+    proof: [{ value: '2 yrs', label: 'Web · app development' }, { value: '5', label: 'Work projects contributed to' }, { value: '8', label: 'Personal projects' }],
+    about: ['In professional projects, I built web and mobile interfaces and connected APIs for accounts, payments, search, and reservations. I considered both the user journey and how the interface responds as state changes.', 'In personal projects, I explore how data is stored and passed between parts of an application. Commerce, earthquake mapping, technical search, manufacturing, price monitoring, grant search, and repair workflows give me different ways to practice APIs, realtime communication, and data handling. I document both implementation details and limitations.'],
     workflow: {
       label: 'HOW I BUILD',
       note: 'Build something small. Check it. Improve it.',

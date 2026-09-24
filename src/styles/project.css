@@ -663,7 +663,7 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
   padding-top: 70px;
-  padding-bottom: 95px;
+  padding-bottom: 20px;
 }
 
 .detail-content article {
@@ -702,6 +702,119 @@
 .detail-content li svg {
   flex: 0 0 auto;
   margin-top: 0.12rem;
+  color: var(--terracotta);
+}
+
+.detail-bullets {
+  display: grid;
+  gap: 0.65rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.detail-bullets li {
+  display: flex;
+  gap: 0.55rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.detail-bullets li svg {
+  flex: 0 0 auto;
+  margin-top: 0.2rem;
+  color: var(--terracotta);
+}
+
+.decisions-grid,
+.troubleshooting-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.decision-card,
+.troubleshooting-card {
+  padding: 1.35rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+.decision-card h3,
+.troubleshooting-card h3 {
+  margin: 0 0 0.85rem;
+  font-size: 1.05rem;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.decision-item,
+.trouble-item {
+  margin: 0.55rem 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+
+.decision-item strong,
+.trouble-item strong {
+  color: var(--text);
+  font-size: 0.82rem;
+}
+
+.outcome-section {
+  padding-bottom: 95px;
+}
+
+.outcome-summary {
+  max-width: 720px;
+  margin: 0 0 1.5rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+.outcome-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1rem;
+}
+
+.outcome-card {
+  padding: 1.35rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+.outcome-card h3 {
+  margin: 0 0 0.85rem;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+
+.outcome-card ul {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.outcome-card li {
+  display: flex;
+  gap: 0.55rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.outcome-card li svg {
+  flex: 0 0 auto;
+  margin-top: 0.15rem;
   color: var(--terracotta);
 }
 

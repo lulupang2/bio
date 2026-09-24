@@ -15,8 +15,6 @@ const REQUIRED_PROJECT_FIELDS = [
   'summary',
   'cover',
   'coverAlt',
-  'liveUrl',
-  'repositoryUrl',
   'screenshots',
 ];
 
@@ -48,6 +46,15 @@ describe('portfolio content', () => {
       expect(publicFileExists(screenshot.src), screenshot.src).toBe(true);
     }
   });
+
+  it.each(publishedProjects)('$slug optional external links are valid when present', (project) => {
+    for (const field of ['liveUrl', 'repositoryUrl']) {
+      if (project[field] !== undefined) {
+        expect(project[field], `${project.slug}.${field}`).toMatch(/^https:\/\//);
+      }
+    }
+  });
+
 });
 
 describe('site paths', () => {
@@ -82,6 +89,30 @@ describe('gallery and workflow content', () => {
         expect(phase.title).toBeTruthy();
         expect(phase.description.length).toBeGreaterThan(60);
         expect(phase.outputs.length).toBeGreaterThan(0);
+      }
+      expect(project.summary.length).toBeGreaterThan(40);
+      expect(project.problem.length).toBeGreaterThan(40);
+      expect(project.stack.length).toBeGreaterThan(0);
+      expect(project.role.summary.length).toBeGreaterThan(30);
+      expect(project.role.items.length).toBeGreaterThan(0);
+      expect(project.decisions.length).toBeGreaterThan(0);
+      expect(project.troubleshooting.length).toBeGreaterThan(0);
+      expect(project.outcome.summary.length).toBeGreaterThan(30);
+      expect(project.outcome.results.length).toBeGreaterThan(0);
+      expect(project.outcome.learnings.length).toBeGreaterThan(0);
+      for (const label of ['roleLabel', 'decisionsLabel', 'troubleshootingLabel', 'outcomeLabel']) {
+        expect(project.detail[label], `${project.slug}.${label}`).toBeTruthy();
+      }
+      if (locale === 'en') {
+        expect(JSON.stringify({
+          summary: project.summary,
+          problem: project.problem,
+          role: project.role,
+          decisions: project.decisions,
+          troubleshooting: project.troubleshooting,
+          outcome: project.outcome,
+          detail: project.detail,
+        })).not.toMatch(/[가-힣]/);
       }
       if (locale === 'en') {
         expect(JSON.stringify({ problem: project.problem, process: project.process, ai: project.ai, validation: project.validation })).not.toMatch(/[가-힣]/);

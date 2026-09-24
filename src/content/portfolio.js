@@ -1,6 +1,9 @@
 // Single source of truth for all editable portfolio content.
 import { erpKo } from './erp.js';
 import { summergearKo } from './summergear.js';
+import { pricepulseKo } from './pricepulse.js';
+import { grantfitKo } from './grantfit.js';
+import { roomRepairKo } from './roomrepair.js';
 
 export const portfolio = {
   site: {
@@ -50,11 +53,11 @@ export const portfolio = {
     proof: [
       { value: '2년', label: '웹·앱 개발' },
       { value: '5개', label: '실무 프로젝트 참여' },
-      { value: '5개', label: '개인 프로젝트' },
+      { value: '8개', label: '개인 프로젝트' },
     ],
     about: [
       '실무에서는 웹과 앱의 사용자 화면을 개발하고, API를 연결해 회원·결제·검색·예약 기능을 구현했습니다. 사용자가 기능을 이용하는 과정과 화면의 상태 변화를 함께 고려하며 작업했습니다.',
-      '개인 프로젝트에서는 화면 뒤에서 데이터가 저장되고 전달되는 과정을 직접 만들어 보고 있습니다. 쇼핑몰, 지진 지도, 자료 검색, 제조 업무를 주제로 API·실시간 통신·데이터 처리를 연습하고, 구현한 내용과 아직 부족한 점을 함께 기록합니다.',
+      '개인 프로젝트에서는 화면 뒤에서 데이터가 저장되고 전달되는 과정을 직접 만들어 보고 있습니다. 쇼핑몰, 지진 관측, 자료 검색, 제조 업무, 가격 모니터링, 공고 검색, 수리 플랫폼을 주제로 API·실시간 통신·데이터 처리를 연습하고, 구현한 내용과 아직 부족한 점을 함께 기록합니다.',
     ],
     workflow: {
       label: 'HOW I BUILD',
@@ -195,6 +198,16 @@ export const portfolio = {
       '프론트엔드와 백엔드 연결을 연습하기 위해 만든 개인 커머스 프로젝트입니다. 상품 탐색부터 주문·결제·재고·배송·반품까지 구현하고, 서비스 간 이벤트 처리와 실패 후 복구를 테스트했습니다.',
     problem:
       "주문 한 건이 결제·재고 예약·출고로 이어지는 구조를 구현했습니다. 여기서 중요한 부분은 상품 옵션의 가격과 재고 기준을 맞추는 일, 그리고 주문 저장 후 이벤트가 전달되지 않거나 중복 전달되는 경우를 처리하는 일이었습니다. 실제 PG 연동이 아닌 Mock 결제를 사용하는 개인 프로젝트입니다.",
+    role: {
+      summary: 'Next.js 프론트엔드와 NestJS 마이크로서비스 백엔드, RabbitMQ 이벤트 아키텍처 전 과정을 1인 설계·구현했습니다.',
+      items: [
+        '고객 스토어 및 관리자 CMS를 위한 Next.js 독립 애플리케이션 구축',
+        'NestJS 기반 도메인 서비스(Catalog, Cart, Order, Stock) 및 API Gateway 라우팅 구현',
+        'RabbitMQ 기반 Choreography Saga 오케스트레이션 및 Transactional Outbox/Inbox 패턴 설계',
+        'Variant 기반 재고 예약, 주문 확정, 결제 승인, 배송/반품 상태 머신 모델링',
+        'Docker Compose 및 Kubernetes 매니페스트를 통한 로컬 분산 환경 오케스트레이션',
+      ],
+    },
     architecture: {
       title: '고객 경험과 운영 도메인을 이벤트로 연결했습니다.',
       description:
@@ -527,6 +540,52 @@ export const portfolio = {
       '로그·메트릭·분산 추적을 위한 OpenTelemetry와 Grafana 계열 도구 구성',
       '결제·택배·SMS는 Mock adapter 사용. 실제 PG 승인이나 배송 연동을 검증한 결과가 아님',
     ],
+    decisions: [
+      {
+        title: '분산 환경을 위한 안무형 사가(Choreography Saga) 패턴 채택',
+        context: '중앙 집중식 오케스트레이터는 단일 장애점(SPOF)이 될 수 있으며 서비스 간 결합도를 높입니다.',
+        decision: '각 도메인 서비스가 RabbitMQ 이벤트를 구독하고 자체 상태를 전이하는 안무형 사가 방식을 채택했습니다.',
+        impact: '서비스 간 직접적인 동기 의존성을 제거하고 비동기 이벤트 기반의 유연한 확장을 달성했습니다.',
+      },
+      {
+        title: '도메인 서비스별 독립 데이터베이스 소유권 확립',
+        context: '여러 서비스가 단일 데이터베이스를 공유할 경우 스키마 변경 시 상호 종속성이 발생합니다.',
+        decision: 'Order, Catalog, Stock 서비스에 각각 독립된 PostgreSQL 데이터베이스를 할당하고 직접 접근을 금지했습니다.',
+        impact: '데이터 무결성과 도메인 경계를 엄격히 유지하며 독립적인 배포 및 마이그레이션을 보장했습니다.',
+      },
+      {
+        title: '재고 과다 판매 방지를 위한 임시 예약(Reservation) 모델',
+        context: '결제 완료 전에 재고를 즉시 차감하면 결제 포기 시 재고 불일치가 발생하고, 결제 후 차감하면 과다 판매가 일어납니다.',
+        decision: '주문 접수 시 재고를 reservation_hold 상태로 먼저 선점하고, 결제 성공 이벤트 수신 시 영구 차감하도록 2단계 전이를 적용했습니다.',
+        impact: '동시 구매 시 품절 상품의 과다 판매를 원천 방지하고 취소 시 안전하게 재고를 회수했습니다.',
+      },
+    ],
+    troubleshooting: [
+      {
+        title: '주문 사가 중간 단계 실패 시 보상 트랜잭션 복구 시나리오',
+        problem: '주문 접수 및 재고 예약 후 Mock 결제 처리나 외부 연동에서 실패할 경우 예약 재고가 묶이는 위험.',
+        cause: '분산 환경에서 네트워크 단절 또는 결제 거부로 인한 후속 이벤트 누락.',
+        solution: 'Order 서비스가 결제 실패 이벤트를 수신하면 order_cancelled 보상 이벤트를 발행하고, Stock 서비스가 이를 구독하여 예약된 재고를 즉시 환원하도록 설계된 롤백 시나리오를 검증함.',
+      },
+      {
+        title: '메시지 브로커 재시도 시 중복 이벤트 전달 방지',
+        problem: 'RabbitMQ의 At-Least-Once 전달 특성으로 인해 동일한 결제 완료 이벤트가 중복 수신될 경우 중복 출고 위험.',
+        cause: '네트워크 지연으로 인한 컨슈머 ACK 유실 및 브로커의 재전송.',
+        solution: '메시지 헤더의 고유 event_id를 기록하는 멱등 인박스(Inbox) 테이블을 두고, 이미 처리된 이벤트는 트랜잭션 차원에서 무시하도록 방어 로직을 검증함.',
+      },
+    ],
+    outcome: {
+      summary: '마이크로서비스 아키텍처와 분산 사가 트랜잭션의 핵심 패턴을 설계하고 로컬 검증을 완결했습니다.',
+      results: [
+        '독립된 4개 NestJS 서비스와 2개 Next.js 앱 간 비동기 이벤트 기반 완결 워크플로 구현',
+        'Mock 결제 및 보상 트랜잭션 시나리오를 통한 결제 실패 시 자동 재고 롤백 검증',
+        'techzone.jisung.lol 배포 완료 및 CMS 기반 카탈로그 탐색 지원',
+      ],
+      learnings: [
+        '분산 트랜잭션에서는 단순 성공 경로보다 보상 트랜잭션과 멱등성 처리가 시스템 복원력을 좌우함을 체득',
+        '실제 PG 연동이 아닌 Mock 결제 기반 개인 프로젝트이며, 실제 배송 물류 연동은 비범위임을 명확히 인지',
+      ],
+    },
     screenshots: [
       {
         src: '/techzone/storefront-home.png',
@@ -557,15 +616,23 @@ export const portfolio = {
       eyebrow: 'PERSONAL PROJECT · COMMERCE',
       problemLabel: '01 · PROBLEM',
       problemTitle: '문제 정의',
-      architectureLabel: '02 · ARCHITECTURE',
-      topologyLabel: '03 · SYSTEM TOPOLOGY',
-      processLabel: '04 · PROCESS',
+      roleLabel: '02 · ROLE & SCOPE',
+      roleTitle: '1인 풀스택 아키텍처 및 서비스 구축',
+      architectureLabel: '03 · ARCHITECTURE',
+      topologyLabel: '04 · SYSTEM TOPOLOGY',
+      processLabel: '05 · PROCESS',
       processTitle: '쇼핑몰을 만들며 익힌 화면과 서버의 연결',
-      buildLabel: '05 · BUILD',
+      decisionsLabel: '06 · TECHNICAL DECISIONS',
+      decisionsTitle: '분산 환경을 위한 핵심 아키텍처 의사결정',
+      troubleshootingLabel: '07 · TROUBLESHOOTING',
+      troubleshootingTitle: '장애 복구 시나리오 및 멱등성',
+      aiLabel: 'AI COLLABORATION',
+      buildLabel: 'BUILD HIGHLIGHTS',
       buildTitle: '주요 구현',
-      aiLabel: '06 · AI COLLABORATION',
-      validationLabel: '07 · VALIDATION',
+      validationLabel: 'VALIDATION',
       validationTitle: '테스트와 확인한 내용',
+      outcomeLabel: '08 · RESULTS & RETROSPECTIVE',
+      outcomeTitle: '프로젝트 성과와 한계',
     },
     },
     {
@@ -903,6 +970,63 @@ export const portfolio = {
         '동일 fixture를 다시 수집했을 때 신규 사건과 변경 신호가 0건인 것을 확인한 기록',
         '위 수치는 해당 구현 시점의 결과이며, 현재 배포 상태나 장기 운영 성능을 뜻하지 않음',
       ],
+      role: {
+        summary: 'USGS 수집 워커, PostGIS 저장소, FastAPI REST/WebSocket API, Next.js 지도 인터페이스와 CI 계약 검증을 1인 풀스택으로 설계·구현했습니다.',
+        items: [
+          'Celery Beat 기반 60초 USGS GeoJSON 수집 및 멱등 정규화 파이프라인 구축',
+          'PostgreSQL/PostGIS 영속 저장과 Redis broker·lock·Pub/Sub 역할 분리',
+          'FastAPI REST snapshot 및 sequence 기반 WebSocket 변경 신호 구현',
+          'Next.js와 MapLibre/deck.gl 기반 실시간 지진 데이터 지도 및 URL 필터 개발',
+          'OpenAPI 명세로부터 TypeScript API client 자동 생성 및 drift gate 구축',
+        ],
+      },
+      decisions: [
+        {
+          title: '작은 스냅샷에 대한 클라이언트 사이드 필터링',
+          context: '초기 UI 스냅샷 크기가 약 45KB로 작아 필터를 바꿀 때마다 서버 요청을 보내는 것이 불필요한 지연을 만들 수 있었습니다.',
+          decision: '활성 지진 사건 스냅샷을 브라우저 메모리에 유지하고 시간·규모·깊이 필터를 클라이언트에서 적용했습니다.',
+          impact: '필터 조작에 서버 왕복 없이 즉시 반응하며 URL query로 공유 상태를 보존했습니다.',
+        },
+        {
+          title: 'URL 필터 갱신에 replaceState 사용',
+          context: '사용자가 지도를 탐색하며 필터를 반복 변경할 때 각 상태가 브라우저 뒤로 가기 기록에 추가되면 히스토리 스택이 오염됩니다.',
+          decision: '필터 상태는 URL 쿼리에 기록하되 history.pushState 대신 replaceState로 현재 항목을 갱신했습니다.',
+          impact: '공유·새로고침 가능한 URL 상태를 유지하면서 뒤로 가기 탐색을 방해하지 않았습니다.',
+        },
+        {
+          title: 'OpenAPI 생성 클라이언트로 API 계약 단일화',
+          context: 'Python API 타입과 TypeScript UI 타입을 별도 수작업으로 관리하면 필드 추가 및 변경 시 조용한 타입 드리프트가 발생합니다.',
+          decision: 'FastAPI OpenAPI schema에서 TypeScript client를 생성하고 CI 단계에서 생성물과 원본 차이를 검사했습니다.',
+          impact: 'API 계약 불일치를 자동으로 감지하는 재현 가능한 검증 경로를 마련했습니다.',
+        },
+      ],
+      troubleshooting: [
+        {
+          title: '3D 지구본 뒤편 지진 마커가 표면을 통과해 보이는 문제',
+          problem: '구형 지구본의 반대편에 위치한 지진 마커가 지구 표면에 가려지지 않고 앞면에 표시되는 시각적 결함.',
+          cause: '점 레이어의 깊이 정렬이 지구 구체의 카메라 시점별 가림(occlusion) 정보를 반영하지 못함.',
+          solution: '카메라 시점 벡터와 지구 중심 법선의 내적을 계산하여 뒷면 마커를 제외하고, 깊이 기준 정렬을 적용함.',
+        },
+        {
+          title: 'USGS 피드가 빈 사건 배열을 반환할 때의 화면 예외',
+          problem: '피드 유지보수나 데이터 공백 중 features 배열이 비어 있을 때 클라이언트 렌더러가 유효한 사건이 존재한다고 가정해 예외를 발생시킴.',
+          cause: '빈 스냅샷을 정상적인 경계 조건으로 처리하지 않은 클라이언트 렌더링 로직.',
+          solution: '빈 배열을 명시적으로 처리하고 직전 정상 snapshot 메타데이터를 보존한 상태 안내 fallback UI를 제공함.',
+        },
+      ],
+      outcome: {
+        summary: 'USGS 공개 피드 수집부터 PostGIS 저장, sequence 기반 실시간 복구, 3D 지도 시각화까지 이어지는 데이터 제품을 구축했습니다.',
+        results: [
+          '동일 fixture 재수집 시 신규 사건과 변경 신호가 0건인 멱등성 검증 기록',
+          'FastAPI OpenAPI와 TypeScript client 생성물을 CI에서 검증하는 계약 drift gate 구성',
+          '저메모리 Docker 구성 및 HTTPS 공개 데모 배포 기록 보유',
+        ],
+        learnings: [
+          '구형 지도에서는 화면 투영뿐 아니라 관측자 시점과 지표면 가림 관계를 함께 계산해야 함을 학습',
+          '외부 피드는 빈 값과 재전송을 정상 경계 조건으로 처리해야 하며, 연결 재복구와 무손실 보장을 구분해야 함을 확인',
+          '저장소에 기록된 테스트 수치는 해당 구현 시점 결과이며 현재 운영 부하 성능으로 일반화하지 않음',
+        ],
+      },
       screenshots: [
         {
           src: '/quakecurrent/project-cover.webp',
@@ -933,15 +1057,23 @@ export const portfolio = {
         eyebrow: 'PERSONAL PROJECT · REALTIME DATA',
         problemLabel: '01 · PROBLEM',
         problemTitle: '문제 정의',
-        architectureLabel: '02 · ARCHITECTURE',
-        topologyLabel: '03 · SYSTEM TOPOLOGY',
-        processLabel: '04 · PROCESS',
+        roleLabel: '02 · ROLE & SCOPE',
+        roleTitle: '지진 데이터 수집부터 지도까지 1인 풀스택 구현',
+        architectureLabel: '03 · ARCHITECTURE',
+        topologyLabel: '04 · SYSTEM TOPOLOGY',
+        processLabel: '05 · PROCESS',
         processTitle: '지진 데이터로 익힌 수집·갱신·복구',
-        buildLabel: '05 · BUILD',
+        decisionsLabel: '06 · TECHNICAL DECISIONS',
+        decisionsTitle: '실시간 데이터와 지도 렌더링의 기술적 선택',
+        troubleshootingLabel: '07 · TROUBLESHOOTING',
+        troubleshootingTitle: '지도 가림 처리 및 빈 피드 복구',
+        aiLabel: 'AI COLLABORATION',
+        buildLabel: 'BUILD HIGHLIGHTS',
         buildTitle: '주요 구현',
-        aiLabel: '06 · AI COLLABORATION',
-        validationLabel: '07 · VALIDATION',
+        validationLabel: 'VALIDATION',
         validationTitle: '검증과 경계',
+        outcomeLabel: '08 · RESULTS & RETROSPECTIVE',
+        outcomeTitle: '프로젝트 결과와 배운 점',
       },
     },
     {
@@ -1210,6 +1342,69 @@ export const portfolio = {
         '기록 시점에 모델 제공자 승인과 골든셋 기반 답변 품질 검증이 남아 있었음',
         '본문 발췌는 출처·이용 조건 표시 검증 후 노출하는 범위로 두고, 검증 전에는 메타데이터 중심으로 인용',
       ],
+      role: {
+        summary: '공개 기술 자료 수집기, Node.js 기반 Elysia API, BullMQ 처리 워커, PostgreSQL/pgvector 검색 및 SvelteKit UI를 모노레포에서 설계·구현했습니다.',
+        items: [
+          '외부 수집 소스별 Collector 워커 및 정책 기반 URL/SSRF guard 구성',
+          'Redis + BullMQ 큐를 통한 수집 작업 전달, 분산 락 및 재시도 관리',
+          '정규화, 어휘 기반 중복 클러스터링, heading-aware 청킹, pgvector 임베딩 파이프라인 구축',
+          'PostgreSQL Full-Text Search와 exact cosine vector 검색 및 인용 검증 흐름 구현',
+          'SvelteKit 기술 인텔리전스 대시보드 및 출처·기간 표시 질의응답 인터페이스 개발',
+        ],
+      },
+      decisions: [
+        {
+          title: 'Node.js 런타임 위 Elysia 선택',
+          context: 'Bun 환경의 일부 라이브러리 호환성 이슈가 Playwright 기반 검사와 외부 패키지 연동에 제약을 주었습니다.',
+          decision: 'Elysia 프레임워크를 유지하면서 백엔드 런타임을 Node.js로 전환했습니다.',
+          impact: '필요한 생태계 호환성을 확보하면서 경량 API 프레임워크 활용을 이어갔습니다.',
+        },
+        {
+          title: 'TypeBox 단일 API 계약',
+          context: '런타임 유효성 검사 스키마와 별도 TypeScript 인터페이스를 관리하면 API와 웹 간 계약이 달라질 수 있습니다.',
+          decision: 'TypeBox 스키마를 API, BullMQ worker, SvelteKit 클라이언트가 공유하도록 하여 런타임 검사와 정적 타입을 통합했습니다.',
+          impact: '한 계약 정의에서 요청·응답 타입과 입력 검증을 일관되게 파생할 수 있었습니다.',
+        },
+        {
+          title: '로컬 코퍼스 부족 시 bounded live evidence acquisition',
+          context: '초기 데이터가 적으면 기간 조건에 맞는 근거를 찾지 못하고 insufficient_evidence가 반환될 수 있습니다.',
+          decision: '명시된 정책과 횟수·시간·바이트 상한 내에서 live technical evidence를 수집하고, 결과를 저장한 뒤 한 번 lexical re-search하도록 분리했습니다.',
+          impact: '코퍼스 공백에 대응하는 수단을 추가하면서 수집 상한과 근거 검증 흐름을 유지했습니다.',
+        },
+      ],
+      troubleshooting: [
+        {
+          title: '평가 중 임베딩 API 예산 초과 위험',
+          problem: '초기 평가와 중복 문서 처리에서 외부 임베딩 API 호출량이 예산 경계를 넘어갈 수 있었습니다.',
+          cause: '중복 또는 이미 평가한 문서를 다시 임베딩하면 외부 API 호출이 반복됩니다.',
+          solution: '유사 문서 임베딩 전에 중복 필터링을 적용하고, 오프라인 평가 러너와 결과 캐시를 도입해 반복 평가 호출을 격리했습니다.',
+        },
+        {
+          title: '외부 자료 URL 수집 시 SSRF 위험',
+          problem: '수집 대상으로 전달되는 악의적 URL이 내부 네트워크 주소나 서비스 메타데이터 엔드포인트에 접근할 수 있습니다.',
+          cause: '임의 URL을 검증 없이 서버 측 HTTP 요청에 전달하면 SSRF 공격이 가능해집니다.',
+          solution: '정책 기반 URL 검사 및 private IP/비공개 네트워크 차단을 outbound HTTP 요청 경로에 적용했습니다.',
+        },
+        {
+          title: '로컬 검색 근거 부족 및 실시간 검색 폴백',
+          problem: '기간과 질문에 부합하는 로컬 코퍼스 문서가 부족해 유의미한 검색 근거를 제시할 수 없는 경우가 있었습니다.',
+          cause: '초기 수집 코퍼스 크기와 주제 범위가 실제 사용자 질의 범위를 충분히 포괄하지 못했습니다.',
+          solution: 'bounded acquisition port와 search service를 이용한 on-demand 기술 근거 수집을 분리 구현하고, 수집이 유효한 경우 저장된 문서를 재검색하도록 연결했습니다.',
+        },
+      ],
+      outcome: {
+        summary: '이종 기술 자료 수집, 정규화·검색·출처 검증을 연결한 RAG 데이터 파이프라인을 구축했습니다.',
+        results: [
+          'GitHub, npm, arXiv, Stack Exchange 외 Reddit 및 Hugging Face를 포함하는 수집기 구현 기반 확장',
+          '로컬 근거가 부족할 때 제한된 live technical search acquisition 경로를 제공',
+          '저장소 기록 기준 단위·계약·수집기·웹 테스트와 Playwright 흐름을 갖춘 PoC 구축',
+        ],
+        learnings: [
+          '테스트 성공은 실제 코퍼스 충분성이나 답변 품질을 증명하지 않으므로 fixture 회귀와 실제 품질 평가를 구분해야 함을 학습',
+          '비용 상한, 이용 조건, SSRF 정책이 외부 자료 수집 설계의 핵심 제약임을 확인',
+          '기록 당시 모델 제공자 승인 및 골든셋 기반 답변 평가가 남아 있었으므로 상용 RAG 품질을 주장하지 않음',
+        ],
+      },
       screenshots: [
         {
           src: '/signal-archive/overview.webp',
@@ -1247,19 +1442,30 @@ export const portfolio = {
         eyebrow: 'PERSONAL PROJECT · SEARCH & RAG',
         problemLabel: '01 · PROBLEM',
         problemTitle: '문제 정의',
-        architectureLabel: '02 · ARCHITECTURE',
-        topologyLabel: '03 · SYSTEM TOPOLOGY',
-        processLabel: '04 · PROCESS',
+        roleLabel: '02 · ROLE & SCOPE',
+        roleTitle: '데이터 수집·RAG 검색 시스템 1인 구현',
+        architectureLabel: '03 · ARCHITECTURE',
+        topologyLabel: '04 · SYSTEM TOPOLOGY',
+        processLabel: '05 · PROCESS',
         processTitle: '자료 수집부터 검색·인용 검증까지',
-        buildLabel: '05 · BUILD',
+        decisionsLabel: '06 · TECHNICAL DECISIONS',
+        decisionsTitle: '인용 근거와 수집 안전성을 위한 기술 선택',
+        troubleshootingLabel: '07 · TROUBLESHOOTING',
+        troubleshootingTitle: '검색 공백·비용·SSRF 위험 대응',
+        buildLabel: 'BUILD HIGHLIGHTS',
         buildTitle: '주요 구현',
-        aiLabel: '06 · ANSWER FLOW',
-        validationLabel: '07 · VALIDATION',
+        aiLabel: 'ANSWER FLOW',
+        validationLabel: 'VALIDATION',
         validationTitle: '검증과 경계',
+        outcomeLabel: '08 · RESULTS & RETROSPECTIVE',
+        outcomeTitle: '프로젝트 결과와 남은 한계',
       },
     },
     erpKo,
     summergearKo,
+    pricepulseKo,
+    grantfitKo,
+    roomRepairKo,
   ],
   notFound: {
     code: '404',

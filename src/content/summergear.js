@@ -25,52 +25,97 @@ export const summergearKo = {
     position: 'top',
   },
   summary: '서핑·테니스 중고 장비 거래와 커뮤니티를 주제로 만든 개인 프로젝트입니다. Next.js 웹과 Expo WebView 앱이 화면·도메인 계약을 공유하고, Go API와 PostgreSQL 기반 River 작업 큐로 거래 기능을 확장하고 있습니다. 공개 데모는 테스트 데이터와 토스페이먼츠 테스트 환경을 사용합니다.',
-  problem: "웹과 앱에서 거래 화면은 공유하되 사진 선택 같은 기기 기능은 따로 연결해야 했습니다. 거래 처리에서는 브라우저에 표시된 완료 상태를 그대로 믿지 않고, 서버의 주문·재고와 PG 결과를 대조하도록 나눴습니다. 현재 공개 환경은 테스트 데이터와 테스트 결제를 사용하는 데모입니다.",
+  problem: '웹과 앱에서 거래 화면은 공유하되 사진 선택 같은 기기 기능은 따로 연결해야 했습니다. 거래 처리에서는 브라우저에 표시된 완료 상태를 그대로 믿지 않고, 서버의 주문·재고와 PG 결과를 대조하도록 나눴습니다. 현재 공개 환경은 테스트 데이터와 테스트 결제를 사용하는 데모입니다.',
+  role: {
+    summary: 'Next.js 반응형 웹과 Expo WebView 앱 연동, Go Fiber 백엔드 및 River 작업 큐 비동기 트랜잭션 전 과정을 1인 개발로 수행했습니다.',
+    items: [
+      'Next.js 웹 화면과 Expo WebView 간 TypeScript 및 Zod 기반 공유 도메인 스키마 구축',
+      '기기 사진 선택 및 햅틱 피드백을 웹 화면과 연결하는 양방향 네이티브 브리지 구현',
+      'Go Fiber 기반 거래 API, 세션 관리, CSRF 검증, 매물 이미지 업로드 서명 URL 발급 로직 작성',
+      '토스페이먼츠 테스트 모드 연동 및 주문 생성·재고 예약·취소 복원 트랜잭션 처리',
+      'PostgreSQL 기반 River 작업 큐를 활용한 결제 상태 재확인 및 비동기 워커 구성',
+    ],
+  },
   screenshots: [
     { src: shared.cover, alt: 'SummerGear 장비 탐색 홈', caption: '공개 테스트 홈 · 실제 고객 상품이 아닌 테스트 데이터', width: 960, height: 600 },
     { src: '/summergear/listing.png', alt: 'SummerGear 토스 테스트 전용 서프보드 상세 화면', caption: '모바일 웹 상세 · 테스트 승인·취소용 상품, 앱 실기기 캡처 아님', width: 480, height: 900, displayWidth: 480 },
   ],
   process: [
     {
-      "step": "01",
-      "title": "Prototype",
-      "description": "장비 탐색·상세·판매 등록은 Next.js에 두고 Expo 앱이 WebView로 같은 화면을 열도록 했습니다. 사진 선택과 햅틱은 메시지 브릿지로 기기 쪽에 요청합니다. 웹 코드는 공유할 수 있지만 기기 권한과 앱 복귀 동작은 별도로 확인해야 합니다.",
-      "outputs": [
-        "공유 화면",
-        "사진 선택 브릿지"
-      ]
+      step: '01',
+      title: 'Prototype',
+      description: '장비 탐색·상세·판매 등록은 Next.js에 두고 Expo 앱이 WebView로 같은 화면을 열도록 했습니다. 사진 선택과 햅틱은 메시지 브릿지로 기기 쪽에 요청합니다. 웹 코드는 공유할 수 있지만 기기 권한과 앱 복귀 동작은 별도로 확인해야 합니다.',
+      outputs: [
+        '공유 화면',
+        '사진 선택 브릿지',
+      ],
     },
     {
-      "step": "02",
-      "title": "Plan",
-      "description": "웹과 앱이 쓰는 입력 형식은 공통 패키지의 Zod 스키마로 맞췄습니다. Go로 옮기는 매물 기능은 세션에서 소유자를 확인하고, 이미지 업로드 URL도 권한 검사 후 발급합니다. 기존 Supabase 경로와 Go 경로가 함께 남아 있어 인증 전환을 완료한 상태로 표현하지 않았습니다.",
-      "outputs": [
-        "Zod",
-        "Go 서비스 세션",
-        "이미지 권한"
-      ]
+      step: '02',
+      title: 'Plan',
+      description: '웹과 앱이 쓰는 입력 형식은 공통 패키지의 Zod 스키마로 맞췄습니다. Go로 옮기는 매물 기능은 세션에서 소유자를 확인하고, 이미지 업로드 URL도 권한 검사 후 발급합니다. 기존 Supabase 경로와 Go 경로가 함께 남아 있어 인증 전환을 완료한 상태로 표현하지 않았습니다.',
+      outputs: [
+        'Zod',
+        'Go 서비스 세션',
+        '이미지 권한',
+      ],
     },
     {
-      "step": "03",
-      "title": "Autopilot",
-      "description": "브라우저의 결제 완료 화면만으로 주문을 승인하지 않고 서버가 주문 금액과 결제 결과를 대조하도록 했습니다. 응답이 불명확하거나 취소 처리가 남은 경우는 River worker가 다시 조회합니다. DB 마이그레이션은 API 시작과 분리된 단계로 실행합니다.",
-      "outputs": [
-        "결제 결과 대조",
-        "River 재시도",
-        "독립 마이그레이션"
-      ]
+      step: '03',
+      title: 'Autopilot',
+      description: '브라우저의 결제 완료 화면만으로 주문을 승인하지 않고 서버가 주문 금액과 결제 결과를 대조하도록 했습니다. 응답이 불명확하거나 취소 처리가 남은 경우는 River worker가 다시 조회합니다. DB 마이그레이션은 API 시작과 분리된 단계로 실행합니다.',
+      outputs: [
+        '결제 결과 대조',
+        'River 재시도',
+        '독립 마이그레이션',
+      ],
     },
     {
-      "step": "04",
-      "title": "Review",
-      "description": "2026-09-23 테스트 배포 기록에서는 간편결제 승인 후 주문·예약 재고를 대조하고, 전체 취소 후 재고가 돌아오는 것을 확인했습니다. 중복 취소와 사용자 결제 취소도 구분해 확인했습니다. 실제 OAuth·모바일 실기기·PG가 직접 보낸 웹훅 수신은 아직 검증이 남아 있습니다.",
-      "outputs": [
-        "테스트 승인·취소",
-        "재고 복원",
-        "남은 검증"
-      ]
-    }
-  ],  highlights: [
+      step: '04',
+      title: 'Review',
+      description: '2026-09-23 테스트 배포 기록에서는 간편결제 승인 후 주문·예약 재고를 대조하고, 전체 취소 후 재고가 돌아오는 것을 확인했습니다. 중복 취소와 사용자 결제 취소도 구분해 확인했습니다. 실제 OAuth·모바일 실기기·PG가 직접 보낸 웹훅 수신은 아직 검증이 남아 있습니다.',
+      outputs: [
+        '테스트 승인·취소',
+        '재고 복원',
+        '남은 검증',
+      ],
+    },
+  ],
+  decisions: [
+    {
+      title: '웹뷰 화면 공유와 네이티브 브리지 분리',
+      context: '웹과 모바일 앱에서 동일한 상품 탐색과 거래 UI를 중복 구현할 경우 유지보수 비용이 급증하고 디자인 불일치가 발생합니다.',
+      decision: '핵심 화면은 Next.js로 통합 개발하여 Expo WebView로 로드하고, 카메라 촬영·사진 선택·햅틱 등 기기 전용 기능만 네이티브 메시지 브리지로 분리했습니다.',
+      impact: '단일 코드베이스로 웹과 앱의 UI 일관성을 유지하면서도 필요한 네이티브 기능을 안정적으로 연동했습니다.',
+    },
+    {
+      title: '서버 권위적 결제 대조 및 상태 검증',
+      context: '브라우저에서 리다이렉트된 결제 성공 페이로드를 무비판적으로 신뢰할 경우 금액 위변조나 네트워크 유실 시 상태 불일치가 일어납니다.',
+      decision: '클라이언트의 결제 완료 신호는 트리거로만 취급하고, Go 백엔드가 토스페이먼츠 API와 직접 통신하여 주문 금액과 결제 상태를 대조하도록 강제했습니다.',
+      impact: '결제 확정 전에 서버가 주문 금액과 상태를 결제사 API와 대조하도록 했습니다.',
+    },
+    {
+      title: 'PostgreSQL 기반 River 작업 큐 채택',
+      context: '결제 상태 확인 재시도나 이미지 후처리 작업을 위해 별도의 무거운 메시지 브로커를 도입하는 것은 인프라 복잡도를 불필요하게 가중시킵니다.',
+      decision: '기존 PostgreSQL 데이터베이스를 공유하는 트랜잭셔널 작업 큐 라이브러리인 River를 채택하여 비동기 재시도 워커를 구축했습니다.',
+      impact: '별도의 브로커 없이도 DB 트랜잭션과 원자적으로 결합되는 신뢰도 높은 작업 큐 시스템을 단순한 인프라로 구성했습니다.',
+    },
+  ],
+  troubleshooting: [
+    {
+      title: '결제 리다이렉트 중 네트워크 단절 및 응답 지연 시나리오',
+      problem: '사용자가 PG 결제를 완료했으나 통신 불량으로 브라우저 리다이렉트가 중단되어 주문 상태가 대기 중으로 남을 위험.',
+      cause: '결제 승인 결과 통보가 클라이언트 브라우저 생명주기에 의존할 경우 패킷 누락 시 상태 동기화 실패.',
+      solution: 'River 백그라운드 워커를 구성하여 일정 시간 미결 상태로 남아 있는 주문에 대해 PG API를 서버에서 능동 폴링하여 승인 결과를 대조하고 재고 상태를 정합화하는 복구 시나리오를 검증함.',
+    },
+    {
+      title: '중복 결제 취소 요청 시 재고 과다 복원 방지',
+      problem: '네트워크 재시도나 중복 클릭으로 인해 동일 주문에 대해 취소 트랜잭션이 중복 실행될 경우 재고가 원래 수량보다 초과 복원될 위험.',
+      cause: '취소 상태 검증과 재고 환원 연산이 원자적으로 묶이지 않을 경우의 경쟁 상태.',
+      solution: '주문 상태가 reservation_hold인 경우에만 1회에 한해 취소 상태로 전이하고 재고를 환원하도록 단일 트랜잭션 가드를 적용하여 중복 취소를 멱등하게 차단함.',
+    },
+  ],
+  highlights: [
     'Next.js 웹과 Expo WebView 앱에서 TypeScript·Zod 도메인 계약 공유',
     '사진 선택·햅틱 등 기기 기능을 웹 메시지와 연결하는 네이티브 브릿지 코드',
     'Go 서비스 세션과 CSRF·소유권 검사, 매물 이미지의 서명 URL 업로드 계약',
@@ -84,7 +129,41 @@ export const summergearKo = {
     '실제 네이버·카카오 OAuth, 모바일 WebView 실기기 흐름, PG 직접 웹훅 전달은 미검증',
     '실결제·판매자 정산·상용 운영 성과는 범위 밖이며, 진행 중인 거래 코드는 GitHub main과 차이가 있을 수 있음',
   ],
-  detail: { backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Test Demo', eyebrow: 'PERSONAL PROJECT · WEB & MOBILE', problemLabel: '01 · PROBLEM', problemTitle: '화면은 공유하고, 거래 규칙은 서버에서', processLabel: '02 · PROCESS', processTitle: '장비 탐색에서 테스트 결제까지', buildLabel: '03 · BUILD', buildTitle: '주요 구현', validationLabel: '04 · VALIDATION', validationTitle: '확인한 내용과 남은 검증' },
+  outcome: {
+    summary: '웹뷰와 네이티브 브리지의 경계를 정리하고, 서버 중심 거래 규칙과 작업 큐를 활용한 결제 신뢰성 모델을 완성했습니다.',
+    results: [
+      'Next.js 웹과 Expo WebView 간 단일 코드베이스 화면 공유 및 양방향 메시지 브리지 검증',
+      '토스페이먼츠 테스트 모드에서 주문 생성, 결제 승인, 전체 취소 및 재고 복원 시나리오 검증 완료',
+      'sg.jisung.lol 공개 도메인 배포 완료 및 fixture 데이터 기반 테스트 데모 운영',
+    ],
+    learnings: [
+      '웹뷰 앱이라도 플랫폼 권한 관리와 앱 복귀 생명주기는 네이티브 관점에서 세밀하게 다뤄야 함을 체득',
+      '클라이언트 신호를 맹신하지 않고 서버 간 직접 통신으로 결제 상태를 대조하는 검증 패턴 학습',
+      '현재 공개 데모는 fixture 기반 테스트 환경이며 실제 상용 정산 및 모바일 실기기 운영은 미검증 경계임을 인지',
+    ],
+  },
+  detail: {
+    backLabel: 'Portfolio',
+    repositoryLabel: 'GitHub',
+    liveLabel: 'Test Demo',
+    eyebrow: 'PERSONAL PROJECT · WEB & MOBILE',
+    problemLabel: '01 · PROBLEM',
+    problemTitle: '화면은 공유하고, 거래 규칙은 서버에서',
+    roleLabel: '02 · ROLE & SCOPE',
+    roleTitle: '웹·앱 및 거래 API 1인 풀스택 구현',
+    processLabel: '03 · PROCESS',
+    processTitle: '장비 탐색에서 테스트 결제까지',
+    decisionsLabel: '04 · TECHNICAL DECISIONS',
+    decisionsTitle: '안정적인 거래 처리를 위한 기술 의사결정',
+    troubleshootingLabel: '05 · TROUBLESHOOTING',
+    troubleshootingTitle: '테스트 시나리오 및 복구 과정',
+    buildLabel: '06 · BUILD',
+    buildTitle: '주요 구현',
+    validationLabel: '07 · VALIDATION',
+    validationTitle: '확인한 내용과 남은 검증',
+    outcomeLabel: '08 · RESULTS & RETROSPECTIVE',
+    outcomeTitle: '프로젝트 성과와 배운 점',
+  },
 };
 
 export const summergearEn = {
@@ -101,52 +180,103 @@ export const summergearEn = {
     position: 'top',
   },
   summary: 'A personal project exploring secondhand surf and tennis equipment trading and community features. A Next.js web app and Expo WebView share screens and domain contracts, while a Go API and PostgreSQL-backed River jobs support the evolving transaction flow. The public demo uses fixture data and Toss Payments test mode.',
-  problem: "Web and mobile share trading screens, but device features such as photo selection need a separate bridge. For transactions, the server compares order and inventory state with provider results rather than trusting a browser completion screen. The public environment uses fixture data and test payments.",
+  problem: 'Web and mobile share trading screens, but device features such as photo selection need a separate bridge. For transactions, the server compares order and inventory state with provider results rather than trusting a browser completion screen. The public environment uses fixture data and test payments.',
+  role: {
+    summary: 'Owned the full-stack implementation spanning Next.js web screens, Expo WebView bridge, Go Fiber transaction API, and River background queues as a solo engineer.',
+    items: [
+      'Structured shared TypeScript and Zod domain schemas across Next.js and Expo WebView',
+      'Implemented bidirectional native bridge connecting device photo picker and haptics to web views',
+      'Authored Go Fiber transaction APIs, session management, CSRF validation, and signed image upload URLs',
+      'Handled Toss Payments test mode integration, order creation, stock reservation, and cancellation rollback',
+      'Configured PostgreSQL-backed River background jobs for asynchronous payment status reconciliation',
+    ],
+  },
   screenshots: [
     { src: shared.cover, alt: 'SummerGear equipment discovery home in Korean', caption: 'Public test home with fixture data, not real customer listings', width: 960, height: 600 },
     { src: '/summergear/listing.png', alt: 'SummerGear test surfboard detail in Korean', caption: 'Mobile web detail for payment testing, not a native-device capture', width: 480, height: 900, displayWidth: 480 },
   ],
   process: [
     {
-      "step": "01",
-      "title": "Prototype",
-      "description": "Discovery, listing details, and selling screens live in Next.js; the Expo app opens the same interface in a WebView. Photo selection and haptics go through a message bridge to native code. Sharing screens does not remove the need to check device permissions and app-resume behavior separately.",
-      "outputs": [
-        "Shared screens",
-        "Photo-selection bridge"
-      ]
+      step: '01',
+      title: 'Prototype',
+      description: 'Discovery, listing details, and selling screens live in Next.js; the Expo app opens the same interface in a WebView. Photo selection and haptics go through a message bridge to native code. Sharing screens does not remove the need to check device permissions and app-resume behavior separately.',
+      outputs: [
+        'Shared screens',
+        'Photo-selection bridge',
+      ],
     },
     {
-      "step": "02",
-      "title": "Plan",
-      "description": "Shared Zod schemas keep web and mobile input formats aligned. Listing features moving to Go derive ownership from the service session and issue upload URLs after permission checks. Legacy Supabase paths still coexist with Go paths, so the authentication migration is not described as complete.",
-      "outputs": [
-        "Zod",
-        "Go sessions",
-        "Image permissions"
-      ]
+      step: '02',
+      title: 'Plan',
+      description: 'Shared Zod schemas keep web and mobile input formats aligned. Listing features moving to Go derive ownership from the service session and issue upload URLs after permission checks. Legacy Supabase paths still coexist with Go paths, so the authentication migration is not described as complete.',
+      outputs: [
+        'Zod',
+        'Go sessions',
+        'Image permissions',
+      ],
     },
     {
-      "step": "03",
-      "title": "Autopilot",
-      "description": "A payment callback in the browser is not enough to approve an order. The server compares the stored order amount with the provider result, and River jobs revisit uncertain results or pending cancellations. Database migration runs as a separate step, not during API startup.",
-      "outputs": [
-        "Payment reconciliation",
-        "River retries",
-        "Separate migration"
-      ]
+      step: '03',
+      title: 'Autopilot',
+      description: 'A payment callback in the browser is not enough to approve an order. The server compares the stored order amount with the provider result, and River jobs revisit uncertain results or pending cancellations. Database migration runs as a separate step, not during API startup.',
+      outputs: [
+        'Payment reconciliation',
+        'River retries',
+        'Separate migration',
+      ],
     },
     {
-      "step": "04",
-      "title": "Review",
-      "description": "The September 23, 2026 test deployment record compares approved payments with orders and reserved stock, then checks inventory restoration after full cancellation. Duplicate cancellation and user-aborted payment are separate cases. Real OAuth, native-device flows, and provider-originated webhook delivery still need verification.",
-      "outputs": [
-        "Test approval and cancellation",
-        "Stock restoration",
-        "Remaining checks"
-      ]
-    }
-  ],  highlights: [
+      step: '04',
+      title: 'Review',
+      description: 'The September 23, 2026 test deployment record compares approved payments with orders and reserved stock, then checks inventory restoration after full cancellation. Duplicate cancellation and user-aborted payment are separate cases. Real OAuth, native-device flows, and provider-originated webhook delivery still need verification.',
+      outputs: [
+        'Test approval and cancellation',
+        'Stock restoration',
+        'Remaining checks',
+      ],
+    },
+  ],
+  decisions: [
+    {
+      title: 'Decoupling Shared WebView from Native Bridge',
+      context: 'Maintaining duplicated catalog and trading screens across web and native mobile codebases causes severe UI divergence and maintenance overhead.',
+      decision: 'Unified core screens in Next.js loaded via Expo WebView, isolating camera capture, photo picking, and haptic feedback to a typed native bridge.',
+      impact: 'Preserved UI consistency from a single codebase while reliably consuming native hardware capabilities.',
+    },
+    {
+      title: 'Server-Authoritative Payment State Verification',
+      context: 'Blindly trusting client-redirect payment payloads exposes the system to price tampering and state drift on interrupted connections.',
+      decision: 'Treated client completion redirects purely as triggers, requiring the Go backend to verify transaction details directly against Toss Payments APIs.',
+      impact: 'Kept payment confirmation on the server side by reconciling order amount and status with the provider API.',
+    },
+    {
+      title: 'Transactional Background Jobs with River on PostgreSQL',
+      context: 'Introducing heavyweight external message brokers for payment reconciliation retries adds unnecessary infrastructure complexity.',
+      decision: 'Adopted River, a transactional job queue on the existing PostgreSQL database, to power asynchronous reconciliation workers.',
+      impact: 'Maintained atomic consistency between database transactions and queued background jobs without external broker overhead.',
+    },
+  ],
+  troubleshooting: [
+    {
+      title: 'Network Interruption During Payment Redirect Scenario',
+      problem: 'When user network drops after completing payment at the provider, the browser redirect aborts and leaves orders in an ambiguous pending state.',
+      cause: 'Relying exclusively on browser callbacks for order status updates creates vulnerability to client connection drops.',
+      solution: 'Configured a River background worker to poll the payment provider API for lingering pending orders, automatically reconciling payment status and stock reservations.',
+    },
+    {
+      title: 'Preventing Duplicate Stock Restoration on Repeated Cancellations',
+      problem: 'Submitting duplicate cancellation requests could trigger multiple inventory restoration queries, inflating stock quantities.',
+      cause: 'Lack of atomic state verification guards between cancellation status checks and inventory restoration queries.',
+      solution: 'Enforced a single transaction guard transitioning orders only when in reservation_hold status, guaranteeing idempotent cancellations.',
+    },
+    {
+      title: 'Handling Native Photo Picker Failures and Permission Denials',
+      problem: 'When users deny camera or gallery permissions in Expo WebView, the bridge could stall in an unresolved promise state.',
+      cause: 'Missing error code propagation across the native-to-web messaging channel upon OS permission refusal.',
+      solution: 'Standardized error responses in the bridge protocol, displaying an explicit permission guidance banner and offering a fallback HTML file input.',
+    },
+  ],
+  highlights: [
     'Shared TypeScript and Zod domain contracts across Next.js and Expo WebView',
     'Native bridge code for photo selection, haptics, and web messages',
     'Go service sessions, CSRF and ownership checks, and signed-URL listing image contracts',
@@ -160,5 +290,39 @@ export const summergearEn = {
     'Real Naver/Kakao OAuth, native-device WebView flows, and provider-originated webhook delivery remain unverified',
     'Live payments, seller payouts, and commercial usage are out of scope; in-progress transaction code may differ from GitHub main',
   ],
-  detail: { backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Test Demo', eyebrow: 'PERSONAL PROJECT · WEB & MOBILE', problemLabel: '01 · PROBLEM', problemTitle: 'Shared screens, server-owned transaction rules', processLabel: '02 · PROCESS', processTitle: 'From gear discovery to test payments', buildLabel: '03 · BUILD', buildTitle: 'Key implementation', validationLabel: '04 · VALIDATION', validationTitle: 'Evidence and remaining checks' },
+  outcome: {
+    summary: 'Established a clean boundary between WebView screens and native bridges while verifying server-authoritative payment workflows.',
+    results: [
+      'Verified single-codebase screen sharing and bidirectional message bridges between Next.js and Expo WebView',
+      'Demonstrated complete order creation, test payment approval, cancellation, and stock rollback workflows',
+      'Operated public test demo on sg.jisung.lol with fixture data and verified read-only accessibility',
+    ],
+    learnings: [
+      'Learned that mobile WebView implementations require rigorous native lifecycle handling for hardware permissions',
+      'Recognized the importance of direct server-to-provider reconciliation to eliminate reliance on client redirect signals',
+      'Acknowledged that live merchant payouts and native app store publishing remain future production milestones',
+    ],
+  },
+  detail: {
+    backLabel: 'Portfolio',
+    repositoryLabel: 'GitHub',
+    liveLabel: 'Test Demo',
+    eyebrow: 'PERSONAL PROJECT · WEB & MOBILE',
+    problemLabel: '01 · PROBLEM',
+    problemTitle: 'Shared screens, server-owned transaction rules',
+    roleLabel: '02 · ROLE & SCOPE',
+    roleTitle: 'Full-Stack Architecture & Marketplace Scope',
+    processLabel: '03 · PROCESS',
+    processTitle: 'From gear discovery to test payments',
+    decisionsLabel: '04 · TECHNICAL DECISIONS',
+    decisionsTitle: 'Key Architectural Decisions for Reliable Transactions',
+    troubleshootingLabel: '05 · TROUBLESHOOTING',
+    troubleshootingTitle: 'Test Scenarios & Recovery Flows',
+    buildLabel: '06 · BUILD',
+    buildTitle: 'Key implementation',
+    validationLabel: '07 · VALIDATION',
+    validationTitle: 'Evidence and remaining checks',
+    outcomeLabel: '08 · RESULTS & RETROSPECTIVE',
+    outcomeTitle: 'Project Outcomes and Retrospective',
+  },
 };

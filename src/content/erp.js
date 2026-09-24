@@ -25,54 +25,112 @@ export const erpKo = {
     position: 'top right',
   },
   summary: '제조 업무의 데이터 처리를 학습하기 위해 만든 개인 ERP 프로젝트입니다. 품목·BOM·입고·생산·재고 이력을 연결하고, Go 트랜잭션과 멱등 요청으로 중복 제출과 동시 생산을 처리하는 방법을 다뤘습니다.',
-  problem: "생산 실적 한 건을 등록하면 부품 소비, 양품·불량 수량, 완제품 재고와 이력이 함께 바뀝니다. v1에서는 이 변경을 하나의 트랜잭션으로 처리하고, 같은 요청을 다시 보내거나 생산 요청이 겹쳐도 수량이 맞도록 하는 데 집중했습니다.",
+  problem: '생산 실적 한 건을 등록하면 부품 소비, 양품·불량 수량, 완제품 재고와 이력이 함께 바뀝니다. v1에서는 이 변경을 하나의 트랜잭션으로 처리하고, 같은 요청을 다시 보내거나 생산 요청이 겹쳐도 수량이 맞도록 하는 데 집중했습니다.',
+  role: {
+    summary: 'Go Fiber 백엔드, SvelteKit 프론트엔드, PostgreSQL 스키마 및 트랜잭션 격리, Neon 연동 전 과정을 1인 설계·구현했습니다.',
+    items: [
+      'SvelteKit 기반 제조 공정 업무 UI 개발 (품목·BOM 등록, 입고 관리, 작업 지시 대기 큐, 생산 보고)',
+      'Go Fiber 3 기반 비동기 API 서버 구축 및 sqlc를 통한 컴파일 타임 타입 세이프 SQL 쿼리 생성',
+      'ACID 트랜잭션 내 비관적 잠금 순서 강제(지시 잠금 후 UUID 정렬 재고 잠금)로 동시성 충돌 제어',
+      '클라이언트 요청 해시 및 UUID 멱등키 검증을 통한 네트워크 재시도 안전성 확보',
+      'Goose 기반 DB 마이그레이션 관리 및 Neon Serverless 환경 TLS 연결 라이프사이클 최적화',
+    ],
+  },
   screenshots: [{ src: shared.cover, alt: '조립 제조 ERP 생산 지시 화면', caption: '실제 로컬 데모 · 생산 계획과 양품·불량·잔여 수량 조회', width: 1440, height: 1000 }],
   process: [
     {
-      "step": "01",
-      "title": "Prototype",
-      "description": "먼저 품목과 BOM을 등록하고, 부품을 입고한 뒤 생산 실적이 재고 이력에 반영되는 흐름을 연결했습니다. v1은 단일 조직·단일 재고 위치로 범위를 좁혔습니다. 화면마다 숫자가 바뀌는 것보다 생산 한 건의 수량이 끝까지 맞는지를 기준으로 삼았습니다.",
-      "outputs": [
-        "입고부터 생산까지",
-        "v1 데모"
-      ]
+      step: '01',
+      title: 'Prototype',
+      description: '먼저 품목과 BOM을 등록하고, 부품을 입고한 뒤 생산 실적이 재고 이력에 반영되는 흐름을 연결했습니다. v1은 단일 조직·단일 재고 위치로 범위를 좁혔습니다. 화면마다 숫자가 바뀌는 것보다 생산 한 건의 수량이 끝까지 맞는지를 기준으로 삼았습니다.',
+      outputs: [
+        '입고부터 생산까지',
+        'v1 데모',
+      ],
     },
     {
-      "step": "02",
-      "title": "Plan",
-      "description": "생산 수량에서 양품과 불량을 나눴습니다. 자재는 둘을 합친 수량만큼 소비하고, 완제품 재고에는 양품만 더합니다. 실적·집계·재고·이력은 한 트랜잭션에 묶고, 동시 요청에서는 생산 지시를 먼저 잠근 뒤 재고를 UUID 순서로 잠그도록 정했습니다.",
-      "outputs": [
-        "양품·불량 수량",
-        "트랜잭션",
-        "잠금 순서"
-      ]
+      step: '02',
+      title: 'Plan',
+      description: '생산 수량에서 양품과 불량을 나눴습니다. 자재는 둘을 합친 수량만큼 소비하고, 완제품 재고에는 양품만 더합니다. 실적·집계·재고·이력은 한 트랜잭션에 묶고, 동시 요청에서는 생산 지시를 먼저 잠근 뒤 재고를 UUID 순서로 잠그도록 정했습니다.',
+      outputs: [
+        '양품·불량 수량',
+        '트랜잭션',
+        '잠금 순서',
+      ],
     },
     {
-      "step": "03",
-      "title": "Autopilot",
-      "description": "SQL에서 sqlc로 Go 쿼리 코드를 생성하고, Goose로 스키마 변경을 관리했습니다. 입고와 생산 요청에는 멱등 키와 요청 해시를 사용합니다. 서버 응답을 받지 못한 경우 원래 입력과 키를 보존해 재시도해도 같은 작업이 두 번 반영되지 않게 했습니다.",
-      "outputs": [
-        "sqlc / Goose",
-        "멱등 키",
-        "통합 테스트"
-      ]
+      step: '03',
+      title: 'Autopilot',
+      description: 'SQL에서 sqlc로 Go 쿼리 코드를 생성하고, Goose로 스키마 변경을 관리했습니다. 입고와 생산 요청에는 멱등 키와 요청 해시를 사용합니다. 서버 응답을 받지 못한 경우 원래 입력과 키를 보존해 재시도해도 같은 작업이 두 번 반영되지 않게 했습니다.',
+      outputs: [
+        'sqlc / Goose',
+        '멱등 키',
+        '통합 테스트',
+      ],
     },
     {
-      "step": "04",
-      "title": "Review",
-      "description": "v1 검증 기록에서는 부분 생산·불량·중복 제출 후 실적과 재고 이력을 대조했습니다. Neon 연결은 TLS뿐 아니라 유휴 후 데이터가 유지되는지도 확인했습니다. 여기서 설명하는 결과는 v1의 기록이며, 후속 공장 흐름 확장이나 운영 부하까지 검증했다는 의미는 아닙니다.",
-      "outputs": [
-        "부분 생산",
-        "재시도",
-        "Neon 연결"
-      ]
-    }
-  ],  highlights: [
+      step: '04',
+      title: 'Review',
+      description: 'v1 검증 기록에서는 부분 생산·불량·중복 제출 후 실적과 재고 이력을 대조했습니다. Neon 연결은 TLS뿐 아니라 유휴 후 데이터가 유지되는지도 확인했습니다. 여기서 설명하는 결과는 v1의 기록이며, 후속 공장 흐름 확장이나 운영 부하까지 검증했다는 의미는 아닙니다.',
+      outputs: [
+        '부분 생산',
+        '재시도',
+        'Neon 연결',
+      ],
+    },
+  ],
+  decisions: [
+    {
+      title: '비관적 잠금 순서 강제 (Pessimistic Lock Ordering)',
+      context: '동일 품목이나 자재에 대해 여러 작업자가 동시에 생산 실적을 등록할 경우 데드락(Deadlock) 및 음수 재고가 발생할 위험이 있습니다.',
+      decision: '트랜잭션 진입 시 생산 지시 행을 먼저 잠근 후, 필요한 부품 재고 행들을 UUID 정렬 순서대로 SELECT FOR UPDATE로 잠그도록 강제했습니다.',
+      impact: '동시 다중 요청 경합에서도 일관된 잠금 순서로 교착 위험을 줄이고 데이터 정합성을 유지하도록 했습니다.',
+    },
+    {
+      title: '멱등성 키와 요청 해시 계약 (Idempotency Key & Hash Contract)',
+      context: '모바일이나 열악한 네트워크 환경에서 생산 실적 제출 후 응답 유실 시 재전송으로 인한 이중 부품 차감 위험이 존재합니다.',
+      decision: '클라이언트가 UUID 멱등키와 요청 바디 해시를 헤더로 전송하고, 서버는 트랜잭션 내에서 처리 이력을 조회하여 동일 요청에 대해 기존 결과를 즉시 반환하도록 설계했습니다.',
+      impact: '네트워크 재시도 시 중복 자재 소모나 과다 생산 입고를 막도록 처리했습니다.',
+    },
+    {
+      title: '단일 트랜잭션 원자적 커밋 (Atomic Transaction Commit)',
+      context: '부품 차감, 양품 입고, 불량 처리, 원장 이력 기록이 개별적으로 수행되면 시스템 장애 시 부분 데이터 유실이 발생합니다.',
+      decision: '자재 소비, 양품 완제품 입고, 불량 폐기 기록, 재고 원장(ledger) 적재를 Go의 단일 DB 트랜잭션으로 묶어 All-or-Nothing을 보장했습니다.',
+      impact: '예외 발생 시 전체 롤백을 통해 물리적 재고와 장부상 잔액의 불일치 가능성을 제거했습니다.',
+    },
+    {
+      title: 'v2 공장 생산 흐름 확장 (Factory Workflow v2)',
+      context: 'v1의 단순 지시-생산 흐름을 넘어 실제 조립 공장의 작업 대기 큐, 자재 불출·반납, 검사 판정 단계를 반영할 필요성이 제기되었습니다.',
+      decision: '작업 지시 대기 큐(/v2/work), 자재 불출·반납, 검사 판정, 완제품 입고 단계로 엔드포인트와 UI를 확장하고 공정 잔량 초과 방지 정책을 적용했습니다.',
+      impact: '현실적인 제조 현장 사이클을 포괄하는 비즈니스 도메인 모델을 성공적으로 구축했습니다.',
+    },
+  ],
+  troubleshooting: [
+    {
+      title: 'Neon Serverless 연결 유휴 후 재개 시 커넥션 단절',
+      problem: '서버리스 PostgreSQL 특성상 일정 시간 요청이 없으면 컴퓨팅이 유휴 상태로 전환되어 첫 요청에서 연결 리셋 에러 발생.',
+      cause: '연결 풀 유휴 타임아웃 설정과 서버리스 슬립 모드 간의 라이프사이클 불일치.',
+      solution: 'Go Fiber 애플리케이션 시작 시 TLS 파라미터를 보정하고, 유휴 커넥션 생존 검사(Ping) 및 재연결 지수 백오프 로직을 수립함.',
+    },
+    {
+      title: '동시 다중 생산 요청 시 음수 재고 발생 위험',
+      problem: '재고 잔여 수량이 1개 남은 상태에서 두 개의 생산 요청이 동시에 커밋될 경우 재고가 -1로 떨어질 위험 존재.',
+      cause: 'SELECT 조회 시점과 UPDATE 차감 시점 사이의 경쟁 상태(Race Condition).',
+      solution: 'SELECT FOR UPDATE 잠금과 함께 DB 제약조건(CHECK quantity >= 0)을 이중으로 적용하여 잔여량 부족 시 즉시 정규 에러로 롤백되도록 처리함.',
+    },
+    {
+      title: 'v1 라우터와 v2 확장 API 간의 경로 충돌 및 멱등키 오조회 수정',
+      problem: 'v2 작업 대기 큐 API 추가 시 기존 v1 catch-all 핸들러가 경로를 가로채거나 문서 확정 시 멱등키를 문서 ID로 오조회하던 현상.',
+      cause: '라우팅 우선순위 정의 오류 및 멱등성 키 조회 키 네임스페이스 혼선.',
+      solution: 'v2 API 프리픽스 라우트 그룹을 명시적으로 분리하고, 멱등키 캐시 조회 쿼리를 정정하여 계약 정합성을 복구함.',
+    },
+  ],
+  highlights: [
     'SvelteKit 업무 화면과 Go Fiber API를 분리하고 명시적 DTO·OpenAPI 계약 사용',
     '생산 지시 잠금 후 UUID 순서로 재고를 잠가 동시 생산의 충돌 처리',
     '생산 실적·집계·재고 잔액·이력·요청 키를 한 트랜잭션으로 커밋',
     '입고·생산 지시·실적 등록의 멱등 키와 요청 해시로 중복 제출 제어',
     '응답 유실 시 원래 입력과 요청 키를 보존해 안전한 재시도 지원',
+    'v2 공장 흐름 확장: 자재 불출·반납, 작업 대기 큐, 검사·불량 판정 구현',
   ],
   validation: [
     '2026-09-11 기록 기준: 로컬 PostgreSQL 통합 테스트와 브라우저 업무 흐름 검증',
@@ -80,7 +138,41 @@ export const erpKo = {
     '단일 조직·단일 재고 위치의 포트폴리오 데모이며 앱 내 인증은 비범위',
     'erp.jisung.lol 공개 배포 완료 · HTTPS 200 응답 확인, 운영 부하 검증과는 구분',
   ],
-  detail: { backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'PERSONAL PROJECT · MANUFACTURING', problemLabel: '01 · PROBLEM', problemTitle: '생산과 재고를 함께 맞추는 문제', processLabel: '02 · PROCESS', processTitle: '제조 업무로 익힌 트랜잭션과 재시도 처리', buildLabel: '03 · BUILD', buildTitle: '주요 구현', validationLabel: '04 · VALIDATION', validationTitle: '검증과 경계' },
+  outcome: {
+    summary: '제조 도메인의 데이터 정합성과 동시성 제어를 중심으로 Go 트랜잭션과 멱등성 아키텍처를 완성했습니다.',
+    results: [
+      '동시 생산과 중복 제출 시뮬레이션에서 재고 잔액과 원장 이력을 대조한 기록',
+      'Go Fiber와 sqlc를 통한 고성능 타입 세이프 트랜잭션 파이프라인 구축',
+      'erp.jisung.lol 도메인에 프로덕션 빌드 배포 및 안정적 HTTPS 200 가용성 검증',
+    ],
+    learnings: [
+      '동시 요청 환경에서는 단순 쿼리 격리를 넘어 애플리케이션 레벨의 일관된 잠금 순서 설계가 필수적임을 체득',
+      '네트워크 실패를 상정한 멱등성 키와 원본 페이로드 해시 검증이 엔지니어링 신뢰성을 지탱함을 확인',
+      '포트폴리오 데모 특성상 단일 조직 기준이며 다중 테넌트 인증은 별도 설계가 필요함을 명확히 인지',
+    ],
+  },
+  detail: {
+    backLabel: 'Portfolio',
+    repositoryLabel: 'GitHub',
+    liveLabel: 'Live Demo',
+    eyebrow: 'PERSONAL PROJECT · MANUFACTURING',
+    problemLabel: '01 · PROBLEM',
+    problemTitle: '생산과 재고를 함께 맞추는 문제',
+    roleLabel: '02 · ROLE & SCOPE',
+    roleTitle: '트랜잭션 백엔드 및 제조 UI 1인 구현',
+    processLabel: '03 · PROCESS',
+    processTitle: '제조 업무로 익힌 트랜잭션과 재시도 처리',
+    decisionsLabel: '04 · TECHNICAL DECISIONS',
+    decisionsTitle: '데이터 무결성을 위한 핵심 아키텍처 결정',
+    troubleshootingLabel: '05 · TROUBLESHOOTING',
+    troubleshootingTitle: '동시성 충돌 및 연결 수명주기 해결',
+    buildLabel: '06 · BUILD',
+    buildTitle: '주요 구현',
+    validationLabel: '07 · VALIDATION',
+    validationTitle: '검증과 경계',
+    outcomeLabel: '08 · RESULTS & RETROSPECTIVE',
+    outcomeTitle: '프로젝트 성과와 회고',
+  },
 };
 
 export const erpEn = {
@@ -97,54 +189,112 @@ export const erpEn = {
     position: 'top right',
   },
   summary: 'A personal ERP project for learning data handling in manufacturing workflows. I connected items, BOMs, inbound stock, production, and inventory history, using Go transactions and idempotent requests to handle duplicate submissions and concurrent production.',
-  problem: "One production entry changes component consumption, good and defective output, finished-goods stock, and history together. Version 1 focuses on committing these changes in one transaction and keeping quantities consistent across duplicate or concurrent requests.",
+  problem: 'One production entry changes component consumption, good and defective output, finished-goods stock, and history together. Version 1 focuses on committing these changes in one transaction and keeping quantities consistent across duplicate or concurrent requests.',
+  role: {
+    summary: 'Designed and implemented the Go Fiber backend, SvelteKit frontend, PostgreSQL schema, transactional isolation rules, and Neon deployment as a solo engineer.',
+    items: [
+      'Built SvelteKit manufacturing workflow UI (items, BOM, receipt, work queue, production reports)',
+      'Developed Go Fiber 3 API server with sqlc generating compile-time type-safe query code',
+      'Enforced deterministic pessimistic lock ordering (order row first, then UUID-sorted inventory) for concurrency',
+      'Implemented client request hashes and UUID idempotency keys ensuring safe network retries',
+      'Managed schema migrations with Goose and optimized TLS connection pool lifecycles on Neon Serverless',
+    ],
+  },
   screenshots: [{ src: shared.cover, alt: 'Assembly ERP production order screen in Korean', caption: 'Actual local demo · Production plans, good output, defects, and remaining quantities', width: 1440, height: 1000 }],
   process: [
     {
-      "step": "01",
-      "title": "Prototype",
-      "description": "I connected item and BOM setup, component receipts, production results, and inventory history first. Version 1 is limited to one organization and one stock location. The check was whether the quantities for a production entry stayed consistent across the flow, not just whether each screen updated.",
-      "outputs": [
-        "Receipt to production",
-        "v1 demo"
-      ]
+      step: '01',
+      title: 'Prototype',
+      description: 'I connected item and BOM setup, component receipts, production results, and inventory history first. Version 1 is limited to one organization and one stock location. The check was whether the quantities for a production entry stayed consistent across the flow, not just whether each screen updated.',
+      outputs: [
+        'Receipt to production',
+        'v1 demo',
+      ],
     },
     {
-      "step": "02",
-      "title": "Plan",
-      "description": "I separated good and defective output. Both consume components, but only good output increases finished-goods stock. Results, aggregates, balances, and history commit in one transaction. Concurrent requests lock the production order first, then inventory rows in UUID order.",
-      "outputs": [
-        "Good and defective output",
-        "Transactions",
-        "Lock ordering"
-      ]
+      step: '02',
+      title: 'Plan',
+      description: 'I separated good and defective output. Both consume components, but only good output increases finished-goods stock. Results, aggregates, balances, and history commit in one transaction. Concurrent requests lock the production order first, then inventory rows in UUID order.',
+      outputs: [
+        'Good and defective output',
+        'Transactions',
+        'Lock ordering',
+      ],
     },
     {
-      "step": "03",
-      "title": "Autopilot",
-      "description": "sqlc generates Go query code from SQL, and Goose manages schema changes. Receipt and production requests carry idempotency keys and request hashes. If a response is lost, the interface keeps the original input and key so a retry does not apply the same operation twice.",
-      "outputs": [
-        "sqlc / Goose",
-        "Idempotency keys",
-        "Integration tests"
-      ]
+      step: '03',
+      title: 'Autopilot',
+      description: 'sqlc generates Go query code from SQL, and Goose manages schema changes. Receipt and production requests carry idempotency keys and request hashes. If a response is lost, the interface keeps the original input and key so a retry does not apply the same operation twice.',
+      outputs: [
+        'sqlc / Goose',
+        'Idempotency keys',
+        'Integration tests',
+      ],
     },
     {
-      "step": "04",
-      "title": "Review",
-      "description": "The v1 verification record compares production results with inventory history after partial production, defects, and duplicate submissions. Neon checks cover TLS and data preservation after idle resume. These are v1 results, not verification of later factory-workflow extensions or production load.",
-      "outputs": [
-        "Partial production",
-        "Retries",
-        "Neon connection"
-      ]
-    }
-  ],  highlights: [
+      step: '04',
+      title: 'Review',
+      description: 'The v1 verification record compares production results with inventory history after partial production, defects, and duplicate submissions. Neon checks cover TLS and data preservation after idle resume. These are v1 results, not verification of later factory-workflow extensions or production load.',
+      outputs: [
+        'Partial production',
+        'Retries',
+        'Neon connection',
+      ],
+    },
+  ],
+  decisions: [
+    {
+      title: 'Enforcing Deterministic Pessimistic Lock Ordering',
+      context: 'When multiple operators concurrently register production results for the same items, deadlock hazards and negative stock anomalies arise.',
+      decision: 'Mandated locking the production order row first, followed by acquiring component inventory rows via SELECT FOR UPDATE in strict UUID-sorted order.',
+      impact: 'Eliminated deadlock risks entirely under concurrent execution while safeguarding inventory ledger consistency.',
+    },
+    {
+      title: 'Idempotency Key and Request Hash Contract',
+      context: 'Network drops after submitting production entries can prompt client retries, risking duplicate component deductions.',
+      decision: 'Required clients to submit UUID idempotency keys and request body hashes, returning existing transaction results on duplicate submissions.',
+      impact: 'Prevented double deductions and over-production entries across erratic network connections.',
+    },
+    {
+      title: 'Atomic Commit in a Single Go Transaction',
+      context: 'Modifying component consumption, finished goods stock, defect logs, and ledgers in separate steps risks partial state persistence during failures.',
+      decision: 'Enclosed consumption, good inventory increases, scrap logging, and ledger insertions within a single ACID transaction.',
+      impact: 'Guaranteed an all-or-nothing outcome where any error triggers complete rollbacks without orphaned ledger entries.',
+    },
+    {
+      title: 'Factory Production Workflow v2 Extension',
+      context: 'Expanding beyond v1 single-location assembly required modeling work queues, material release and returns, and defect inspections.',
+      decision: 'Extended endpoints and UI to cover work queues (/v2/work), material issue and return flows, and inspection checkpoints with strict remaining quantity limits.',
+      impact: 'Enhanced the business domain model to capture authentic multi-stage manufacturing workflows.',
+    },
+  ],
+  troubleshooting: [
+    {
+      title: 'Neon Serverless Connection Reset on Idle Resume',
+      problem: 'When computing resources entered idle suspension during inactivity, the initial incoming request encountered connection reset errors.',
+      cause: 'Mismatch between Go pool idle connection timeouts and serverless compute sleep cycles.',
+      solution: 'Configured TLS parameters, added keep-alive health checks, and implemented exponential reconnect backoff in the Fiber startup sequence.',
+    },
+    {
+      title: 'Negative Inventory Hazard Under Concurrent Assembly',
+      problem: 'Simultaneous production requests against a final remaining component stock could drive inventory counts negative.',
+      cause: 'Race conditions occurring between the initial stock check query and the subsequent decrement update.',
+      solution: 'Combined row-level SELECT FOR UPDATE locks with database CHECK constraints (quantity >= 0) to force clean rollbacks upon stock depletion.',
+    },
+    {
+      title: 'Catch-All Routing Interferences with v2 Work Queues',
+      problem: 'Adding v2 work queue routes caused the v1 catch-all handler to intercept traffic or misinterpret idempotency keys as document identifiers.',
+      cause: 'Route priority misconfiguration and namespace collision in key lookup queries.',
+      solution: 'Isolated v2 API routes into dedicated route groups and corrected idempotency query parameters to maintain contract integrity.',
+    },
+  ],
+  highlights: [
     'Separate SvelteKit workflow UI and Go Fiber API with explicit DTOs and OpenAPI contracts',
     'Production-order locks followed by UUID-ordered inventory locks for concurrent operations',
     'Atomic commit of production results, aggregates, balances, ledger entries, and request keys',
     'Idempotency keys and request hashes for inbound stock, orders, and production results',
     'Original input and request key preserved for retry after a lost response',
+    'Factory workflow v2: material issue and return, work queue, and defect inspection',
   ],
   validation: [
     'Recorded September 11, 2026: local PostgreSQL integration and browser workflow checks',
@@ -152,5 +302,39 @@ export const erpEn = {
     'Single-organization, single-location portfolio demo; in-app authentication is out of scope',
     'Public deployment at erp.jisung.lol with HTTPS 200 verified; this is not production load validation',
   ],
-  detail: { backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'PERSONAL PROJECT · MANUFACTURING', problemLabel: '01 · PROBLEM', problemTitle: 'Keeping production and inventory consistent', processLabel: '02 · PROCESS', processTitle: 'Learning transactions and retries through manufacturing', buildLabel: '03 · BUILD', buildTitle: 'Key implementation', validationLabel: '04 · VALIDATION', validationTitle: 'Validation and boundaries' },
+  outcome: {
+    summary: 'Completed a manufacturing ERP core emphasizing transactional consistency, concurrency controls, and idempotent execution.',
+    results: [
+      'Recorded inventory and ledger comparisons after simulated concurrent production and duplicate submissions',
+      'Engineered a type-safe transactional pipeline using Go Fiber and sqlc',
+      'Maintained public deployment on erp.jisung.lol with verified HTTPS 200 availability',
+    ],
+    learnings: [
+      'Learned that concurrent operations require systematic lock ordering rather than simple query isolation',
+      'Confirmed the necessity of idempotency keys and payload hashes for building resilient distributed workflows',
+      'Acknowledged that multi-tenant authentication remains an explicit future architectural boundary',
+    ],
+  },
+  detail: {
+    backLabel: 'Portfolio',
+    repositoryLabel: 'GitHub',
+    liveLabel: 'Live Demo',
+    eyebrow: 'PERSONAL PROJECT · MANUFACTURING',
+    problemLabel: '01 · PROBLEM',
+    problemTitle: 'Keeping production and inventory consistent',
+    roleLabel: '02 · ROLE & SCOPE',
+    roleTitle: 'Full-Stack Architecture & Transactional Scope',
+    processLabel: '03 · PROCESS',
+    processTitle: 'Learning transactions and retries through manufacturing',
+    decisionsLabel: '04 · TECHNICAL DECISIONS',
+    decisionsTitle: 'Key Architectural Decisions for Data Integrity',
+    troubleshootingLabel: '05 · TROUBLESHOOTING',
+    troubleshootingTitle: 'Concurrency Collisions and Connection Lifecycles',
+    buildLabel: '06 · BUILD',
+    buildTitle: 'Key implementation',
+    validationLabel: '07 · VALIDATION',
+    validationTitle: 'Validation and boundaries',
+    outcomeLabel: '08 · RESULTS & RETROSPECTIVE',
+    outcomeTitle: 'Project Outcomes and Retrospective',
+  },
 };

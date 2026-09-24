@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <style>
+      .bg { fill: #0b1118; }
+      .box { rx: 8px; stroke-width: 1.5px; fill: #131b26; stroke: #334155; }
+      .header-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 22px; font-weight: 700; fill: #ffffff; }
+      .header-desc { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; fill: #94a3b8; }
+      .stage-header { font-family: monospace; font-size: 12px; font-weight: 700; fill: #38bdf8; }
+      .node-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #f8fafc; }
+      .node-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; fill: #94a3b8; }
+      .state-badge { rx: 4px; font-family: monospace; font-size: 12px; font-weight: bold; }
+      .line-flow { stroke: #38bdf8; stroke-width: 2; fill: none; marker-end: url(#arrow-cyan); }
+    </style>
+    <marker id="arrow-cyan" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#38bdf8" />
+    </marker>
+  </defs>
+
+  <rect width="1200" height="800" class="bg" />
+
+  <text x="60" y="55" class="header-title">Room Repair Platform — Request Lifecycle &amp; State Machine Flow</text>
+  <text x="60" y="82" class="header-desc">End-to-End Workflow: Draft Debouncing → Storage Photo Guard → Idempotent RPC → Realtime Transition → Native PDF</text>
+
+  <!-- Step 1: Draft & Creation -->
+  <rect x="60" y="130" width="240" height="300" class="box" style="stroke: #0284c7;" />
+  <text x="80" y="160" class="stage-header">STAGE 01</text>
+  <text x="80" y="185" class="node-title">Drafting &amp; Local Save</text>
+  <text x="80" y="215" class="node-text">• Address selection via WebView</text>
+  <text x="80" y="240" class="node-text">• 1~3 repair photos selection</text>
+  <text x="80" y="265" class="node-text">• Detailed symptoms description</text>
+  <text x="80" y="290" class="node-text">• Drift SQLite debounce auto-save</text>
+  <text x="80" y="315" class="node-text">• Form state preserved on exit</text>
+  <text x="80" y="340" class="node-text">• Offline recent cache fallback</text>
+  <text x="80" y="380" class="node-text" style="fill: #38bdf8; font-weight: bold;">Client Request UUID Generated</text>
+
+  <!-- Step 2: Upload & Idempotent Submission -->
+  <rect x="340" y="130" width="240" height="300" class="box" style="stroke: #0d9488;" />
+  <text x="360" y="160" class="stage-header">STAGE 02</text>
+  <text x="360" y="185" class="node-title">Upload &amp; RPC Guard</text>
+  <text x="360" y="215" class="node-text">• Photos uploaded to Supabase Storage</text>
+  <text x="360" y="240" class="node-text">• Atomic create_repair_request RPC</text>
+  <text x="360" y="265" class="node-text">• Storage Photo Guard verification:</text>
+  <text x="375" y="285" class="node-text">- Checks path exists in bucket</text>
+  <text x="375" y="305" class="node-text">- Validates owner_id match</text>
+  <text x="360" y="330" class="node-text">• Unique constraint on client UUID</text>
+  <text x="360" y="355" class="node-text">• Idempotent retry returns existing row</text>
+  <text x="360" y="390" class="node-text" style="fill: #10b981; font-weight: bold;">Status: received</text>
+
+  <!-- Step 3: Staff Transition & Chat -->
+  <rect x="620" y="130" width="240" height="300" class="box" style="stroke: #eab308;" />
+  <text x="640" y="160" class="stage-header">STAGE 03</text>
+  <text x="640" y="185" class="node-title">Processing &amp; Messaging</text>
+  <text x="640" y="215" class="node-text">• Staff console receives update</text>
+  <text x="640" y="240" class="node-text">• Staff claims and inspects photos</text>
+  <text x="640" y="265" class="node-text">• State transition RPC executed:</text>
+  <text x="655" y="285" class="node-text">- received → in_progress</text>
+  <text x="640" y="310" class="node-text">• Realtime invalidation triggers</text>
+  <text x="640" y="335" class="node-text">• Bidirectional client/staff chat</text>
+  <text x="640" y="360" class="node-text">• Idempotent message sending</text>
+  <text x="640" y="390" class="node-text" style="fill: #eab308; font-weight: bold;">Status: in_progress</text>
+
+  <!-- Step 4: Completion & PDF Report -->
+  <rect x="900" y="130" width="240" height="300" class="box" style="stroke: #10b981;" />
+  <text x="920" y="160" class="stage-header">STAGE 04</text>
+  <text x="920" y="185" class="node-title">Resolution &amp; Report</text>
+  <text x="920" y="215" class="node-text">• Repair work verified &amp; signed off</text>
+  <text x="920" y="240" class="node-text">• Final state transition:</text>
+  <text x="935" y="260" class="node-text">- in_progress → completed</text>
+  <text x="920" y="285" class="node-text">• Best-effort FCM push notification</text>
+  <text x="920" y="310" class="node-text">• Mobile PDF Generator execution:</text>
+  <text x="935" y="330" class="node-text">- Noto Sans KR embedded font</text>
+  <text x="935" y="350" class="node-text">- Original photos embedded</text>
+  <text x="920" y="375" class="node-text">• A4 standardized completion sheet</text>
+  <text x="920" y="405" class="node-text" style="fill: #10b981; font-weight: bold;">Status: completed</text>
+
+  <!-- Bottom: Account Deletion Lifecycle (Stage 7) -->
+  <rect x="60" y="470" width="1080" height="230" class="box" style="stroke: #ef4444;" />
+  <text x="80" y="505" class="stage-header" style="fill: #f87171;">STAGE 07 COMPLIANCE &amp; ACCOUNT DELETION LIFECYCLE (delete-account Edge Function)</text>
+  <text x="80" y="535" class="node-title">Storage Cleanup &amp; Telemetry Anonymization</text>
+
+  <rect x="80" y="560" width="310" height="110" rx="4" class="box" />
+  <text x="95" y="585" class="node-title" style="font-size: 13px;">1. Client Session Check</text>
+  <text x="95" y="608" class="node-text">• Validates authenticated JWT session</text>
+  <text x="95" y="628" class="node-text">• Verifies customer role membership</text>
+  <text x="95" y="648" class="node-text">• Denies unauthorized role escalation</text>
+
+  <rect x="420" y="560" width="340" height="110" rx="4" class="box" />
+  <text x="435" y="585" class="node-title" style="font-size: 13px;">2. Service Role Storage Cleanup</text>
+  <text x="435" y="608" class="node-text">• Reads customer bucket objects directly</text>
+  <text x="435" y="628" class="node-text">• Deletes all /customers/{uuid}/* photos</text>
+  <text x="435" y="648" class="node-text">• Prevents orphan files before user wipe</text>
+
+  <rect x="790" y="560" width="330" height="110" rx="4" class="box" />
+  <text x="805" y="585" class="node-title" style="font-size: 13px;">3. DB Cascade &amp; Telemetry</text>
+  <text x="805" y="608" class="node-text">• Deletes auth.users via Admin API</text>
+  <text x="805" y="628" class="node-text">• FK CASCADE purges profiles &amp; requests</text>
+  <text x="805" y="648" class="node-text">• Telemetry events stripped of user_id</text>
+
+  <!-- Connectors -->
+  <path d="M 300 280 L 340 280" class="line-flow" />
+  <path d="M 580 280 L 620 280" class="line-flow" />
+  <path d="M 860 280 L 900 280" class="line-flow" />
+
+  <text x="60" y="750" class="node-text" style="font-size: 12px; fill: #6b7280;">* Note: Illustrative process diagram based on room_repair_platform state machine and Edge Functions.</text>
+</svg>

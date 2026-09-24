@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <style>
+      .bg { fill: #0f141c; }
+      .box { rx: 8px; stroke-width: 1.5px; fill: #161e2b; stroke: #334155; }
+      .step-header { font-family: monospace; font-size: 13px; font-weight: 700; fill: #38bdf8; }
+      .node-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #f8fafc; }
+      .node-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; fill: #94a3b8; }
+      .tag-pass { fill: #065f46; stroke: #10b981; }
+      .tag-warn { fill: #854d0e; stroke: #eab308; }
+      .tag-fail { fill: #881337; stroke: #f43f5e; }
+      .header-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 22px; font-weight: 700; fill: #ffffff; }
+      .header-desc { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; fill: #94a3b8; }
+      .flow-line { stroke: #38bdf8; stroke-width: 2; fill: none; marker-end: url(#arrow-cyan); }
+      .fallback-line { stroke: #f59e0b; stroke-width: 2; stroke-dasharray: 4,4; fill: none; marker-end: url(#arrow-amber); }
+    </style>
+    <marker id="arrow-cyan" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#38bdf8" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#f59e0b" />
+    </marker>
+  </defs>
+
+  <rect width="1200" height="800" class="bg" />
+
+  <text x="60" y="55" class="header-title">GrantFit — Search Pipeline &amp; Deterministic Qualification Engine</text>
+  <text x="60" y="82" class="header-desc">Two-phase evaluation: PostgreSQL Full-Text Candidate Retrieval → Strict Rule-based Qualification &amp; Evidence Generation</text>
+
+  <!-- Step 1: Input -->
+  <rect x="60" y="130" width="240" height="260" class="box" style="stroke: #3b82f6;" />
+  <text x="80" y="160" class="step-header">PHASE 01</text>
+  <text x="80" y="185" class="node-title">Search Input &amp; Profile</text>
+  <text x="80" y="215" class="node-text">• Query Keyword (FTS)</text>
+  <text x="80" y="240" class="node-text">• Region (Seoul, Gyeonggi...)</text>
+  <text x="80" y="265" class="node-text">• Business Age (Years/Months)</text>
+  <text x="80" y="290" class="node-text">• Industry Sector (Tech/Bio/Mfg)</text>
+  <text x="80" y="315" class="node-text">• Certifications (Venture/Inno)</text>
+  <text x="80" y="340" class="node-text">• Growth Stage (Seed/Series A)</text>
+
+  <!-- Step 2: FTS Candidates -->
+  <rect x="340" y="130" width="240" height="260" class="box" style="stroke: #06b6d4;" />
+  <text x="360" y="160" class="step-header">PHASE 02</text>
+  <text x="360" y="185" class="node-title">PostgreSQL GIN FTS</text>
+  <text x="360" y="215" class="node-text">• to_tsvector / ts_query</text>
+  <text x="360" y="240" class="node-text">• Synonym expansion</text>
+  <text x="360" y="265" class="node-text">• Term normalization</text>
+  <text x="360" y="290" class="node-text">• Candidate pool extraction</text>
+  <text x="360" y="315" class="node-text">• Active status filtering</text>
+  <text x="360" y="340" class="node-text">• Score: Lexical relevance</text>
+
+  <!-- Step 3: Deterministic Rule Engine -->
+  <rect x="620" y="130" width="260" height="260" class="box" style="stroke: #10b981;" />
+  <text x="640" y="160" class="step-header">PHASE 03</text>
+  <text x="640" y="185" class="node-title">Rule Evaluation (ranking.py)</text>
+  <text x="640" y="215" class="node-text">• Regional restriction verification</text>
+  <text x="640" y="240" class="node-text">• Business age range check</text>
+  <text x="640" y="265" class="node-text">• Mandatory criteria matching</text>
+  <text x="640" y="290" class="node-text">• Submission deadline check</text>
+  <text x="640" y="315" class="node-text">• Evidence statement collection</text>
+  <text x="640" y="340" class="node-text">• Deterministic rule evaluation</text>
+
+  <!-- Step 4: Verdict Classification -->
+  <rect x="920" y="130" width="220" height="260" class="box" style="stroke: #8b5cf6;" />
+  <text x="940" y="160" class="step-header">PHASE 04</text>
+  <text x="940" y="185" class="node-title">Verdict &amp; Evidence</text>
+  
+  <rect x="940" y="205" width="180" height="28" rx="4" class="tag-pass" />
+  <text x="955" y="224" class="node-text" style="fill: #ecfdf5; font-weight: bold;">MATCH (Qualified)</text>
+  
+  <rect x="940" y="240" width="180" height="28" rx="4" class="tag-warn" />
+  <text x="955" y="259" class="node-text" style="fill: #fefce8; font-weight: bold;">REVIEW (Needs Check)</text>
+
+  <rect x="940" y="275" width="180" height="28" rx="4" class="tag-fail" />
+  <text x="955" y="294" class="node-text" style="fill: #fff1f2; font-weight: bold;">MISMATCH (Disqualified)</text>
+
+  <rect x="940" y="310" width="180" height="28" rx="4" style="fill: #334155; stroke: #64748b;" />
+  <text x="955" y="329" class="node-text" style="fill: #e2e8f0; font-weight: bold;">CLOSED (Past Deadline)</text>
+
+  <!-- Bottom: Non-invasive AI Summary -->
+  <rect x="60" y="440" width="520" height="280" class="box" style="stroke: #a855f7;" />
+  <text x="80" y="475" class="step-header">AI SUMMARY LAYER (answering.py)</text>
+  <text x="80" y="505" class="node-title">TokenRouter (Kimi K3) Non-invasive Summarizer</text>
+  <text x="80" y="535" class="node-text">• Activated ONLY when generateAnswer=true</text>
+  <text x="80" y="560" class="node-text">• Operates strictly on Top 3 pre-ranked grants</text>
+  <text x="80" y="585" class="node-text">• Prompt Injection Guard: User query, request ID, URLs excluded</text>
+  <text x="80" y="610" class="node-text">• LLM CANNOT alter ranking scores or match verdicts</text>
+  <text x="80" y="635" class="node-text">• 30s timeout guard with concurrency semaphore</text>
+  <text x="80" y="660" class="node-text">• Output: Concise executive summary + highlighted key clauses</text>
+
+  <!-- Bottom Right: Resilient Fallback -->
+  <rect x="620" y="440" width="520" height="280" class="box" style="stroke: #f59e0b;" />
+  <text x="640" y="475" class="step-header">RESILIENT FALLBACK MECHANISM</text>
+  <text x="640" y="505" class="node-title">Deterministic Template Fallback</text>
+  <text x="640" y="535" class="node-text">• Trigger: Missing API key, network timeout, JSON parse error</text>
+  <text x="640" y="560" class="node-text">• Safe Fallback: Generates rule-based structured textual summary</text>
+  <text x="640" y="585" class="node-text">• Fallback returns structured results with answerMeta</text>
+  <text x="640" y="610" class="node-text">• Transparency: answerMeta.mode = &quot;deterministic&quot; flag emitted</text>
+  <text x="640" y="635" class="node-text">• Core rule-based search remains separate from AI summary</text>
+  <text x="640" y="660" class="node-text">• Tested via mock unit tests and offline fixtures</text>
+
+  <!-- Connectors -->
+  <path d="M 300 260 L 340 260" class="flow-line" />
+  <path d="M 580 260 L 620 260" class="flow-line" />
+  <path d="M 880 260 L 920 260" class="flow-line" />
+
+  <path d="M 750 390 L 750 420 L 320 420 L 320 440" class="flow-line" />
+  <path d="M 440 580 L 620 580" class="fallback-line" />
+  <text x="460" y="570" class="node-text" style="fill: #f59e0b; font-weight: bold;">On Timeout / Error</text>
+
+  <text x="60" y="760" class="node-text" style="font-size: 12px; fill: #6b7280;">* Note: Illustrative architectural diagram based on GrantFit evaluation pipeline (ranking.py, answering.py).</text>
+</svg>
