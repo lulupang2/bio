@@ -36,11 +36,8 @@ npm test
 | Signal Archive | `/projects/signal-archive` | <https://signal.jisung.lol/> |
 | Assembly ERP | `/projects/assembly-erp` | <https://erp.jisung.lol/> |
 | SummerGear | `/projects/summergear` | <https://sg.jisung.lol/> (테스트 데모) |
-| PricePulse | `/projects/pricepulse` | 로컬 검증, 공개 데모 없음 |
-| GrantFit | `/projects/grantfit` | 공개 데모 없음 |
-| 자취방 수리 접수 | `/projects/room-repair` | 로컬 검증, 공개 데모 없음 |
 
-상세 페이지 공개와 원본 서비스 배포는 별개입니다. 공개 데모가 없는 프로젝트의 화면·아키텍처 자료에는 검증 범위를 명시합니다.
+PricePulse, GrantFit, 자취방 수리 접수는 콘텐츠를 보존하되 현재 공개 목록·상세 경로·사이트맵에서 제외했습니다. `published`를 다시 켜면 공개할 수 있습니다.
 
 ## 배포
 

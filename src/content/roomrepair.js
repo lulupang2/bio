@@ -1,7 +1,7 @@
 const shared = {
   title: '자취방 수리 접수 플랫폼',
   slug: 'room-repair',
-  published: true,
+  published: false,
   repositoryUrl: 'https://github.com/lulupang2/room_repair_platform',
   cover: '/room-repair/architecture.svg',
   coverPosition: 'top',

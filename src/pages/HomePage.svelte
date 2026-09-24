@@ -13,6 +13,7 @@
   export let theme = 'light';
   export let locale = 'ko';
   export let onToggleTheme = () => {};
+  $: publishedProjects = portfolio.projects.filter((project) => project.published === true);
 
   const scrollToTop = () => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -82,7 +83,7 @@
       <section id="projects" class="editorial-section project-section reveal" use:reveal>
         <SectionHeading section={portfolio.sections.project} />
 
-      <ProjectGallery projects={portfolio.projects} note={portfolio.sections.project.note} {locale} />
+      <ProjectGallery projects={publishedProjects} note={portfolio.sections.project.note} {locale} />
       </section>
 
       <section id="about" class="editorial-section reveal" use:reveal>

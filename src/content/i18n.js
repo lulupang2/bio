@@ -534,8 +534,8 @@ export const getPortfolio = (locale = 'ko') => {
     positionLines: ['A frontend developer', 'expanding into full-stack'],
     intro: 'I have built web and mobile interfaces with React, Next.js, and React Native. Through personal projects, I am extending that experience into backend development and data processing.',
     actions: { project: 'View personal projects', github: 'GitHub' },
-    proof: [{ value: '2 yrs', label: 'Web · app development' }, { value: '5', label: 'Work projects contributed to' }, { value: '8', label: 'Personal projects' }],
-    about: ['In professional projects, I built web and mobile interfaces and connected APIs for accounts, payments, search, and reservations. I considered both the user journey and how the interface responds as state changes.', 'In personal projects, I explore how data is stored and passed between parts of an application. Commerce, earthquake mapping, technical search, manufacturing, price monitoring, grant search, and repair workflows give me different ways to practice APIs, realtime communication, and data handling. I document both implementation details and limitations.'],
+    proof: [{ value: '2 yrs', label: 'Web · app development' }, { value: '5', label: 'Work projects contributed to' }, { value: '5', label: 'Personal projects' }],
+    about: ['In professional projects, I built web and mobile interfaces and connected APIs for accounts, payments, search, and reservations. I considered both the user journey and how the interface responds as state changes.', 'In personal projects, I explore how data is stored and passed between parts of an application. Commerce, earthquake mapping, technical search, and manufacturing workflows give me different ways to practice APIs, realtime communication, and data handling. I document both implementation details and limitations.'],
     workflow: {
       label: 'HOW I BUILD',
       note: 'Build something small. Check it. Improve it.',

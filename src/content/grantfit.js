@@ -1,7 +1,7 @@
 const shared = {
   title: 'GrantFit',
   slug: 'grantfit',
-  published: true,
+  published: false,
   cover: '/grantfit/architecture.svg',
   coverPosition: 'top',
   category: '07 · AI & SEARCH · MICROSERVICES',

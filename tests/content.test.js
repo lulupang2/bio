@@ -78,6 +78,20 @@ describe('site paths', () => {
       expect(findPublishedProjectByPath(`/projects/${project.slug}`, portfolio.projects)).toBeUndefined();
     }
   });
+
+  it.each(['ko', 'en'])('%s keeps projects 6–8 out of public routes and the project count', (locale) => {
+    const content = getPortfolio(locale);
+    const hidden = ['pricepulse', 'grantfit', 'room-repair'];
+    const publicProjects = content.projects.filter((project) => project.published === true);
+    expect(publicProjects.map((project) => project.slug)).toEqual([
+      'techzone', 'quakecurrent', 'signal-archive', 'assembly-erp', 'summergear',
+    ]);
+    expect(Number.parseInt(content.profile.proof[2].value, 10)).toBe(publicProjects.length);
+    for (const slug of hidden) {
+      expect(findPublishedProjectByPath(`/projects/${slug}`, content.projects)).toBeUndefined();
+      expect(collectSitePaths(content)).not.toContain(`/projects/${slug}`);
+    }
+  });
 });
 
 describe('gallery and workflow content', () => {

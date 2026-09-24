@@ -1,7 +1,7 @@
 const shared = {
   title: 'PricePulse',
   slug: 'pricepulse',
-  published: true,
+  published: false,
   cover: '/pricepulse/dashboard.webp',
   coverPosition: 'top',
   category: '06 · AUTOMATION · CRAWLER & WORKFLOW',
