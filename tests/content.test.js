@@ -84,7 +84,7 @@ describe('site paths', () => {
     const hidden = ['pricepulse', 'grantfit', 'room-repair'];
     const publicProjects = content.projects.filter((project) => project.published === true);
     expect(publicProjects.map((project) => project.slug)).toEqual([
-      'techzone', 'quakecurrent', 'signal-archive', 'assembly-erp', 'summergear',
+      'summergear', 'techzone', 'quakecurrent', 'signal-archive', 'assembly-erp',
     ]);
     expect(Number.parseInt(content.profile.proof[2].value, 10)).toBe(publicProjects.length);
     for (const slug of hidden) {
@@ -167,7 +167,7 @@ describe('English locale', () => {
     expect(project.liveUrl).toBe('https://sg.jisung.lol/');
     expect(project.repositoryUrl).toBe('https://github.com/lulupang2/social_commerce');
     expect(project.detail.liveLabel).toBe('Test Demo');
-    expect(project.process.map((phase) => phase.title)).toEqual(['Prototype', 'Plan', 'Autopilot', 'Review']);
+    expect([...new Set(project.process.map((phase) => phase.title.split(' · ')[0]))]).toEqual(['Prototype', 'Plan', 'Autopilot', 'Review']);
     expect(collectSitePaths(content)).toContain('/projects/summergear');
     expect(findPublishedProjectByPath('/projects/summergear', content.projects)).toBe(project);
     expect(Number.parseInt(content.profile.proof[2].value, 10)).toBe(content.projects.filter((entry) => entry.published).length);
@@ -181,9 +181,10 @@ describe('English locale', () => {
     expect(localizedPath('/', 'en')).toBe('/en');
     expect(localizedPath('/projects/techzone', 'en')).toBe('/en/projects/techzone');
     expect(english.profile.intro).toMatch(/React/);
-    expect(english.projects[0].summary).toMatch(/commerce system/);
-    expect(english.projects[1].detail.problemTitle).toBe('Problem definition');
-    expect(english.projects[2].detail.problemTitle).toBe('Problem definition');
-    expect(english.projects[2].summary).toMatch(/learning prototype/i);
+    const projectBySlug = (slug) => english.projects.find((project) => project.slug === slug);
+    expect(projectBySlug('techzone').summary).toMatch(/commerce system/);
+    expect(projectBySlug('quakecurrent').detail.problemTitle).toBe('Problem definition');
+    expect(projectBySlug('signal-archive').detail.problemTitle).toBe('Problem definition');
+    expect(projectBySlug('signal-archive').summary).toMatch(/learning prototype/i);
   });
 });

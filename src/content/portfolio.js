@@ -173,6 +173,7 @@ export const portfolio = {
     status: '재학 중',
   },
   projects: [
+    summergearKo,
     {
     title: 'TECHZONE',
     slug: 'techzone',
@@ -183,7 +184,7 @@ export const portfolio = {
     cover: '/techzone/storefront-home.png',
     coverAlt: 'TECHZONE 고객 스토어 홈 화면',
     coverPosition: 'top left',
-    category: '01 · COMMERCE · OMS/WMS · MSA',
+    category: '02 · COMMERCE · OMS/WMS · MSA',
     gallery: {
       tagline: '상품 탐색부터 주문·반품까지',
       summary: '상품을 고르고 주문하는 화면부터 재고·배송 관리까지 구현했습니다. 여러 서비스 사이의 데이터 흐름과 장애 복구를 연습했습니다.',
@@ -645,7 +646,7 @@ export const portfolio = {
       cover: '/quakecurrent/project-cover.webp',
       coverAlt: 'QuakeCurrent 지진 데이터 프로젝트 브리프',
       coverPosition: 'center',
-      category: '02 · REALTIME DATA · MAP · FULL STACK',
+      category: '03 · REALTIME DATA · MAP · FULL STACK',
       gallery: {
         tagline: '지진 데이터 수집과 실시간 지도',
         summary: '공개 지진 데이터를 수집해 지도에 표시하는 프로젝트입니다. API·실시간 통신·재연결 복구를 하나의 흐름으로 연결하며 학습했습니다.',
@@ -1086,7 +1087,7 @@ export const portfolio = {
       cover: '/signal-archive/overview.webp',
       coverAlt: 'Signal Archive 기술 인텔리전스 소스 현황 대시보드',
       coverPosition: 'center',
-      category: '03 · TECH INTELLIGENCE · DATA PIPELINE · RAG',
+      category: '04 · TECH INTELLIGENCE · DATA PIPELINE · RAG',
       gallery: {
         tagline: '기술 자료 검색과 출처 기반 답변',
         summary: '기술 자료 수집·검색·출처 확인을 연결하며 RAG 구조를 학습했습니다. 현재는 수집 데이터가 적어 답변에 제약이 있습니다.',
@@ -1462,7 +1463,6 @@ export const portfolio = {
       },
     },
     erpKo,
-    summergearKo,
     pricepulseKo,
     grantfitKo,
     roomRepairKo,

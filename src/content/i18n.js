@@ -105,14 +105,14 @@ const translateDeep = (value) => {
   return value;
 };
 
-const englishProjects = (projects) => projects.map((project, index) => {
+const englishProjects = (projects) => projects.map((project) => {
   if (project.slug === 'assembly-erp') return clone(erpEn);
   if (project.slug === 'summergear') return clone(summergearEn);
   if (project.slug === 'pricepulse') return clone(pricepulseEn);
   if (project.slug === 'grantfit') return clone(grantfitEn);
   if (project.slug === 'room-repair') return clone(roomRepairEn);
   const translated = translateDeep(project);
-  if (project.slug === 'techzone' || index === 0) {
+  if (project.slug === 'techzone') {
     Object.assign(translated, {
       ai: {
         "label": "AI-ASSISTED DEVELOPMENT",
@@ -208,7 +208,7 @@ const englishProjects = (projects) => projects.map((project, index) => {
         alt: 'TECHZONE storefront product discovery screen',
         caption: 'Storefront demo · Product discovery',
       },
-      category: '01 · COMMERCE · OMS/WMS · MSA',
+      category: '02 · COMMERCE · OMS/WMS · MSA',
       cardBadge: 'SCALABLE ARCHITECTURE',
       caseStudyLabel: 'View case study',
       pendingMessage: 'Case study coming soon.',
@@ -249,7 +249,7 @@ const englishProjects = (projects) => projects.map((project, index) => {
       outcome: { summary: 'Implemented a portfolio commerce system for practicing order, inventory, and fulfillment workflows across microservices.', results: ['Built independent storefront and operations applications with asynchronous domain-service flows', 'Configured mock payment and shipping adapters and documented their verification boundaries', 'Recorded integration and failure-recovery scenarios for duplicate requests and message redelivery'], learnings: ['Distributed systems require explicit compensation and idempotency, not only a successful-path workflow', 'Mock-provider checks do not demonstrate real payment authorization or shipping integration'] },
       detail: { ...translated.detail, backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'PERSONAL PROJECT · COMMERCE', problemLabel: '01 · PROBLEM', problemTitle: 'Problem definition', roleLabel: '02 · ROLE & SCOPE', roleTitle: 'Solo Full-Stack Architecture and Implementation', architectureLabel: '03 · ARCHITECTURE', topologyLabel: '04 · SYSTEM TOPOLOGY', processLabel: '05 · PROCESS', processTitle: 'Learning to connect a storefront and its backend', decisionsLabel: '06 · TECHNICAL DECISIONS', decisionsTitle: 'Architecture Decisions for Distributed Workflows', troubleshootingLabel: '07 · TROUBLESHOOTING', troubleshootingTitle: 'Recovery Scenarios and Idempotency', buildLabel: 'BUILD HIGHLIGHTS', buildTitle: 'Key implementation', aiLabel: 'AI COLLABORATION', validationLabel: 'VALIDATION', validationTitle: 'Tests and observations', outcomeLabel: '08 · RESULTS & RETROSPECTIVE', outcomeTitle: 'Outcomes and Limitations' },
     });
-  } else if (project.slug === 'quakecurrent' || index === 1) {
+  } else if (project.slug === 'quakecurrent') {
     Object.assign(translated, {
       ai: {
         "label": "AI-ASSISTED DEVELOPMENT",
@@ -335,7 +335,7 @@ const englishProjects = (projects) => projects.map((project, index) => {
         alt: 'QuakeCurrent concept artwork showing a globe and earthquake signals',
         caption: 'Earthquake observation · Project concept artwork',
       },
-      category: '02 · REALTIME DATA · MAP · FULL STACK',
+      category: '03 · REALTIME DATA · MAP · FULL STACK',
       cardBadge: 'RECOVERABLE DATA FLOW',
       caseStudyLabel: 'View case study',
       pendingMessage: 'Case study coming soon.',
@@ -375,7 +375,7 @@ const englishProjects = (projects) => projects.map((project, index) => {
       outcome: { summary: 'Connected public USGS feed ingestion, PostGIS persistence, sequence-based realtime recovery, and interactive map visualization.', results: ['Recorded idempotent fixture re-ingestion with no new events or change signals', 'Configured CI checks for generated FastAPI OpenAPI and TypeScript client contracts', 'Recorded low-memory Docker deployment and public demo availability'], learnings: ['Globe rendering must account for observer viewpoint and surface occlusion, not only map projection', 'External feeds require empty and repeated data to be treated as expected boundary cases', 'Historical test records should not be generalized into current operational performance claims'] },
       detail: { ...translated.detail, backLabel: 'Portfolio', repositoryLabel: 'GitHub', liveLabel: 'Live Demo', eyebrow: 'PERSONAL PROJECT · REALTIME DATA', problemLabel: '01 · PROBLEM', problemTitle: 'Problem definition', roleLabel: '02 · ROLE & SCOPE', roleTitle: 'Solo Full-Stack Implementation from Ingestion to Map', architectureLabel: '03 · ARCHITECTURE', topologyLabel: '04 · SYSTEM TOPOLOGY', processLabel: '05 · PROCESS', processTitle: 'Learning data collection, updates, and recovery', decisionsLabel: '06 · TECHNICAL DECISIONS', decisionsTitle: 'Technical Choices for Realtime Data and Maps', troubleshootingLabel: '07 · TROUBLESHOOTING', troubleshootingTitle: 'Globe Occlusion and Empty-Feed Recovery', buildLabel: 'BUILD HIGHLIGHTS', buildTitle: 'Key implementation', aiLabel: 'AI COLLABORATION', validationLabel: 'VALIDATION', validationTitle: 'Validation and boundaries', outcomeLabel: '08 · RESULTS & RETROSPECTIVE', outcomeTitle: 'Outcomes and Learnings' },
     });
-  } else if (project.slug === 'signal-archive' || index === 2) {
+  } else if (project.slug === 'signal-archive') {
     Object.assign(translated, {
       ai: {
         "label": "RAG WORKFLOW",
@@ -463,7 +463,7 @@ const englishProjects = (projects) => projects.map((project, index) => {
         alt: 'Signal Archive example answer with linked citations',
         caption: 'Q&A example · Answers and source citations',
       },
-      category: '03 · TECH INTELLIGENCE · DATA PIPELINE · RAG',
+      category: '04 · TECH INTELLIGENCE · DATA PIPELINE · RAG',
       cardBadge: 'PIPELINE & RAG PoC',
       caseStudyLabel: 'View case study',
       pendingMessage: 'Case study coming soon.',

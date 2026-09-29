@@ -6,7 +6,7 @@ const shared = {
   repositoryUrl: 'https://github.com/lulupang2/erp_l',
   cover: '/assembly-erp/production.png',
   coverPosition: 'top',
-  category: '04 · MANUFACTURING ERP · INVENTORY',
+  category: '05 · MANUFACTURING ERP · INVENTORY',
   cardBadge: 'TRANSACTION INTEGRITY',
   stack: ['SvelteKit', 'Go Fiber', 'PostgreSQL', 'sqlc', 'Neon', 'Docker'],
 };

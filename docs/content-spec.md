@@ -18,6 +18,8 @@
 - 공개 데모와 테스트 통과는 실제 고객 사용, 상용 운영 성과나 운영 부하 검증을 뜻하지 않습니다.
 - 한국어와 영어에 같은 기준을 적용합니다. ERP의 언어별 상세 데이터는 `src/content/erp.js`에서 관리합니다.
 - SummerGear(`socialapp`)는 `src/content/summergear.js`에서 관리합니다. 공개 테스트 데모와 실서비스를 구분하고, 거래 코드의 작업 중 상태와 OAuth·모바일·외부 서비스 검증 한계를 유지합니다.
+- 공개 목록은 SummerGear → TECHZONE → QuakeCurrent → Signal Archive → Assembly ERP 순서입니다. 한·영 카테고리 번호도 이 순서를 따르며, 번역은 배열 위치가 아닌 slug로 선택합니다.
+- SummerGear 제작 과정은 원본 저장소의 `docs/toss-preview-deployment-20260922.md`, `docs/commerce-payment-verification-20260922.md`, `docs/test-project-improvement-stage2-verification.md`, `docs/test-project-improvement-stage4-6-verification.md`와 관련 DB 통합 테스트를 근거로 합니다. 9월 23일 Toss 테스트 배포와 9월 27일 작업 트리의 격리 검증을 구분하고, 최신 기능이 공개 데모에도 배포됐다고 가정하지 않습니다.
 - SummerGear 소개는 원본 저장소의 README, 이미지 계약, API 등록 코드, 모바일 WebView 코드와 2026-09-23 테스트 배포 기록을 대조했습니다. 이미지는 `sg.jisung.lol`의 홈·매물 상세를 읽기 전용으로 캡처했으며 테스트 상품·임시 이미지를 실제 고객 데이터로 표현하지 않습니다.
 
 ---
@@ -161,7 +163,7 @@ interface Screenshot {
 1. **단어/구문 매핑 (`phraseMap`)**:
    - `translateDeep` 함수가 프로젝트 객체 내부의 공통 섹션명, 다이어그램 라벨 등을 재귀적으로 치환합니다.
 2. **프로젝트별 영문 오버라이드 (`englishProjects`)**:
-   - 요약문(`summary`), 문제 정의(`problem`), 하이라이트 문장 등 문단 단위의 긴 텍스트는 인덱스별 명시적 객체 병합을 통해 완벽한 영문 텍스트로 치환됩니다.
+   - 요약문(`summary`), 문제 정의(`problem`), 하이라이트 문장 등 문단 단위의 긴 텍스트는 프로젝트 slug별 명시적 객체 병합으로 영문 텍스트를 적용합니다. 별도 콘텐츠 파일을 가진 프로젝트는 해당 파일의 영문 객체를 사용합니다.
 3. **경로 및 로케일 유틸리티**:
    - `localeFromPath(pathname)`: `/en` 또는 `/en/...` 접두사 여부로 로케일 판별
    - `stripLocale(pathname)`: 내부 라우팅 조회를 위해 `/en` 제거
