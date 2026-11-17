@@ -143,11 +143,11 @@
         {#each portfolio.experience.projects as project, index}
           <article class="experience-card">
             <div class="experience-top">
-              <span>0{index + 1}</span>
+              <span>{String(index + 1).padStart(2, '0')}</span>
               <small>{project.period}</small>
             </div>
             <h3>{project.title}</h3>
-            <p>{project.description}</p>
+            <p><strong>{project.role}</strong><br />{project.description}</p>
             <div class="tag-list">
               {#each project.tags as tag}<span>{tag}</span>{/each}
             </div>

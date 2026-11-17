@@ -106,7 +106,7 @@ export const portfolio = {
       label: "04 · WORK EXPERIENCE",
       title: ["실무에서 맡았던 역할과,", "함께 만든 서비스입니다."],
       summary:
-        "쇼핑몰, 모바일 앱, 전문가 매칭과 예약 서비스에 참여하며 프론트엔드 개발을 담당했습니다.",
+        "리세일·교육 관리 시스템의 풀스택 개발부터 모바일 앱·웹·장비 HMI까지, 11개 실무 프로젝트에서 맡은 역할과 구현 내용을 정리했습니다.",
     },
     project: {
       label: "01 · PERSONAL PROJECTS",
@@ -180,41 +180,83 @@ export const portfolio = {
   experience: {
     projects: [
       {
-        title: "이더리움 기반 전문 쇼핑몰 플랫폼",
-        period: "2022.03 — 04",
-        description:
-          "React로 관리자 화면을 개발하고 REST API 기반 회원·토큰·주문 관리 기능을 구현했습니다.",
-        tags: ["React", "REST API", "Admin"],
+        title: "럭셔리 리세일 플랫폼",
+        period: "2025.06–2026.01",
+        role: "풀스택 개발",
+        description: "판매 신청부터 검수·보관·판매·입찰·주문·정산까지 이어지는 입점사 업무 기능 개발\n사용자 판매 신청 화면과 상품·검수·입출고·입찰·정산 관리자 화면 구현\nWebSocket 기반 방문 예약 선점 기능과 서버 상태 관리 적용",
+        tags: ["WebSocket", "Full-stack"],
       },
       {
-        title: "블록체인 기반 쇼핑몰 모바일 앱",
-        period: "2022.04 — 05",
-        description:
-          "출시된 Android·iOS 앱의 디자인을 리뉴얼하고 TypeScript 기반 React Native 코드로 재구성했습니다.",
-        tags: ["React Native", "TypeScript", "Android · iOS"],
+        title: "교육 참여자·상담·취업 통합 관리 시스템",
+        period: "2025.03–2026.01",
+        role: "풀스택 개발",
+        description: "Next.js 관리자, ElysiaJS API, FastAPI 파싱 서비스로 구성된 시스템 개발\n참여자·교육과정·상담·취업·증명서 관리 및 통계 화면 구현\n엑셀 일괄 등록, AWS S3 파일 관리 및 PDF 미리보기 기능 개발\nJWT 기반 관리자 권한 및 변경 이력 관리와 배포 환경 구성",
+        tags: ["Next.js", "ElysiaJS", "FastAPI", "AWS S3", "JWT"],
       },
       {
-        title: "Wi-Fi 단말기 보상 애플리케이션",
-        period: "2022.06 — 09",
-        description:
-          "React Native 기반 모바일 프론트엔드를 담당해 Android·iOS 사용자 흐름을 구현했습니다.",
-        tags: ["React Native", "Mobile", "API Integration"],
+        title: "고객 활동 물품 신청·운영 시스템",
+        period: "2025.05–2025.08",
+        role: "프론트엔드 개발",
+        description: "고객 등록, 물품 선택, 배송 확인 및 방문 결과 입력 사용자 흐름 개발\n신청 한도·고객 중복·입력값 검증과 월별 행사 기간 접근 제어 구현\n관리자 검색·필터·주문 처리 및 엑셀 업로드·다운로드 기능 개발",
+        tags: ["Frontend", "Admin", "Excel"],
+      },
+      {
+        title: "사고 차량 경매 플랫폼 리뉴얼",
+        period: "2025.02–2025.07",
+        role: "프론트엔드 및 레거시 기능 개선",
+        description: "PHP 기반 서비스의 모바일 홈·차량 목록·상세·회원 화면 리뉴얼\n공통 차량 카드와 비동기 관심 차량 등록·해제 기능 개발\n관리자 복합 검색, 회원 조회 및 수동 입찰 등록 기능 고도화",
+        tags: ["PHP", "Frontend", "Admin"],
+      },
+      {
+        title: "산업용 밀링 장비 HMI 애플리케이션",
+        period: "2025.01–2025.03",
+        role: "Flutter Windows 개발",
+        description: "Stacked MVVM 기반 HMI 애플리케이션 구조와 전용 UI 개발\n가공 현황, 공구 정보 및 장비 제어 화면과 공통 다이얼로그 구현\n다국어·로컬 설정 기능과 CustomPaint 기반 진행 상태 UI 개발",
+        tags: ["Flutter", "Windows", "Stacked MVVM", "CustomPaint"],
+      },
+      {
+        title: "식단·운동 챌린지 앱 및 관리자 시스템",
+        period: "2024.10–2025.02",
+        role: "모바일·웹 프론트엔드 개발",
+        description: "Flutter 앱과 Next.js 관리자 웹의 주요 기능 개발\n로그인, 체중·식단·운동 기록, 이미지 인증 및 챌린지·랭킹 기능 구현\n푸시 알림과 화면 딥링크 처리\n회원·챌린지·인증·영양 정보 관리자 기능 개발",
+        tags: ["Flutter", "Next.js", "Push Notifications", "Deep Links"],
       },
       {
         title: "전문가 매칭 플랫폼",
-        period: "2022.09 — 12",
-        description:
-          "Next.js 기반 웹·모바일 반응형 화면과 PG 결제, 서비스 목록·상세, SEO 최적화를 구현했습니다.",
-        tags: ["Next.js", "Responsive", "Payment", "SEO"],
+        period: "2022.09–2022.12",
+        role: "반응형 웹 프론트엔드 개발 · 팀 구성: 프론트엔드 2명, 백엔드 1명",
+        description: "Next.js 기반 PC·모바일 적응형 웹 서비스 개발\n서비스 목록·상세·결제 화면, PG 연동 및 SEO 최적화 담당",
+        tags: ["Next.js", "Payment", "SEO"],
       },
       {
         title: "NFT 기반 콘서트 예약 플랫폼",
         period: "2022.12",
-        description:
-          "React로 검색, 로그인, 액세스 토큰, 티켓, 설정과 내 정보 화면을 구현했습니다.",
+        role: "웹 프론트엔드 개발",
+        description: "React 기반 검색, 로그인, 티켓 및 사용자 설정 화면 개발\n액세스 토큰 관리와 사용자 정보 조회·수정 기능 구현",
         tags: ["React", "Token Auth", "Reservation"],
       },
-    ],
+      {
+        title: "와이파이 단말기 보상 애플리케이션",
+        period: "2022.06–2022.09",
+        role: "모바일 프론트엔드 개발 · 팀 구성: 프론트엔드 2명, 백엔드 1명",
+        description: "React Native 기반 Android·iOS 모바일 앱 개발\n관리자 시스템을 제외한 사용자 모바일 애플리케이션 기능 담당",
+        tags: ["React Native", "Android · iOS"],
+      },
+      {
+        title: "블록체인 기반 쇼핑몰 플랫폼",
+        period: "2022.04–2022.05",
+        role: "모바일 프론트엔드 단독 개발",
+        description: "React Native와 TypeScript 기반 Android·iOS 쇼핑몰 앱 재구축\n기존 디자인 리뉴얼 및 주요 쇼핑몰 기능 구현",
+        tags: ["React Native", "TypeScript", "Android · iOS"],
+      },
+      {
+        title: "이더리움 기반 쇼핑몰 관리 시스템",
+        period: "2022.03–2022.04",
+        role: "관리자 프론트엔드 개발 · 팀 구성: 프론트엔드 1명, 백엔드 1명",
+        description: "React 기반 쇼핑몰 관리자 페이지 개발\nREST API를 연동한 회원·토큰 정보·주문 관리 기능 구현",
+        tags: ["React", "REST API", "Admin"],
+      }
+    ]
   },
   education: {
     school: "한국방송통신대학교",

@@ -462,6 +462,7 @@ main {
 }
 
 .experience-card > p {
+  white-space: pre-line;
   margin: 0;
   font-size: 0.82rem;
 }
